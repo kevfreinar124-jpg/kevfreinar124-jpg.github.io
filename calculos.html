@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cálculos - Métodos Numéricos</title>
+  <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+  <header>
+    <h1>Cálculos</h1>
+    <p>Herramientas para realizar cálculos numéricos directamente desde la plataforma</p>
+  </header>
+
+  <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+  <nav>
+    <ul id="menu">
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="aprendizaje.html">Aprendizaje</a></li>
+      <li><a href="calculos.html" class="activo">Cálculos</a></li>
+      <li><a href="nosotros.html">Nosotros</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <h2>Ejemplo: Método de Bisección</h2>
+    <form>
+      <label>a: <input type="number"></label><br>
+      <label>b: <input type="number"></label><br>
+      <label>Tolerancia: <input type="number" step="any"></label><br>
+      <button type="submit">Calcular</button>
+    </form>
+    <p><em>(Aquí se integrará un script para calcular la raíz)</em></p>
+  </main>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById("menu").classList.toggle("activo");
+    }
+  </script>
+</body>
+</html>

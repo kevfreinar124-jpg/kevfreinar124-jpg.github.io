@@ -1,0 +1,256 @@
+/* --- ESTILOS GLOBALES --- */
+body {
+  margin: 0;
+  font-family: 'Poppins', 'Segoe UI', sans-serif;
+  background-color: #f5faff;
+  color: #002855;
+  line-height: 1.6;
+}
+
+header {
+  background-color: #003f88;
+  color: white;
+  padding: 2rem 1rem;
+  text-align: center;
+  position: relative;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 2.2rem;
+}
+
+header p {
+  margin-top: 0.5rem;
+  font-size: 1rem;
+}
+
+/* NAV */
+nav {
+  background-color: #00509d;
+}
+
+nav ul {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+nav li {
+  margin: 0;
+}
+
+nav a {
+  display: block;
+  padding: 1rem 1.5rem;
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+nav a:hover, 
+nav a.activo {
+  background-color: #a9d6e5;
+  color: #002855;
+  border-radius: 8px;
+}
+
+/* Toggle menú para móviles */
+.menu-toggle {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background-color: #00509d;
+  color: white;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-size: 1.2rem;
+  border-radius: 5px;
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+  }
+
+  nav ul {
+    display: none;
+    flex-direction: column;
+    background-color: #00509d;
+    position: absolute;
+    top: 4rem;
+    right: 1rem;
+    border-radius: 8px;
+  }
+
+  nav ul.activo {
+    display: flex;
+  }
+}
+
+/* --- ESTILOS ESPECÍFICOS DEL INDEX --- */
+
+/* HERO */
+.hero {
+  background: linear-gradient(135deg, #2575fc22, #6a11cb22);
+  padding: 3rem 1.5rem;
+  text-align: center;
+}
+
+.hero-content {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.hero-img {
+  max-width: 320px;
+  width: 100%;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+  transition: transform 0.3s ease;
+}
+
+.hero-img:hover {
+  transform: scale(1.05);
+}
+
+.hero-text h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1b1b2f;
+}
+
+.hero-text p {
+  font-size: 1.2rem;
+  color: #444;
+  margin: 1rem 0 1.5rem;
+}
+
+/* BOTÓN */
+.btn {
+  display: inline-block;
+  background: linear-gradient(45deg, #2575fc, #6a11cb);
+  color: white;
+  font-weight: 600;
+  padding: 0.9rem 2rem;
+  border-radius: 30px;
+  text-decoration: none;
+  transition: 0.3s ease;
+  box-shadow: 0 0 15px rgba(37,117,252,0.6);
+}
+
+.btn:hover {
+  background: linear-gradient(45deg, #6a11cb, #2575fc);
+  transform: scale(1.05);
+  box-shadow: 0 0 25px rgba(106,17,203,0.8);
+}
+
+/* INTRO CARD */
+.intro-card {
+  max-width: 1000px;
+  margin: 3rem auto;
+  padding: 2.5rem;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  text-align: center;
+}
+
+.intro-card h3 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #2575fc;
+}
+
+/* --- ESTILOS DE APRENDIZAJE --- */
+
+/* Contenedor general */
+.aprendizaje-container {
+  max-width: 1100px;
+  margin: 2rem auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+/* Título principal */
+.aprendizaje-container h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #003f88;
+  margin-bottom: 2rem;
+}
+
+/* Grid de tarjetas */
+.aprendizaje-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+/* Tarjeta individual */
+.aprendizaje-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 2rem 1.5rem;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.aprendizaje-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+}
+
+/* Iconos grandes en cada tarjeta */
+.aprendizaje-card i {
+  font-size: 3rem;
+  color: #2575fc;
+  margin-bottom: 1rem;
+  transition: color 0.3s ease;
+}
+
+.aprendizaje-card:hover i {
+  color: #6a11cb;
+}
+
+/* Título de cada tarjeta */
+.aprendizaje-card h3 {
+  font-size: 1.3rem;
+  color: #002855;
+  margin: 0.5rem 0;
+}
+
+/* Texto */
+.aprendizaje-card p {
+  color: #444;
+  font-size: 1rem;
+  margin-bottom: 1.2rem;
+}
+
+/* Botón */
+.aprendizaje-card a {
+  display: inline-block;
+  background: linear-gradient(45deg, #2575fc, #6a11cb);
+  color: white;
+  font-weight: 600;
+  padding: 0.6rem 1.5rem;
+  border-radius: 25px;
+  text-decoration: none;
+  transition: 0.3s ease;
+  box-shadow: 0 0 12px rgba(37,117,252,0.6);
+}
+
+.aprendizaje-card a:hover {
+  background: linear-gradient(45deg, #6a11cb, #2575fc);
+  box-shadow: 0 0 18px rgba(106,17,203,0.8);
+}
+
+
+

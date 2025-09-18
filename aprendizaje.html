@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Aprendizaje - Métodos Numéricos</title>
+
+  <!-- Tipografía e iconos -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    /* ====== RESET & BASE ====== */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html,body { height: 100%; }
+    body {
+      font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: linear-gradient(180deg,#f6fbff 0%, #eef6ff 100%);
+      color: #08304b;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height: 1.5;
+    }
+
+    /* ====== HEADER ====== */
+    header {
+      background: linear-gradient(135deg,#6a11cb,#2575fc);
+      color: #fff;
+      padding: 1.6rem 1rem;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 60;
+      box-shadow: 0 6px 18px rgba(37,17,103,0.12);
+    }
+    header h1 { font-size: 1.6rem; letter-spacing: 0.4px; }
+    header p { font-size: .95rem; opacity: .92; margin-top: .45rem; }
+
+    /* menu toggle (mobile) */
+    .menu-toggle {
+      position: absolute;
+      right: 1rem;
+      top: 1rem;
+      font-size: 1.5rem;
+      background: rgba(255,255,255,0.14);
+      color: #fff;
+      padding: .35rem .6rem;
+      border-radius: 8px;
+      display: none;
+      cursor: pointer;
+    }
+
+    /* ====== NAV ====== */
+    nav { background: transparent; }
+    nav ul {
+      display: flex;
+      gap: .5rem;
+      justify-content: center;
+      padding: .6rem 1rem;
+      flex-wrap: wrap;
+      list-style: none;
+    }
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      padding: .6rem .9rem;
+      border-radius: 12px;
+      font-weight: 600;
+      transition: all .18s ease;
+      background: rgba(255,255,255,0.06);
+      backdrop-filter: blur(4px);
+    }
+    nav a:hover, nav a.activo {
+      background: #fff;
+      color: #0b3b67;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(10,20,40,0.12);
+    }
+
+    /* ====== MAIN LAYOUT ====== */
+    main { max-width: 1200px; margin: 2rem auto; padding: 0 1rem 3rem; }
+
+    .intro-card {
+      background: linear-gradient(180deg,#ffffff, #fbfdff);
+      border-radius: 14px;
+      padding: 1.6rem;
+      box-shadow: 0 8px 28px rgba(9,30,63,0.06);
+      text-align: center;
+      margin-bottom: 1.8rem;
+      position: relative;
+    }
+    .intro-card h2 { color:#0b3b67; font-size:1.25rem; margin-bottom:.6rem; }
+    .intro-card p { color:#27404f; font-size:1rem; max-width: 900px; margin:auto; }
+    
+    .btn-ventajas {
+      margin-top: 1rem;
+      padding: 0.6rem 1.2rem;
+      background: linear-gradient(90deg,#2575fc,#6a11cb);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(37,117,252,0.2);
+      transition: transform .18s ease, box-shadow .18s;
+    }
+    .btn-ventajas:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(106,17,203,0.25);
+    }
+
+    /* ====== GRID / TARJETAS ====== */
+    .aprendizaje-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
+      gap: 1.6rem;
+    }
+
+    .aprendizaje-card {
+      background: linear-gradient(180deg,#ffffff,#f3f9ff);
+      border-radius: 14px;
+      padding: 1.6rem;
+      text-align: center;
+      box-shadow: 0 6px 18px rgba(3,30,60,0.06);
+      transition: transform .28s cubic-bezier(.2,.9,.3,1), box-shadow .28s;
+      cursor: pointer;
+      display:flex;
+      flex-direction:column;
+      gap:.9rem;
+      min-height: 200px;
+    }
+
+    .aprendizaje-card:hover {
+      transform: translateY(-12px) scale(1.02);
+      box-shadow: 0 18px 40px rgba(38,91,234,0.14);
+    }
+
+    .aprendizaje-card i {
+      font-size: 2.7rem;
+      background: linear-gradient(90deg,#2575fc,#6a11cb);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      align-self:center;
+      transition: transform .28s ease;
+    }
+
+    .aprendizaje-card:hover i { transform: rotate(6deg) scale(1.15); }
+
+    .aprendizaje-card h3 { font-size: 1.05rem; color:#052b43; margin-top:.4rem; }
+    .aprendizaje-card p { color:#445; font-size:.95rem; flex:1; }
+
+    .card-actions { display:flex; gap:.6rem; justify-content:center; margin-top:.6rem; }
+    .btn-sm {
+      padding:.45rem .85rem;
+      background: linear-gradient(90deg,#2575fc,#6a11cb);
+      color:#fff; border-radius:10px; font-weight:600; border: none; cursor:pointer;
+      box-shadow: 0 8px 18px rgba(37,117,252,0.12);
+      transition: transform .18s ease, box-shadow .18s;
+    }
+    .btn-sm:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(106,17,203,0.14); }
+
+    /* ====== MODAL ====== */
+    .modal-backdrop {
+      position: fixed; inset:0; background: rgba(2,8,23,0.55);
+      display:flex; align-items:center; justify-content:center; padding:1rem;
+      opacity:0; pointer-events:none; transition: opacity .18s ease;
+      z-index:120;
+    }
+    .modal-backdrop.show { opacity:1; pointer-events:auto; }
+
+    .modal {
+      background:#fff; width:100%; max-width:920px; border-radius:12px; overflow:auto;
+      box-shadow: 0 18px 45px rgba(0,20,60,0.25);
+      transform: translateY(8px); transition: transform .18s ease;
+      max-height: 85vh;
+    }
+    .modal-backdrop.show .modal { transform: translateY(0); }
+
+    .modal-header {
+      padding:1.1rem 1.2rem; border-bottom:1px solid #eef3f9; display:flex; justify-content:space-between; align-items:center;
+      background: linear-gradient(90deg,#f8fbff,#eef6ff);
+    }
+    .modal-header h4 { margin:0; color:#052b43; font-size:1.05rem; }
+    .modal-body { padding:1rem 1.2rem; color:#233; line-height:1.5; font-size: .98rem; }
+    .close-btn {
+      background: transparent; border: none; font-size:1.2rem; cursor:pointer; color:#27404f;
+    }
+    
+    /* Estilos para la imagen en el modal */
+    .modal-imagen {
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+      border-radius: 6px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .modal-desc {
+      margin-top: 1rem;
+      text-align: center;
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    /* ====== FOOTER (small) ====== */
+    footer { text-align:center; margin-top:2rem; color:#596b75; font-size:.9rem; padding-bottom:2rem; }
+
+    /* ====== RESPONSIVE ====== */
+    @media (max-width: 900px) {
+      .aprendizaje-card { min-height: 220px; }
+      .aprendizaje-card h3 { font-size: 1.03rem; }
+    }
+
+    @media (max-width: 768px) {
+      .menu-toggle { display:block; }
+      nav ul { display:none; position: absolute; right: 1rem; top: 3.6rem; width: 220px; flex-direction:column; gap:.4rem; padding:.6rem; border-radius:10px; background: rgba(14,46,83,0.98); box-shadow: 0 8px 28px rgba(2,14,34,0.28); }
+      nav ul.show { display:flex; }
+    }
+
+    /* small helper */
+    .muted { color:#6b7a86; font-size:.95rem; }
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header>
+    <div class="menu-toggle" id="menu-toggle" aria-label="Abrir menú" aria-expanded="false">☰</div>
+    <h1>📘 Aprendizaje</h1>
+    <p class="muted">Explora los métodos 11–19: secante, diferencias, Simpson, Euler, Heun y más</p>
+  </header>
+
+  <!-- NAV -->
+  <nav aria-label="Navegación principal">
+    <ul id="menu" role="menubar">
+      <li role="none"><a role="menuitem" href="index.html">Inicio</a></li>
+      <li role="none"><a role="menuitem" class="activo" href="aprendizaje.html">Aprendizaje</a></li>
+      <li role="none"><a role="menuitem" href="calculos.html">Cálculos</a></li>
+      <li role="none"><a role="menuitem" href="nosotros.html">Nosotros</a></li>
+    </ul>
+  </nav>
+
+  <!-- MAIN -->
+  <main>
+    <section class="intro-card" aria-labelledby="intro-title">
+      <h2 id="intro-title">¿Qué verás en Aprendizaje?</h2>
+      <p>Esta sección reúne los métodos numéricos esenciales (11–19) con explicaciones resumidas y acceso a información ampliada. Toca "Ver más" para ver detalles y ejemplos.</p>
+      <button class="btn-ventajas" id="btn-ventajas">Ver Ventajas y Desventajas</button>
+    </section>
+
+    <!-- GRID: métodos 11 - 19 -->
+    <section class="aprendizaje-container" aria-live="polite">
+      <!-- 11 -->
+      <article class="aprendizaje-card" data-id="m11" data-title="11. Método de la Secante"
+               data-content="<p>La secante es un método iterativo para hallar raíces que aproxima la derivada por una recta entre dos puntos: x_{n+1} = x_n - f(x_n)*(x_n - x_{n-1})/(f(x_n)-f(x_{n-1})). Requiere dos valores iniciales y suele converger rápido para funciones adecuadas.</p><p><strong>Ventajas:</strong> no necesita cálculo explícito de la derivada. <strong>Desventajas:</strong> puede ser inestable si f(x_n)≈f(x_{n-1}).</p>
+               <p>Un método para encontrar raíces usando una línea secante entre dos puntos.</p>
+               <h5>hola</h5>
+               ">
+        <i class="fa-solid fa-slash"></i>
+        <h3>11. Método de la Secante</h3>
+        <p>Una variante de Newton que usa dos aproximaciones iniciales y construye una recta secante.</p>
+        <div class="card-actions">
+          <button class="btn-sm ver-mas" aria-haspopup="dialog">Ver más</button>
+        </div>
+      </article>
+
+      <!-- 12 -->
+      <article class="aprendizaje-card" data-id="m12" data-title="12. Diferencia hacia adelante"
+               data-content="<p>La diferencia hacia adelante aproxima derivadas con valores en puntos posteriores: f'(x) ≈ (f(x+h)-f(x))/h. Útil en tablas y datos discretos.</p>">
+        <i class="fa-solid fa-arrow-right"></i>
+        <h3>12. Diferencia hacia adelante</h3>
+        <p>Aproximación de derivadas usando valores futuros (h positivo) en la tabla de datos.</p>
+        <div class="card-actions"><button class="btn-sm ver-mas">Ver más</button></div>
+      </article>
+
+      <!-- 13 -->
+      <article class="aprendizaje-card" data-id="m13" data-title="13. Diferencia hacia atrás"
+               data-content="<p>La diferencia hacia atrás usa valores pasados: f'(x) ≈ (f(x)-f(x-h))/h. Es útil cuando solo se dispone de datos anteriores.</p>">
+        <i class="fa-solid fa-arrow-left"></i>
+        <h3>13. Diferencia hacia atrás</h3>
+        <p>Similar a la diferencia hacia adelante, pero usa valores previos para calcular la derivada.</p>
+        <div class="card-actions"><button class="btn-sm ver-mas">Ver más</button></div>
+      </article>
+
+      <!-- 14 -->
+      <article class="aprendizaje-card" data-id="m14" data-title="14. Diferencia centrada"
+               data-content="<p>La diferencia centrada combina puntos anteriores y posteriores: f'(x) ≈ (f(x+h)-f(x-h))/(2h). Tiene error de orden O(h^2), por eso es más precisa.</p>">
+        <i class="fa-solid fa-arrows-left-right"></i>
+        <h3>14. Diferencia centrada</h3>
+        <p>Mezcla valores pasados y futuros para obtener una derivada más precisa.</p>
+        <div class="card-actions"><button class="btn-sm ver-mas">Ver más</button></div>
+      </article>
+
+      <!-- 15 -->
+      <article class="aprendizaje-card" data-id="m15" data-title="15. Regla del trapecio"
+               data-content="<p>La regla del trapecio aproxima integrales como suma de áreas de trapecios: ∫_a^b f(x) dx ≈ (h)[(f0+fn)/2 + Σ f_i]. Buena para funciones suaves y fácil de implementar.</p>">
+        <i class="fa-solid fa-ruler"></i>
+        <h3>15. Regla del trapecio</h3>
+        <p>Método de integración que aproxima el área bajo la curva mediante trapecios.</p>
+        <div class="card-actions"><button class="btn-sm ver-mas">Ver más</button></div>
+      </article>
+
+      <!-- 16 -->
+      <article class="aprendizaje-card" data-id="m16" data-title="16. Regla de Simpson 1/3"
+               data-content="<p>Simpson 1/3 usa parábolas en pares de subintervalos: ∫ ≈ (h/3)[f0 + 4f1 + 2f2 + ... + fn]. Es más precisa que trapecio para polinomios de grado ≤3.</p>">
+        <i class="fa-solid fa-chart-area"></i>
+        <h3>16. Regla de Simpson 1/3</h3>
+        <p>Método de integración que aproxima la curva mediante parábolas en intervalos de dos subintervalos.</p>
+        <div class="card-actions"><button class="btn-sm ver-mas">Ver más</button></div>
+      </article>
+
+      <!-- 17 -->
+      <article class="aprendizaje-card" data-id="m17" data-title="17. Regla de Simpson 3/8"
+               data-content="<p>Simpson 3/8 utiliza polinomios cúbicos en triples de subintervalos: ∫ ≈ (3h/8)[f0 + 3f1 + 3f2 + 2f3 + ... + fn]. Útil cuando se desea mayor exactitud con particiones de 3.</p>">
+        <i class="fa-solid fa-boxes-stacked"></i>
+        <h3>17. Regla de Simpson 3/8</h3>
+        <p>Variante de Simpson que utiliza polinomios de tercer grado y divide el intervalo en tres subintervalos.</p>
+        <div class="card-actions"><button class="btn-sm ver-mas">Ver más</button></div>
+      </article>
+
+      <!-- 18 -->
+      <article class="aprendizaje-card" data-id="m18" data-title="18. Método de Euler"
+               data-content="<p>Método explícito para EDOs: y_{n+1} = y_n + h f(x_n,y_n). Sencillo y directo, pero con error de orden O(h).</p>">
+        <i class="fa-solid fa-forward-step"></i>
+        <h3>18. Método de Euler</h3>
+        <p>Método numérico básico para resolver ecuaciones diferenciales ordinarias paso a paso.</p>
+        <div class="card-actions"><button class="btn-sm ver-mas">Ver más</button></div>
+      </article>
+
+      <!-- 19 -->
+      <article class="aprendizaje-card" data-id="m19" data-title="19. Método de Heun"
+               data-content="<p>Heun (método mejorado de Euler) calcula una predicción y luego corrige: promedio de pendientes inicial y estimada reduce error.</p>">
+        <i class="fa-solid fa-chart-line"></i>
+        <h3>19. Método de Heun</h3>
+        <p>Una mejora del método de Euler que reduce el error usando un promedio de pendientes.</p>
+        <div class="card-actions"><button class="btn-sm ver-mas">Ver más</button></div>
+      </article>
+    </section>
+
+    <!-- Modal (single, dinámico) -->
+    <div id="modal-backdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true" style="display:none;">
+      <div class="modal" role="document">
+        <div class="modal-header">
+          <h4 id="modal-title">Título</h4>
+          <button class="close-btn" id="modal-close" aria-label="Cerrar">✕</button>
+        </div>
+        <div class="modal-body" id="modal-body">
+          <!-- Contenido rellenado por JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal para Ventajas y Desventajas -->
+    <div id="modal-ventajas" class="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true" style="display:none;">
+      <div class="modal" role="document">
+        <div class="modal-header">
+          <h4>Ventajas y Desventajas - Clasificación de Métodos Numéricos</h4>
+          <button class="close-btn" id="modal-ventajas-close" aria-label="Cerrar">✕</button>
+        </div>
+        <div class="modal-body">
+          <img src="./imagenes/178007be-d123-4780-a0bf-f52e6e786bf0.png" alt="Clasificación de métodos numéricos" class="modal-imagen">
+          <p class="modal-desc">Tabla comparativa de métodos numéricos clasificados por tipo de ecuación, número de incógnitas, soluciones y más.</p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    <small>© 2025 Métodos Numéricos — Recursos educativos</small>
+  </footer>
+
+  <script>
+    // ====== MENU RESPONSIVE ======
+    document.addEventListener('DOMContentLoaded', () => {
+      const menuToggle = document.getElementById('menu-toggle');
+      const menu = document.getElementById('menu');
+
+      // toggle aria-expanded and class
+      menuToggle && menuToggle.addEventListener('click', () => {
+        const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
+        menuToggle.setAttribute('aria-expanded', (!isExpanded).toString());
+        menu.classList.toggle('show');
+        // for mobile CSS we used nav ul.show
+        menu.classList.toggle('show'); // safe: toggles class
+      });
+
+      // close menu when clicking a link (mobile)
+      if (menu) {
+        menu.querySelectorAll('a').forEach(a => {
+          a.addEventListener('click', () => menu.classList.remove('show'));
+        });
+      }
+
+      // ====== MODAL LOGIC ======
+      const modalBackdrop = document.getElementById('modal-backdrop');
+      const modalTitle = document.getElementById('modal-title');
+      const modalBody = document.getElementById('modal-body');
+      const modalClose = document.getElementById('modal-close');
+      
+      // Modal de ventajas y desventajas
+      const modalVentajas = document.getElementById('modal-ventajas');
+      const modalVentajasClose = document.getElementById('modal-ventajas-close');
+      const btnVentajas = document.getElementById('btn-ventajas');
+
+      // Abrir modal de ventajas y desventajas
+      btnVentajas.addEventListener('click', () => {
+        openVentajasModal();
+      });
+
+      function openVentajasModal() {
+        modalVentajas.style.display = 'flex';
+        requestAnimationFrame(() => modalVentajas.classList.add('show'));
+        modalVentajas.setAttribute('aria-hidden','false');
+        modalVentajasClose.focus();
+      }
+
+      function closeVentajasModal() {
+        modalVentajas.classList.remove('show');
+        modalVentajas.setAttribute('aria-hidden','true');
+        setTimeout(()=> modalVentajas.style.display = 'none', 180);
+      }
+
+      modalVentajasClose.addEventListener('click', closeVentajasModal);
+
+      // open modal when clicking any "Ver más" inside cards
+      document.querySelectorAll('.aprendizaje-card .ver-mas').forEach(btn => {
+        btn.addEventListener('click', (ev) => {
+          const card = ev.currentTarget.closest('.aprendizaje-card');
+          if (!card) return;
+          const title = card.dataset.title || card.querySelector('h3')?.textContent || 'Detalle';
+          const content = card.dataset.content || '<p>Contenido no disponible.</p>';
+          openModal(title, content);
+        });
+      });
+
+      function openModal(title, htmlContent) {
+        modalTitle.innerHTML = title;
+        modalBody.innerHTML = htmlContent;
+        modalBackdrop.style.display = 'flex';
+        // small delay to allow CSS transition
+        requestAnimationFrame(() => modalBackdrop.classList.add('show'));
+        modalBackdrop.setAttribute('aria-hidden','false');
+        // trap focus quickly to close
+        modalClose.focus();
+      }
+
+      function closeModal() {
+        modalBackdrop.classList.remove('show');
+        modalBackdrop.setAttribute('aria-hidden','true');
+        setTimeout(()=> modalBackdrop.style.display = 'none', 180);
+      }
+
+      modalClose.addEventListener('click', closeModal);
+
+      // close on backdrop click (but not when clicking inside modal)
+      modalBackdrop.addEventListener('click', (e) => {
+        if (e.target === modalBackdrop) closeModal();
+      });
+      
+      modalVentajas.addEventListener('click', (e) => {
+        if (e.target === modalVentajas) closeVentajasModal();
+      });
+
+      // close on ESC
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          if (modalBackdrop.classList.contains('show')) closeModal();
+          if (modalVentajas.classList.contains('show')) closeVentajasModal();
+          // also close menu if open on mobile
+          menu && menu.classList.remove('show');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
