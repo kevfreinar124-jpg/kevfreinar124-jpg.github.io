@@ -11,9 +11,9 @@
 <body>
   <!-- HEADER -->
   <header>
+    <span class="menu-toggle" id="menu-toggle">☰</span>
     <h1>📊 Métodos Numéricos</h1>
     <p>Aprendizaje, cálculos y recursos en un solo lugar</p>
-    <span class="menu-toggle" id="menu-toggle">☰</span>
   </header>
 
   <!-- NAV -->
@@ -50,169 +50,25 @@
     </section>
   </main>
 
-  <script src="script.js"></script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Página Interactiva</title>
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2023 Métodos Numéricos - Universidad Nacional</p>
+  </footer>
 
-  <!-- Fuente Poppins -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-
-  <style>
-    /* ====== ESTILOS GENERALES ====== */
-    body {
-      font-family: 'Poppins', sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #f4f8fb;
-      color: #333;
-    }
-
-    header {
-      background: #00509d;
-      color: #fff;
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-
-    header h1 {
-      font-size: 1.5rem;
-      margin: 0;
-    }
-
-    nav ul {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      gap: 1rem;
-    }
-
-    nav ul li a {
-      color: #fff;
-      text-decoration: none;
-      font-weight: 600;
-      transition: color 0.3s ease;
-    }
-
-    nav ul li a:hover,
-    nav ul li a.activo {
-      color: #ffdd57;
-    }
-
-    /* Botón hamburguesa */
-    .menu-toggle {
-      display: none;
-      font-size: 1.8rem;
-      cursor: pointer;
-      user-select: none;
-    }
-
-    /* ====== CONTENIDO ====== */
-    main {
-      padding: 2rem;
-    }
-
-    h2 {
-      color: #00509d;
-      font-size: 1.6rem;
-      margin-bottom: 1rem;
-    }
-
-    .tarjeta {
-      background: #fff;
-      padding: 1.5rem;
-      margin: 1rem 0;
-      border-radius: 12px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .tarjeta:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-    }
-
-    /* ====== RESPONSIVE ====== */
-    @media (max-width: 768px) {
-      .menu-toggle {
-        display: block;
-      }
-
-      nav ul {
-        display: none;
-        flex-direction: column;
-        background: #00509d;
-        position: absolute;
-        top: 4rem;
-        right: 1rem;
-        width: 220px;
-        border-radius: 10px;
-        padding: 1rem;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-      }
-
-      nav ul.activo {
-        display: flex;
-        animation: fadeIn 0.3s ease;
-      }
-
-      nav ul li {
-        margin: 0.5rem 0;
-      }
-    }
-
-    /* Animación del menú */
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-10px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-  </style>
-</head>
-<body>
-  <!-- ====== HEADER ====== -->
-  <header>
-    <h1>Mi Proyecto</h1>
-    <span class="menu-toggle" id="menu-toggle">☰</span>
-    <nav>
-      <ul id="menu">
-        <li><a href="index.html" class="activo">Inicio</a></li>
-        <li><a href="aprendizaje.html">Aprendizaje</a></li>
-        <li><a href="calculos.html">Cálculos</a></li>
-        <li><a href="nosotros.html">Nosotros</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <!-- ====== SCRIPT ====== -->
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const menuToggle = document.getElementById("menu-toggle");
-      const menu = document.getElementById("menu");
+    // Toggle del menú móvil
+    document.getElementById('menu-toggle').addEventListener('click', function() {
+      const menu = document.getElementById('menu');
+      menu.classList.toggle('show');
+    });
 
-      menuToggle.addEventListener("click", () => {
-        menu.classList.toggle("activo");
-      });
-
-      // Cerrar menú al hacer clic en un enlace (mejor UX)
-      const links = menu.querySelectorAll("a");
-      links.forEach(link => {
-        link.addEventListener("click", () => {
-          menu.classList.remove("activo");
-        });
+    // Cerrar menú al hacer clic en un enlace
+    document.querySelectorAll('nav a').forEach(link => {
+      link.addEventListener('click', function() {
+        const menu = document.getElementById('menu');
+        menu.classList.remove('show');
       });
     });
   </script>
 </body>
 </html>
-
