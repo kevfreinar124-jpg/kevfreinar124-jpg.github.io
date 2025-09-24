@@ -1,5 +1,414 @@
-<!-- Botón para mostrar la imagen -->
-<section class="intro-card" aria-labelledby="intro-title">
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aprendizaje - Métodos Numéricos</title>
+  <style>
+    /* ====== RESET & BASE ====== */
+    * { 
+      box-sizing: border-box; 
+      margin: 0; 
+      padding: 0; 
+    }
+
+    html, body { 
+      height: 100%; 
+    }
+
+    body {
+      font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: linear-gradient(180deg, #f6fbff 0%, #eef6ff 100%);
+      color: #08304b;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      line-height: 1.6;
+    }
+
+    /* ====== HEADER ====== */
+    header {
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      color: #fff;
+      padding: 1.6rem 1rem;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 6px 18px rgba(37, 17, 103, 0.12);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    header h1 { 
+      font-size: 2.2rem; 
+      letter-spacing: 0.4px; 
+      margin: 0;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    header p { 
+      font-size: 1rem; 
+      opacity: 0.92; 
+      margin-top: 0.5rem;
+      max-width: 600px;
+    }
+
+    /* ====== NAV ====== */
+    nav { 
+      background: linear-gradient(135deg, #00509d, #003f88);
+      padding: 0.8rem 0;
+      width: 100%;
+    }
+
+    nav ul {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+      padding: 0.6rem 1rem;
+      flex-wrap: wrap;
+      list-style: none;
+      margin: 0;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      padding: 0.7rem 1.2rem;
+      border-radius: 12px;
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(4px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    nav a.activo {
+      background: #a9d6e5;
+      color: #0b3b67;
+    }
+
+    .menu-toggle {
+      position: absolute;
+      right: 1rem;
+      top: 1rem;
+      font-size: 1.8rem;
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+      padding: 0.4rem 0.8rem;
+      border-radius: 8px;
+      display: none;
+      cursor: pointer;
+      z-index: 101;
+      border: none;
+    }
+
+    /* ====== MAIN LAYOUT ====== */
+    main { 
+      max-width: 1200px; 
+      margin: 2rem auto; 
+      padding: 0 1rem 3rem; 
+    }
+
+    .intro-card {
+      background: linear-gradient(180deg, #ffffff, #fbfdff);
+      border-radius: 18px;
+      padding: 2.5rem;
+      box-shadow: 0 10px 30px rgba(9, 30, 63, 0.08);
+      text-align: center;
+      margin-bottom: 2.5rem;
+      position: relative;
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+      border: 1px solid rgba(37, 117, 252, 0.1);
+    }
+
+    .intro-card h2, 
+    .intro-card h3 { 
+      color: #0b3b67; 
+      font-size: 2rem; 
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .intro-card p { 
+      color: #27404f; 
+      font-size: 1.1rem; 
+      max-width: 900px; 
+      margin: auto;
+      line-height: 1.7;
+    }
+
+    .btn, .btn-ventajas {
+      margin-top: 1rem;
+      padding: 1rem 2.2rem;
+      background: linear-gradient(90deg, #2575fc, #6a11cb);
+      color: #fff;
+      border: none;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 6px 15px rgba(37, 117, 252, 0.3);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1.1rem;
+    }
+
+    .metodos-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      max-width: 1100px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .metodo-card {
+      background: linear-gradient(180deg, #ffffff, #f3f9ff);
+      border-radius: 16px;
+      padding: 2rem;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(3, 30, 60, 0.08);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      min-height: 240px;
+      border: 1px solid rgba(37, 117, 252, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .metodo-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, #2575fc, #6a11cb);
+    }
+
+    .metodo-icono {
+      font-size: 3rem;
+      background: linear-gradient(90deg, #2575fc, #6a11cb);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      align-self: center;
+    }
+
+    .metodo-card h3 { 
+      font-size: 1.4rem; 
+      color: #052b43; 
+      margin-top: 0.5rem;
+      font-weight: 700;
+    }
+
+    .metodo-card p { 
+      color: #445; 
+      font-size: 1rem; 
+      flex: 1;
+      line-height: 1.6;
+    }
+
+    .card-actions { 
+      display: flex; 
+      gap: 0.8rem; 
+      justify-content: center; 
+      margin-top: 1rem; 
+    }
+
+    .btn-sm {
+      padding: 0.6rem 1.2rem;
+      background: linear-gradient(90deg, #2575fc, #6a11cb);
+      color: #fff; 
+      border-radius: 10px; 
+      font-weight: 600; 
+      border: none; 
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(37, 117, 252, 0.25);
+      text-decoration: none;
+      display: inline-block;
+      font-size: 0.95rem;
+    }
+
+    .categoria {
+      margin-bottom: 3rem;
+    }
+
+    .categoria-titulo {
+      font-size: 1.6rem;
+      color: #0b3b67;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.8rem;
+      border-bottom: 2px solid #e0e9f3;
+      position: relative;
+      font-weight: 700;
+    }
+
+    .categoria-titulo::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 80px;
+      height: 3px;
+      background: linear-gradient(90deg, #2575fc, #6a11cb);
+      border-radius: 2px;
+    }
+
+    .modal-backdrop {
+      position: fixed; 
+      inset: 0; 
+      background: rgba(2, 8, 23, 0.7);
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      padding: 1rem;
+      opacity: 0; 
+      pointer-events: none; 
+      z-index: 1000;
+      backdrop-filter: blur(5px);
+    }
+
+    .modal-backdrop.show { 
+      opacity: 1; 
+      pointer-events: auto; 
+    }
+
+    .modal {
+      background: #fff; 
+      width: 100%; 
+      max-width: 920px; 
+      border-radius: 16px; 
+      overflow: auto;
+      box-shadow: 0 25px 50px rgba(0, 20, 60, 0.3);
+      max-height: 85vh;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .modal-header {
+      padding: 1.5rem 2rem; 
+      border-bottom: 1px solid #eef3f9; 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center;
+      background: linear-gradient(90deg, #f8fbff, #eef6ff);
+      border-radius: 16px 16px 0 0;
+    }
+
+    .modal-header h4 { 
+      margin: 0; 
+      color: #052b43; 
+      font-size: 1.3rem;
+      font-weight: 700;
+    }
+
+    .close-btn {
+      background: transparent; 
+      border: none; 
+      font-size: 1.5rem; 
+      cursor: pointer; 
+      color: #27404f;
+      padding: 0.5rem;
+      border-radius: 50%;
+    }
+
+    .modal-body { 
+      padding: 2rem; 
+      color: #233; 
+      line-height: 1.6; 
+      font-size: 1.05rem; 
+    }
+
+    .subclase-item {
+      background: #f8f9fa;
+      border-left: 4px solid #2575fc;
+      padding: 1.2rem;
+      margin-bottom: 1rem;
+      border-radius: 8px;
+    }
+
+    .subclase-item h5 {
+      color: #0b3b67;
+      margin-bottom: 0.5rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .subclase-item p {
+      color: #445;
+      margin: 0;
+      font-size: 0.95rem;
+    }
+
+    footer { 
+      text-align: center; 
+      margin-top: 3rem; 
+      color: #596b75; 
+      font-size: 0.95rem; 
+      padding: 2rem 0;
+      border-top: 1px solid #e0e9f3;
+    }
+
+    @media (max-width: 900px) {
+      .metodo-card { 
+        min-height: 220px; 
+        padding: 1.5rem;
+      }
+      .metodo-card h3 { font-size: 1.2rem; }
+      .intro-card h2, .intro-card h3 { font-size: 1.6rem; }
+    }
+
+    @media (max-width: 768px) {
+      .menu-toggle { display: block; }
+      nav ul { display: none; position: absolute; right: 1rem; top: 4.5rem; width: 250px; flex-direction: column; gap: 0.5rem; padding: 1rem; border-radius: 12px; background: rgba(14, 46, 83, 0.98); box-shadow: 0 10px 30px rgba(2, 14, 34, 0.3); backdrop-filter: blur(10px); z-index: 100; }
+      nav ul.show { display: flex; }
+      .intro-card { padding: 1.5rem; }
+      .metodos-container { grid-template-columns: 1fr; gap: 1.5rem; }
+      header h1 { font-size: 1.8rem; }
+      header p { font-size: 0.9rem; }
+    }
+
+    @media (max-width: 480px) {
+      main { padding: 0 0.5rem 2rem; }
+      .btn, .btn-ventajas { padding: 0.8rem 1.5rem; font-size: 1rem; }
+    }
+
+    html { scroll-behavior: smooth; }
+    ::selection { background: rgba(37, 117, 252, 0.2); color: #08304b; }
+    ::-webkit-scrollbar { width: 10px; }
+    ::-webkit-scrollbar-track { background: #f1f1f1; }
+    ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #2575fc, #6a11cb); border-radius: 5px; }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+<header>
+  <span class="menu-toggle" id="menu-toggle">☰</span>
+  <h1>📚 Aprendizaje - Métodos Numéricos</h1>
+  <p>Domina las técnicas numéricas paso a paso</p>
+</header>
+
+<nav>
+  <ul id="menu">
+    <li><a href="index.html">Inicio</a></li>
+    <li><a href="aprendizaje.html" class="activo">Aprendizaje</a></li>
+    <li><a href="calculos.html">Cálculos</a></li>
+    <li><a href="nosotros.html">Nosotros</a></li>
+  </ul>
+</nav>
+
+<main>
+  <section class="intro-card" aria-labelledby="intro-title">
+    <!-- Botón para mostrar la imagen -->
   <h2 id="intro-title">Métodos Numéricos - Teoría y Aplicaciones</h2>
   <p>Explora cada categoría de métodos numéricos con explicaciones detalladas, ejemplos prácticos y aplicaciones reales en ingeniería.</p>
   <button class="btn-ventajas" id="btn-diagrama">📊 Ver Diagrama de Clasificación</button>
@@ -13,7 +422,186 @@
       <button class="close-btn" id="cerrar-modal-imagen">&times;</button>
     </div>
     <div class="modal-body" style="text-align:center;">
-      <img src="imagenes/diagrama_clasificacion.jpg" alt="Diagrama de Clasificación" style="max-width:100%; height:auto; border-radius:12px;">
+      <img src="imagenes/178007be-d123-4780-a0bf-f52e6e786bf0.png" alt="Diagrama de Clasificación" style="max-width:100%; height:auto; border-radius:12px;">
     </div>
   </div>
 </div>
+  </section>
+
+  <div class="categoria">
+    <h2 class="categoria-titulo">Métodos Numéricos Principales</h2>
+    <div class="metodos-container">
+      <!-- Aquí van los 8 métodos como en tu código original, se mantienen igual -->
+      <!-- Método 1 -->
+      <article class="metodo-card" data-id="m1" data-title="Sistemas de Ecuaciones Algebraicas Lineales">
+        <div class="metodo-icono"><i class="fa-solid fa-table"></i></div>
+        <h3>Sistemas de Ecuaciones Algebraicas Lineales</h3>
+        <p>Métodos para resolver sistemas de ecuaciones lineales, incluyendo técnicas directas e iterativas.</p>
+        <div class="card-actions"><button class="btn-sm ver-mas">Ver más</button></div>
+      </article>
+
+      <!-- Método 2 -->
+      <article class="metodo-card" data-id="m2" data-title="Interpolación y Ajuste de Curvas">
+        <div class="metodo-icono"><i class="fa-solid fa-chart-line"></i></div>
+        <h3>Interpolación y Ajuste de Curvas</h3>
+        <p>Técnicas para aproximar funciones a partir de datos discretos y ajustar curvas a conjuntos de puntos.</p>
+        <div class="card-actions"><button class="btn-sm ver-mas">Ver más</button></div>
+      </article>
+
+      <!-- Método 3 -->
+      <article class="metodo-card" data-id="m3" data-title="Raíces de Ecuaciones">
+        <div class="metodo-icono"><i class="fa-solid fa-square-root-variable"></i></div>
+        <h3>Raíces de Ecuaciones</h3>
+        <p>Métodos para encontrar las raíces de ecuaciones no lineales, tanto métodos cerrados como abiertos.</p>
+        <div class="card-actions"><button class="btn-sm ver-mas">Ver más</button></div>
+      </article>
+
+      <!-- Método 4 -->
+      <article class="metodo-card" data-id="m4" data-title="Diferenciación Numérica">
+        <div class="metodo-icono"><i class="fa-solid fa-calculator"></i></div>
+        <h3>Diferenciación Numérica</h3>
+        <p>Aproximación de derivadas utilizando fórmulas basadas en diferencias finitas.</p>
+        <div class="card-actions"><button class="btn-sm ver-mas">Ver más</button></div>
+      </article>
+
+      <!-- Método 5 -->
+      <article class="metodo-card" data-id="m5" data-title="Integración Numérica">
+        <div class="metodo-icono"><i class="fa-solid fa-integral"></i></div>
+        <h3>Integración Numérica</h3>
+        <p>Métodos para aproximar integrales definidas usando técnicas como trapecio, Simpson y cuadraturas.</p>
+        <div class="card-actions"><button class="btn-sm ver-mas">Ver más</button></div>
+      </article>
+
+      <!-- Método 6 -->
+      <article class="metodo-card" data-id="m6" data-title="Ecuaciones Diferenciales Ordinarias">
+        <div class="metodo-icono"><i class="fa-solid fa-wave-square"></i></div>
+        <h3>Ecuaciones Diferenciales Ordinarias</h3>
+        <p>Métodos numéricos para resolver EDOs como Euler, Runge-Kutta y multietapa.</p>
+        <div class="card-actions"><button class="btn-sm ver-mas">Ver más</button></div>
+      </article>
+
+      <!-- Método 7 -->
+      <article class="metodo-card" data-id="m7" data-title="Optimización Numérica">
+        <div class="metodo-icono"><i class="fa-solid fa-bullseye"></i></div>
+        <h3>Optimización Numérica</h3>
+        <p>Técnicas para encontrar máximos o mínimos de funciones usando métodos directos e iterativos.</p>
+        <div class="card-actions"><button class="btn-sm ver-mas">Ver más</button></div>
+      </article>
+
+      <!-- Método 8 -->
+      <article class="metodo-card" data-id="m8" data-title="Transformadas y Series">
+        <div class="metodo-icono"><i class="fa-solid fa-infinity"></i></div>
+        <h3>Transformadas y Series</h3>
+        <p>Aplicación de series de Fourier, transformadas de Laplace y técnicas relacionadas para análisis numérico.</p>
+        <div class="card-actions"><button class="btn-sm ver-mas">Ver más</button></div>
+      </article>
+    </div>
+  </div>
+</main>
+
+<!-- Modal para Subclases y PDFs -->
+<div class="modal-backdrop" id="modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h4 id="modal-title">Título del Método</h4>
+      <button class="close-btn" id="modal-close">&times;</button>
+    </div>
+    <div class="modal-body" id="modal-body">
+      <!-- Contenido dinámico -->
+    </div>
+  </div>
+</div>
+
+<footer>
+  &copy; 2025 Aprendizaje Métodos Numéricos. Todos los derechos reservados.
+</footer>
+
+<script>
+  // Modal de la imagen
+  const btnDiagrama = document.getElementById('btn-diagrama');
+  const modalImagen = document.getElementById('modal-imagen');
+  const cerrarModalImagen = document.getElementById('cerrar-modal-imagen');
+
+  btnDiagrama.addEventListener('click', () => {
+    modalImagen.classList.add('show');
+  });
+
+  cerrarModalImagen.addEventListener('click', () => {
+    modalImagen.classList.remove('show');
+  });
+
+  modalImagen.addEventListener('click', (e) => {
+    if(e.target === modalImagen) modalImagen.classList.remove('show');
+  });
+  const menuToggle = document.getElementById('menu-toggle');
+  const menu = document.getElementById('menu');
+  menuToggle.addEventListener('click', () => { menu.classList.toggle('show'); });
+
+  const modal = document.getElementById('modal');
+  const modalTitle = document.getElementById('modal-title');
+  const modalBody = document.getElementById('modal-body');
+  const modalClose = document.getElementById('modal-close');
+
+  const subclases = {
+    m1: [
+      { nombre: 'Eliminación de Gauss', pdf: 'pdfs/eliminacion_gauss.pdf' },
+      { nombre: 'Gauss-Jordan', pdf: 'pdfs/gauss_jordan.pdf' },
+      { nombre: 'Descomposición LU', pdf: 'pdfs/descomposicion_lu.pdf' },
+      { nombre: 'Método Jacobi', pdf: 'pdfs/jacobi.pdf' },
+      { nombre: 'Método Gauss-Seidel', pdf: 'pdfs/gauss_seidel.pdf' }
+    ],
+    m2: [
+      { nombre: 'Interpolación de Lagrange', pdf: 'imagenes/interpolacion_lagrange.pdf' },
+      { nombre: 'Regresión Lineal', pdf: 'pdfs/regresion_lineal.pdf' }
+    ],
+    m3: [
+      { nombre: 'Método de Bisección', pdf: 'imagenes/metodo_de_biseccion.pdf' },
+      { nombre: 'Método de Newton-Raphson', pdf: 'imagenes/Metodo_de_Newton_Raphson.pdf' },
+      { nombre: 'Método de la Secante', pdf: 'pdfs/secante.pdf' }
+    ],
+    m4: [
+      { nombre: 'Diferencias Progresivas y Regresivas', pdf: 'pdfs/diferenciacion_progresiva.pdf' },
+      { nombre: 'Diferencias Centrales', pdf: 'pdfs/diferenciacion_central.pdf' }
+    ],
+    m5: [
+      { nombre: 'Regla del Trapecio', pdf: 'pdfs/trapecio.pdf' },
+      { nombre: 'Regla de Simpson', pdf: 'pdfs/simpson.pdf' },
+      { nombre: 'Cuadraturas de Gauss', pdf: 'pdfs/cuadraturas_gauss.pdf' }
+    ],
+    m6: [
+      { nombre: 'Método de Euler', pdf: 'pdfs/euler.pdf' },
+      { nombre: 'Runge-Kutta', pdf: 'pdfs/runge_kutta.pdf' },
+      { nombre: 'Métodos Multietapa', pdf: 'pdfs/metodos_multietapa.pdf' }
+    ],
+    m7: [
+      { nombre: 'Método de Gradiente', pdf: 'pdfs/gradiente.pdf' },
+      { nombre: 'Programación Lineal', pdf: 'pdfs/programacion_lineal.pdf' }
+    ],
+    m8: [
+      { nombre: 'Series de Fourier', pdf: 'pdfs/fourier.pdf' },
+      { nombre: 'Transformadas de Laplace', pdf: 'pdfs/laplace.pdf' }
+    ]
+  };
+
+  document.querySelectorAll('.ver-mas').forEach(btn => {
+    btn.addEventListener('click', e => {
+      const card = e.target.closest('.metodo-card');
+      const id = card.getAttribute('data-id');
+      const titulo = card.getAttribute('data-title');
+      modalTitle.textContent = titulo;
+      modalBody.innerHTML = '';
+      subclases[id].forEach(sc => {
+        const div = document.createElement('div');
+        div.classList.add('subclase-item');
+        div.innerHTML = `<h5>${sc.nombre}</h5><a href="${sc.pdf}" target="_blank" class="btn-sm">Abrir PDF</a>`;
+        modalBody.appendChild(div);
+      });
+      modal.classList.add('show');
+    });
+  });
+
+  modalClose.addEventListener('click', () => { modal.classList.remove('show'); });
+  modal.addEventListener('click', e => { if(e.target === modal) modal.classList.remove('show'); });
+</script>
+</body>
+</html>
