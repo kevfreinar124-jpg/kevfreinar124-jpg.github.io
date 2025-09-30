@@ -4,12 +4,540 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nosotros - Métodos Numéricos</title>
-  <link rel="stylesheet" href="estilos.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* ====== RESET & BASE (OPTIMIZADO) ====== */
+    * { 
+      box-sizing: border-box; 
+      margin: 0; 
+      padding: 0; 
+    }
+
+    html { 
+      height: 100%; 
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    body {
+      font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: linear-gradient(180deg, #f6fbff 0%, #eef6ff 100%);
+      color: #08304b;
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Fondo matemático sutil */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        radial-gradient(circle at 20% 30%, rgba(106, 17, 203, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(37, 117, 252, 0.03) 0%, transparent 50%);
+      z-index: -1;
+    }
+
+    /* ====== HEADER (MEJORADO) ====== */
+    header {
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      color: #fff;
+      padding: 2rem 1rem;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 6px 18px rgba(37, 17, 103, 0.12);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transform: translateZ(0);
+      backface-visibility: hidden;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: "∑∫√∞";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      font-size: 8rem;
+      opacity: 0.03;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    header h1 { 
+      font-size: 2.5rem; 
+      margin: 0;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      position: relative;
+    }
+
+    header p { 
+      font-size: 1.1rem; 
+      opacity: 0.92; 
+      margin-top: 0.5rem;
+      max-width: 600px;
+      position: relative;
+    }
+
+    /* ====== NAV (MEJORADO) ====== */
+    nav { 
+      background: linear-gradient(135deg, #00509d, #003f88);
+      padding: 0.8rem 0;
+      width: 100%;
+      transform: translateZ(0);
+      position: relative;
+    }
+
+    nav::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, #6a11cb, #2575fc, #6a11cb);
+      background-size: 200% 100%;
+      animation: gradientShift 3s ease infinite;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    nav ul {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+      padding: 0.6rem 1rem;
+      flex-wrap: wrap;
+      list-style: none;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      padding: 0.7rem 1.2rem;
+      border-radius: 12px;
+      font-weight: 600;
+      transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+      background: rgba(255, 255, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+      will-change: transform;
+    }
+
+    nav a:hover, nav a.activo {
+      background: #a9d6e5;
+      color: #0b3b67;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(10, 20, 40, 0.15);
+    }
+
+    /* Menu toggle optimizado */
+    .menu-toggle {
+      position: absolute;
+      right: 1rem;
+      top: 1rem;
+      font-size: 1.8rem;
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+      padding: 0.4rem 0.8rem;
+      border-radius: 8px;
+      display: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      z-index: 101;
+      border: none;
+      transform: translateZ(0);
+    }
+
+    .menu-toggle:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: scale(1.05);
+    }
+
+    /* ====== MAIN LAYOUT (OPTIMIZADO) ====== */
+    main { 
+      max-width: 1200px; 
+      margin: 2rem auto; 
+      padding: 0 1rem 3rem; 
+      min-height: calc(100vh - 300px);
+      overflow: hidden;
+    }
+
+    /* ====== HERO SECTION (SIMPLIFICADA) ====== */
+    .hero {
+      background: linear-gradient(135deg, #2575fc22, #6a11cb22);
+      padding: 3rem 1.5rem;
+      text-align: center;
+      border-radius: 20px;
+      margin-bottom: 2rem;
+      position: relative;
+      overflow: hidden;
+      transform: translateZ(0);
+      border: 1px solid rgba(37, 117, 252, 0.15);
+    }
+
+    .hero::before {
+      content: "f(x) ∫Δ∇";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      font-size: 6rem;
+      opacity: 0.03;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      font-weight: bold;
+    }
+
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-text h2 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #1b1b2f;
+      margin-bottom: 1rem;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .hero-text p {
+      font-size: 1.2rem;
+      color: #444;
+      margin: 1rem 0;
+      max-width: 800px;
+      line-height: 1.7;
+    }
+
+    /* ====== EQUIPO SECTION (MEJORADO) ====== */
+    .equipo-section {
+      margin: 3rem 0;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2.2rem;
+      color: #0b3b67;
+      margin-bottom: 2.5rem;
+      position: relative;
+      padding-bottom: 1rem;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(90deg, #6a11cb, #2575fc);
+      border-radius: 2px;
+    }
+
+    .equipo-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+
+    .miembro-card {
+      background: linear-gradient(180deg, #ffffff, #fbfdff);
+      border-radius: 18px;
+      padding: 2rem;
+      width: 320px;
+      box-shadow: 0 10px 30px rgba(9, 30, 63, 0.08);
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: 1px solid rgba(37, 117, 252, 0.1);
+      transform: translateZ(0);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .miembro-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(90deg, #6a11cb, #2575fc);
+    }
+
+    .miembro-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(9, 30, 63, 0.12);
+    }
+
+    .foto-container {
+      width: 150px;
+      height: 150px;
+      margin: 0 auto 1.5rem;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 4px solid rgba(37, 117, 252, 0.2);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      position: relative;
+    }
+
+    .foto-container::after {
+      content: "";
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      right: -10px;
+      bottom: -10px;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg, #6a11cb, #2575fc, #6a11cb);
+      z-index: -1;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .miembro-card:hover .foto-container::after {
+      opacity: 1;
+      animation: rotate 3s linear infinite;
+    }
+
+    @keyframes rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .foto-miembro {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .miembro-card:hover .foto-miembro {
+      transform: scale(1.05);
+    }
+
+    .foto-placeholder {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #eef4ff, #d9e7ff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #6a8cff;
+      font-size: 3rem;
+    }
+
+    .miembro-nombre {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #0b3b67;
+      margin-bottom: 0.5rem;
+    }
+
+    .miembro-rol {
+      font-size: 1rem;
+      color: #2575fc;
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+      padding: 0.4rem 1rem;
+      background: rgba(37, 117, 252, 0.1);
+      border-radius: 20px;
+      display: inline-block;
+    }
+
+    .miembro-desc {
+      color: #27404f;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      text-align: left;
+    }
+
+    .miembro-desc ul {
+      list-style-type: none;
+      padding-left: 0;
+    }
+
+    .miembro-desc li {
+      margin-bottom: 0.7rem;
+      padding-left: 1.5rem;
+      position: relative;
+    }
+
+    .miembro-desc li::before {
+      content: "▸";
+      color: #2575fc;
+      font-weight: bold;
+      position: absolute;
+      left: 0.5rem;
+    }
+
+    /* ====== TARJETA MATEMÁTICA (NUEVA) ====== */
+    .math-card {
+      background: linear-gradient(135deg, #6a11cb15, #2575fc15);
+      border-radius: 18px;
+      padding: 2.5rem;
+      box-shadow: 0 10px 30px rgba(9, 30, 63, 0.08);
+      text-align: center;
+      margin: 2.5rem auto;
+      max-width: 1000px;
+      border: 1px solid rgba(37, 117, 252, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      transform: translateZ(0);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .math-card::before {
+      content: "∑";
+      position: absolute;
+      top: -20px;
+      right: -20px;
+      font-size: 8rem;
+      opacity: 0.03;
+      transform: rotate(15deg);
+    }
+
+    .math-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgba(9, 30, 63, 0.12);
+    }
+
+    .math-card h2 { 
+      color: #0b3b67; 
+      font-size: 2rem; 
+      margin-bottom: 1rem;
+    }
+
+    .math-card p { 
+      color: #27404f; 
+      font-size: 1.1rem; 
+      max-width: 900px; 
+      margin: auto;
+      line-height: 1.7;
+    }
+
+    /* ====== FOOTER (MEJORADO) ====== */
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      color: #596b75;
+      font-size: 0.95rem;
+      padding: 2rem 0;
+      border-top: 1px solid #e0e9f3;
+      background: #f8fbff;
+      position: relative;
+    }
+
+    footer::before {
+      content: "∫ f(x) dx";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      font-size: 4rem;
+      opacity: 0.03;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    /* ====== RESPONSIVE (OPTIMIZADO) ====== */
+    @media (max-width: 900px) {
+      .section-title { font-size: 1.8rem; }
+      .math-card h2 { font-size: 1.6rem; }
+      .hero-text h2 { font-size: 2rem; }
+    }
+
+    @media (max-width: 768px) {
+      .menu-toggle { display: block; }
+      nav ul {
+        display: none;
+        position: fixed;
+        right: 1rem; 
+        top: 4.5rem;
+        width: 250px; 
+        flex-direction: column; 
+        gap: 0.5rem;
+        padding: 1rem; 
+        border-radius: 12px;
+        background: rgba(14, 46, 83, 0.98);
+        box-shadow: 0 10px 30px rgba(2, 14, 34, 0.3);
+        transform: translateZ(0);
+        z-index: 102;
+      }
+      nav ul.show { 
+        display: flex; 
+        animation: slideIn 0.3s ease-out;
+      }
+      
+      @keyframes slideIn {
+        from { 
+          opacity: 0;
+          transform: translateX(20px);
+        }
+        to { 
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero { padding: 2rem 1rem; }
+      .section-title { font-size: 1.6rem; }
+      .math-card { padding: 1.5rem; }
+      header h1 { font-size: 1.8rem; }
+      .miembro-card { width: 100%; max-width: 320px; }
+      
+      .miembro-card:hover, .math-card:hover {
+        transform: none;
+      }
+    }
+
+    /* Reglas específicas para mejorar rendimiento */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
 </head>
 <body>
   <header>
-    <h1>Nosotros</h1>
-    <p>Conoce al equipo detrás de esta plataforma educativa</p>
+    <h1>Nosotros - Métodos Numéricos</h1>
+    <p>Conoce al equipo detrás de esta plataforma educativa especializada</p>
   </header>
 
   <div class="menu-toggle" onclick="toggleMenu()">☰</div>
@@ -23,33 +551,193 @@
   </nav>
 
   <main>
-    <h2>Nuestro equipo</h2>
-    <ul>
-      <li>CCC – Coordinador académico</li>
-      <li>Ma – Desarrolladora web</li>
-      <li>Ca – Revisor técnico</li>
-      <li>Equipo de estudiantes de cálculo numérico</li>
-    </ul>
+    <!-- Hero Section simplificada -->
+    <section class="hero">
+      <div class="hero-content">
+        <div class="hero-text">
+          <h2>Nuestro Equipo</h2>
+          <p>Profesionales y estudiantes comprometidos con la educación en métodos numéricos</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sección Asesor y Coasesor -->
+    <section class="equipo-section">
+      <h2 class="section-title">Dirección Académica</h2>
+      <div class="equipo-container">
+        <!-- Asesor -->
+        <div class="miembro-card">
+          <div class="foto-container">
+            <div class="foto-placeholder">
+              <i class="fas fa-user-tie"></i>
+            </div>
+            <!-- Para foto real: <img src="ruta/foto-asesor.jpg" alt="Asesor" class="foto-miembro"> -->
+          </div>
+          <h3 class="miembro-nombre">CCC</h3>
+          <div class="miembro-rol">Asesor - Coordinador Académico</div>
+          <div class="miembro-desc">
+            <ul>
+              <li>Coordinador académico del proyecto</li>
+              <li>Especialista en análisis numérico</li>
+              <li>Supervisión de contenidos académicos</li>
+              <li>Orientación metodológica avanzada</li>
+            </ul>
+          </div>
+        </div>
+        
+        <!-- Coasesor -->
+        <div class="miembro-card">
+          <div class="foto-container">
+            <div class="foto-placeholder">
+              <i class="fas fa-user-graduate"></i>
+            </div>
+            <!-- Para foto real: <img src="ruta/foto-coasesor.jpg" alt="Coasesor" class="foto-miembro"> -->
+          </div>
+          <h3 class="miembro-nombre">Ca</h3>
+          <div class="miembro-rol">Coasesor - Revisor Técnico</div>
+          <div class="miembro-desc">
+            <ul>
+              <li>Revisor técnico especializado</li>
+              <li>Experto en algoritmos numéricos</li>
+              <li>Validación de métodos matemáticos</li>
+              <li>Soporte en implementación</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sección Estudiantes Involucrados -->
+    <section class="equipo-section">
+      <h2 class="section-title">Equipo de Desarrollo</h2>
+      <div class="equipo-container">
+        <!-- Estudiante 1 -->
+        <div class="miembro-card">
+          <div class="foto-container">
+            <div class="foto-placeholder">
+              <i class="fas fa-laptop-code"></i>
+            </div>
+            <!-- Para foto real: <img src="ruta/foto-ma.jpg" alt="Ma" class="foto-miembro"> -->
+          </div>
+          <h3 class="miembro-nombre">Ma</h3>
+          <div class="miembro-rol">Desarrolladora Web</div>
+          <div class="miembro-desc">
+            <ul>
+              <li>Desarrolladora web principal</li>
+              <li>Implementación de algoritmos</li>
+              <li>Interfaz de usuario interactiva</li>
+              <li>Optimización de experiencia</li>
+            </ul>
+          </div>
+        </div>
+        
+        <!-- Estudiante 2 -->
+        <div class="miembro-card">
+          <div class="foto-container">
+            <div class="foto-placeholder">
+              <i class="fas fa-users"></i>
+            </div>
+            <!-- Para foto real: <img src="ruta/foto-estudiante.jpg" alt="Estudiante" class="foto-miembro"> -->
+          </div>
+          <h3 class="miembro-nombre">Estudiante</h3>
+          <div class="miembro-rol">Colaborador</div>
+          <div class="miembro-desc">
+            <ul>
+              <li>Equipo de cálculo numérico</li>
+              <li>Desarrollo de ejemplos prácticos</li>
+              <li>Pruebas de funcionalidades</li>
+              <li>Documentación de métodos</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Información adicional -->
+    <section class="math-card">
+      <h2>Métodos Numéricos en Acción</h2>
+      <p>Este proyecto integra los principales métodos numéricos.Nuestro equipo ha trabajado para hacer accesibles estos conceptos complejos a través de una plataforma interactiva y educativa.</p>
+      <p>La precisión y eficiencia de los algoritmos implementados garantizan resultados confiables para problemas matemáticos complejos.</p>
+    </section>
   </main>
+
+  <footer>
+    <p>Plataforma Educativa de Métodos Numéricos &copy; 2023 | Precisión Matemática, Soluciones Innovadoras</p>
+  </footer>
 
   <script>
     function toggleMenu() {
-      document.getElementById("menu").classList.toggle("activo");
+      const menu = document.getElementById('menu');
+      menu.classList.toggle('show');
     }
+
+    // Cerrar menú al hacer clic fuera de él
+    document.addEventListener('click', function(event) {
+      const menu = document.getElementById('menu');
+      const toggle = document.querySelector('.menu-toggle');
+      
+      if (!menu.contains(event.target) && !toggle.contains(event.target)) {
+        menu.classList.remove('show');
+      }
+    });
+
+    // Efectos de aparición al hacer scroll
+    document.addEventListener('DOMContentLoaded', function() {
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      };
+      
+      const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = 1;
+            entry.target.style.transform = 'translateY(0)';
+            // Añadir efecto de aparición escalonada para las tarjetas
+            if (entry.target.classList.contains('miembro-card')) {
+              const delay = Array.from(entry.target.parentElement.children).indexOf(entry.target) * 100;
+              entry.target.style.transitionDelay = `${delay}ms`;
+            }
+          }
+        });
+      }, observerOptions);
+      
+      // Aplicar a las tarjetas de miembros
+      const miembros = document.querySelectorAll('.miembro-card');
+      miembros.forEach(miembro => {
+        miembro.style.opacity = 0;
+        miembro.style.transform = 'translateY(20px)';
+        miembro.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        observer.observe(miembro);
+      });
+
+      // Aplicar a la tarjeta matemática
+      const mathCard = document.querySelector('.math-card');
+      mathCard.style.opacity = 0;
+      mathCard.style.transform = 'translateY(20px)';
+      mathCard.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+      observer.observe(mathCard);
+    });
+
+    // Efecto de partículas matemáticas en el fondo (sutil)
+    document.addEventListener('DOMContentLoaded', function() {
+      const symbols = ['∑', '∫', 'Δ', '∇', '∞', '∂', '√', 'π', 'θ', 'φ'];
+      const body = document.body;
+      
+      for (let i = 0; i < 15; i++) {
+        const symbol = document.createElement('div');
+        symbol.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+        symbol.style.position = 'fixed';
+        symbol.style.left = Math.random() * 100 + 'vw';
+        symbol.style.top = Math.random() * 100 + 'vh';
+        symbol.style.fontSize = (Math.random() * 20 + 10) + 'px';
+        symbol.style.opacity = Math.random() * 0.05 + 0.02;
+        symbol.style.zIndex = '-1';
+        symbol.style.pointerEvents = 'none';
+        symbol.style.userSelect = 'none';
+        body.appendChild(symbol);
+      }
+    });
   </script>
 </body>
 </html>
-  <!-- MAIN -->
-  <main>
-    <!-- Hero Section -->
-    <section class="hero">
-      <div class="hero-content">
-        <img src="imagenes/45525f77-ed3a-43ad-bad7-1fa897d4cbe6.jpg" alt="Métodos Numéricos" class="hero-img">
-          <!-- MAIN -->
-  <main>
-    <!-- Hero Section -->
-    <section class="hero">
-      <div class="hero-content">
-        <img src="imagenes/8c2c9509-2fa6-4ef5-9563-c9ef80b17f83.jpg" alt="Métodos Numéricos" class="hero-img">
-        
-        
