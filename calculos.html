@@ -240,27 +240,113 @@
       margin-top: 1rem;
     }
 
-    /* ====== RESULTADOS ====== */
-    .resultados {
-      margin-top: 2rem;
-      padding: 1.5rem;
-      background: #f8f9fa;
-      border-radius: 12px;
-      border-left: 4px solid #2575fc;
+    /* ====== VENTANAS FLOTANTES ====== */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(5px);
     }
 
-    .resultados h4 {
-      color: #0b3b67;
+    .modal-contenido {
+      background: linear-gradient(180deg, #ffffff, #fbfdff);
+      margin: 2% auto;
+      padding: 0;
+      border-radius: 16px;
+      width: 90%;
+      max-width: 800px;
+      max-height: 90vh;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+      animation: modalAppear 0.3s ease-out;
+      display: flex;
+      flex-direction: column;
+    }
+
+    @keyframes modalAppear {
+      from {
+        opacity: 0;
+        transform: translateY(-50px) scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .modal-header {
+      background: linear-gradient(135deg, #2575fc, #6a11cb);
+      color: white;
+      padding: 1.5rem 2rem;
+      border-radius: 16px 16px 0 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header h3 {
+      margin: 0;
+      font-size: 1.4rem;
+    }
+
+    .cerrar {
+      color: white;
+      font-size: 2rem;
+      font-weight: bold;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cerrar:hover {
+      transform: scale(1.1);
+    }
+
+    .modal-body {
+      padding: 2rem;
+      overflow-y: auto;
+      flex-grow: 1;
+    }
+
+    .resultados-modal {
+      background: #f8f9fa;
+      border-radius: 8px;
+      padding: 1.5rem;
       margin-bottom: 1rem;
     }
 
-    .resultados pre {
+    .resultados-modal pre {
       background: #fff;
       padding: 1rem;
       border-radius: 8px;
       overflow-x: auto;
       font-family: 'Courier New', monospace;
       font-size: 0.9rem;
+      max-height: 300px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    .grafico-modal {
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    .grafico-modal img {
+      max-width: 100%;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
 
     /* ====== CATEGORÍAS ====== */
@@ -299,6 +385,62 @@
       border-top: 1px solid #e0e9f3;
     }
 
+    /* ====== MATRIZ INPUTS ====== */
+    .matriz-inputs {
+      display: none;
+      margin-top: 1rem;
+      padding: 1rem;
+      background: #f8fbff;
+      border-radius: 8px;
+      border: 1px solid #d0e3ff;
+    }
+
+    .matriz-inputs.active {
+      display: block;
+    }
+
+    .matriz-fila {
+      display: flex;
+      gap: 0.3rem;
+      margin-bottom: 0.5rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .matriz-fila label {
+      min-width: 20px;
+      font-weight: 600;
+      color: #08304b;
+      font-size: 0.9rem;
+    }
+
+    .matriz-input {
+      width: 60px;
+      padding: 0.4rem;
+      border: 1px solid #d0e3ff;
+      border-radius: 4px;
+      background: #fff;
+      font-size: 0.9rem;
+      text-align: center;
+    }
+
+    .matriz-ecuacion {
+      font-family: 'Courier New', monospace;
+      background: #f0f7ff;
+      padding: 0.5rem;
+      border-radius: 4px;
+      margin-bottom: 0.5rem;
+      border-left: 3px solid #2575fc;
+      font-size: 0.9rem;
+    }
+
+    .matriz-separador {
+      min-width: 20px;
+      text-align: center;
+      font-weight: bold;
+      color: #2575fc;
+    }
+
     /* ====== RESPONSIVE ====== */
     @media (max-width: 900px) {
       .calculo-card { 
@@ -311,6 +453,11 @@
       
       .intro-card h2, .intro-card h3 { 
         font-size: 1.6rem; 
+      }
+      
+      .modal-contenido {
+        width: 95%;
+        margin: 5% auto;
       }
     }
 
@@ -355,6 +502,15 @@
       header p {
         font-size: 0.9rem;
       }
+      
+      .modal-body {
+        padding: 1rem;
+      }
+      
+      .matriz-input {
+        width: 50px;
+        padding: 0.3rem;
+      }
     }
 
     @media (max-width: 480px) {
@@ -365,6 +521,23 @@
       .btn-calcular {
         padding: 0.8rem 1.5rem;
         font-size: 1rem;
+      }
+      
+      .modal-header {
+        padding: 1rem 1.5rem;
+      }
+      
+      .modal-header h3 {
+        font-size: 1.2rem;
+      }
+      
+      .matriz-input {
+        width: 45px;
+        font-size: 0.8rem;
+      }
+      
+      .matriz-fila label {
+        font-size: 0.8rem;
       }
     }
 
@@ -434,15 +607,221 @@
           <h3>Sistemas de Ecuaciones Algebraicas Lineales</h3>
           <form class="metodo-form" data-metodo="gauss">
             <div class="form-group">
-              <label for="matriz-coef">Matriz de coeficientes (formato Python):</label>
-              <textarea id="matriz-coef" placeholder="[[3, 2, -1], [2, -2, 4], [-1, 0.5, -1]]">[[3, 2, -1], [2, -2, 4], [-1, 0.5, -1]]</textarea>
+              <label for="tipo-matriz">Tipo de Matriz:</label>
+              <select id="tipo-matriz" onchange="mostrarCamposMatriz()">
+                <option value="">Seleccione el tipo de matriz</option>
+                <option value="2x2">2x2 (2 ecuaciones, 2 variables)</option>
+                <option value="2x3">2x3 (2 ecuaciones, 3 variables)</option>
+                <option value="3x3">3x3 (3 ecuaciones, 3 variables)</option>
+                <option value="3x4">3x4 (3 ecuaciones, 4 variables)</option>
+                <option value="4x4">4x4 (4 ecuaciones, 4 variables)</option>
+                <option value="personalizada">Personalizada (matriz aumentada)</option>
+              </select>
             </div>
-            <div class="form-group">
-              <label for="vector-sol">Vector solución:</label>
-              <input type="text" id="vector-sol" placeholder="[1, -2, 0]" value="[1, -2, 0]">
+
+            <!-- Matriz 2x2 -->
+            <div id="matriz-2x2" class="matriz-inputs">
+              <h4>Sistema 2x2</h4>
+              <div class="matriz-ecuacion">Ecuación 1:</div>
+              <div class="matriz-fila">
+                <label>X:</label>
+                <input type="number" class="matriz-input" id="m2x2_x1" value="2">
+                <label>Y:</label>
+                <input type="number" class="matriz-input" id="m2x2_y1" value="1">
+                <div class="matriz-separador">=</div>
+                <input type="number" class="matriz-input" id="m2x2_r1" value="8">
+              </div>
+              <div class="matriz-ecuacion">Ecuación 2:</div>
+              <div class="matriz-fila">
+                <label>X:</label>
+                <input type="number" class="matriz-input" id="m2x2_x2" value="-3">
+                <label>Y:</label>
+                <input type="number" class="matriz-input" id="m2x2_y2" value="-1">
+                <div class="matriz-separador">=</div>
+                <input type="number" class="matriz-input" id="m2x2_r2" value="-11">
+              </div>
             </div>
+
+            <!-- Matriz 2x3 -->
+            <div id="matriz-2x3" class="matriz-inputs">
+              <h4>Sistema 2x3</h4>
+              <div class="matriz-ecuacion">Ecuación 1:</div>
+              <div class="matriz-fila">
+                <label>X:</label>
+                <input type="number" class="matriz-input" id="m2x3_x1" value="1">
+                <label>Y:</label>
+                <input type="number" class="matriz-input" id="m2x3_y1" value="2">
+                <label>Z:</label>
+                <input type="number" class="matriz-input" id="m2x3_z1" value="3">
+                <div class="matriz-separador">=</div>
+                <input type="number" class="matriz-input" id="m2x3_r1" value="6">
+              </div>
+              <div class="matriz-ecuacion">Ecuación 2:</div>
+              <div class="matriz-fila">
+                <label>X:</label>
+                <input type="number" class="matriz-input" id="m2x3_x2" value="2">
+                <label>Y:</label>
+                <input type="number" class="matriz-input" id="m2x3_y2" value="-1">
+                <label>Z:</label>
+                <input type="number" class="matriz-input" id="m2x3_z2" value="1">
+                <div class="matriz-separador">=</div>
+                <input type="number" class="matriz-input" id="m2x3_r2" value="3">
+              </div>
+            </div>
+
+            <!-- Matriz 3x3 -->
+            <div id="matriz-3x3" class="matriz-inputs">
+              <h4>Sistema 3x3</h4>
+              <div class="matriz-ecuacion">Ecuación 1:</div>
+              <div class="matriz-fila">
+                <label>X:</label>
+                <input type="number" class="matriz-input" id="m3x3_x1" value="2">
+                <label>Y:</label>
+                <input type="number" class="matriz-input" id="m3x3_y1" value="1">
+                <label>Z:</label>
+                <input type="number" class="matriz-input" id="m3x3_z1" value="-1">
+                <div class="matriz-separador">=</div>
+                <input type="number" class="matriz-input" id="m3x3_r1" value="8">
+              </div>
+              <div class="matriz-ecuacion">Ecuación 2:</div>
+              <div class="matriz-fila">
+                <label>X:</label>
+                <input type="number" class="matriz-input" id="m3x3_x2" value="-3">
+                <label>Y:</label>
+                <input type="number" class="matriz-input" id="m3x3_y2" value="-1">
+                <label>Z:</label>
+                <input type="number" class="matriz-input" id="m3x3_z2" value="2">
+                <div class="matriz-separador">=</div>
+                <input type="number" class="matriz-input" id="m3x3_r2" value="-11">
+              </div>
+              <div class="matriz-ecuacion">Ecuación 3:</div>
+              <div class="matriz-fila">
+                <label>X:</label>
+                <input type="number" class="matriz-input" id="m3x3_x3" value="-2">
+                <label>Y:</label>
+                <input type="number" class="matriz-input" id="m3x3_y3" value="1">
+                <label>Z:</label>
+                <input type="number" class="matriz-input" id="m3x3_z3" value="2">
+                <div class="matriz-separador">=</div>
+                <input type="number" class="matriz-input" id="m3x3_r3" value="-3">
+              </div>
+            </div>
+
+            <!-- Matriz 3x4 -->
+            <div id="matriz-3x4" class="matriz-inputs">
+              <h4>Sistema 3x4</h4>
+              <div class="matriz-ecuacion">Ecuación 1:</div>
+              <div class="matriz-fila">
+                <label>X:</label>
+                <input type="number" class="matriz-input" id="m3x4_x1" value="1">
+                <label>Y:</label>
+                <input type="number" class="matriz-input" id="m3x4_y1" value="1">
+                <label>Z:</label>
+                <input type="number" class="matriz-input" id="m3x4_z1" value="1">
+                <label>W:</label>
+                <input type="number" class="matriz-input" id="m3x4_w1" value="1">
+                <div class="matriz-separador">=</div>
+                <input type="number" class="matriz-input" id="m3x4_r1" value="10">
+              </div>
+              <div class="matriz-ecuacion">Ecuación 2:</div>
+              <div class="matriz-fila">
+                <label>X:</label>
+                <input type="number" class="matriz-input" id="m3x4_x2" value="2">
+                <label>Y:</label>
+                <input type="number" class="matriz-input" id="m3x4_y2" value="-1">
+                <label>Z:</label>
+                <input type="number" class="matriz-input" id="m3x4_z2" value="3">
+                <label>W:</label>
+                <input type="number" class="matriz-input" id="m3x4_w2" value="-2">
+                <div class="matriz-separador">=</div>
+                <input type="number" class="matriz-input" id="m3x4_r2" value="5">
+              </div>
+              <div class="matriz-ecuacion">Ecuación 3:</div>
+              <div class="matriz-fila">
+                <label>X:</label>
+                <input type="number" class="matriz-input" id="m3x4_x3" value="3">
+                <label>Y:</label>
+                <input type="number" class="matriz-input" id="m3x4_y3" value="2">
+                <label>Z:</label>
+                <input type="number" class="matriz-input" id="m3x4_z3" value="-1">
+                <label>W:</label>
+                <input type="number" class="matriz-input" id="m3x4_w3" value="1">
+                <div class="matriz-separador">=</div>
+                <input type="number" class="matriz-input" id="m3x4_r3" value="8">
+              </div>
+            </div>
+
+            <!-- Matriz 4x4 -->
+            <div id="matriz-4x4" class="matriz-inputs">
+              <h4>Sistema 4x4</h4>
+              <div class="matriz-ecuacion">Ecuación 1:</div>
+              <div class="matriz-fila">
+                <label>X:</label>
+                <input type="number" class="matriz-input" id="m4x4_x1" value="2">
+                <label>Y:</label>
+                <input type="number" class="matriz-input" id="m4x4_y1" value="1">
+                <label>Z:</label>
+                <input type="number" class="matriz-input" id="m4x4_z1" value="-1">
+                <label>W:</label>
+                <input type="number" class="matriz-input" id="m4x4_w1" value="3">
+                <div class="matriz-separador">=</div>
+                <input type="number" class="matriz-input" id="m4x4_r1" value="9">
+              </div>
+              <div class="matriz-ecuacion">Ecuación 2:</div>
+              <div class="matriz-fila">
+                <label>X:</label>
+                <input type="number" class="matriz-input" id="m4x4_x2" value="-1">
+                <label>Y:</label>
+                <input type="number" class="matriz-input" id="m4x4_y2" value="3">
+                <label>Z:</label>
+                <input type="number" class="matriz-input" id="m4x4_z2" value="2">
+                <label>W:</label>
+                <input type="number" class="matriz-input" id="m4x4_w2" value="1">
+                <div class="matriz-separador">=</div>
+                <input type="number" class="matriz-input" id="m4x4_r2" value="8">
+              </div>
+              <div class="matriz-ecuacion">Ecuación 3:</div>
+              <div class="matriz-fila">
+                <label>X:</label>
+                <input type="number" class="matriz-input" id="m4x4_x3" value="3">
+                <label>Y:</label>
+                <input type="number" class="matriz-input" id="m4x4_y3" value="-1">
+                <label>Z:</label>
+                <input type="number" class="matriz-input" id="m4x4_z3" value="2">
+                <label>W:</label>
+                <input type="number" class="matriz-input" id="m4x4_w3" value="2">
+                <div class="matriz-separador">=</div>
+                <input type="number" class="matriz-input" id="m4x4_r3" value="3">
+              </div>
+              <div class="matriz-ecuacion">Ecuación 4:</div>
+              <div class="matriz-fila">
+                <label>X:</label>
+                <input type="number" class="matriz-input" id="m4x4_x4" value="1">
+                <label>Y:</label>
+                <input type="number" class="matriz-input" id="m4x4_y4" value="2">
+                <label>Z:</label>
+                <input type="number" class="matriz-input" id="m4x4_z4" value="3">
+                <label>W:</label>
+                <input type="number" class="matriz-input" id="m4x4_w4" value="-1">
+                <div class="matriz-separador">=</div>
+                <input type="number" class="matriz-input" id="m4x4_r4" value="7">
+              </div>
+            </div>
+
+            <!-- Matriz Personalizada -->
+            <div id="matriz-personalizada" class="matriz-inputs">
+              <div class="form-group">
+                <label for="matriz-aumentada">Matriz aumentada (cada fila en una línea, números separados por espacios):</label>
+                <textarea id="matriz-aumentada" placeholder="2 1 -1 8
+-3 -1 2 -11
+-2 1 2 -3">2 1 -1 8
+-3 -1 2 -11
+-2 1 2 -3</textarea>
+              </div>
+            </div>
+
             <div class="form-group">
-              <label for="metodo-sistema">Método:</label>
+              <label for="metodo-sistema">Método de Solución:</label>
               <select id="metodo-sistema">
                 <option value="gauss">Eliminación de Gauss</option>
                 <option value="gauss-jordan">Gauss-Jordan</option>
@@ -453,10 +832,6 @@
               <i class="fa-solid fa-calculator"></i> Calcular
             </button>
           </form>
-          <div class="resultados" id="resultado-m1" style="display:none;">
-            <h4>Resultados:</h4>
-            <pre id="output-m1"></pre>
-          </div>
         </div>
 
         <!-- Método 2: Interpolación -->
@@ -489,10 +864,6 @@
               <i class="fa-solid fa-calculator"></i> Calcular
             </button>
           </form>
-          <div class="resultados" id="resultado-m2" style="display:none;">
-            <h4>Resultados:</h4>
-            <pre id="output-m2"></pre>
-          </div>
         </div>
 
         <!-- Método 3: Raíces de Ecuaciones -->
@@ -504,15 +875,19 @@
           <form class="metodo-form" data-metodo="biseccion">
             <div class="form-group">
               <label for="funcion-raiz">Función f(x):</label>
-              <input type="text" id="funcion-raiz" placeholder="x**2 - 4" value="x**2 - 4">
+              <input type="text" id="funcion-raiz" placeholder="x**2 - 4" value="x**3 - x - 2">
             </div>
             <div class="form-group">
-              <label for="intervalo-a">Intervalo a:</label>
-              <input type="number" id="intervalo-a" step="any" placeholder="0" value="0">
+              <label for="funcion-derivada-raiz">Derivada f'(x) (para Newton-Raphson):</label>
+              <input type="text" id="funcion-derivada-raiz" placeholder="2*x" value="3*x**2 - 1">
             </div>
             <div class="form-group">
-              <label for="intervalo-b">Intervalo b:</label>
-              <input type="number" id="intervalo-b" step="any" placeholder="3" value="3">
+              <label for="intervalo-a">Valor inicial x₀ (para Newton) / a (para Bisección y Secante):</label>
+              <input type="number" id="intervalo-a" step="any" placeholder="1.5" value="1">
+            </div>
+            <div class="form-group">
+              <label for="intervalo-b">Valor x₁ (para Secante) / b (para Bisección):</label>
+              <input type="number" id="intervalo-b" step="any" placeholder="3" value="2">
             </div>
             <div class="form-group">
               <label for="tolerancia-raiz">Tolerancia:</label>
@@ -530,10 +905,6 @@
               <i class="fa-solid fa-calculator"></i> Calcular
             </button>
           </form>
-          <div class="resultados" id="resultado-m3" style="display:none;">
-            <h4>Resultados:</h4>
-            <pre id="output-m3"></pre>
-          </div>
         </div>
 
         <!-- Método 4: Diferenciación Numérica -->
@@ -567,10 +938,6 @@
               <i class="fa-solid fa-calculator"></i> Calcular
             </button>
           </form>
-          <divado class="resultados" id="resultado-m4" style="display:none;">
-            <h4>Resultados:</h4>
-            <pre id="output-m4"></pre>
-          </div>
         </div>
 
         <!-- Método 5: Integración Numérica -->
@@ -608,10 +975,6 @@
               <i class="fa-solid fa-calculator"></i> Calcular
             </button>
           </form>
-          <div class="resultados" id="resultado-m5" style="display:none;">
-            <h4>Resultados:</h4>
-            <pre id="output-m5"></pre>
-          </div>
         </div>
 
         <!-- Método 6: Problemas de Valor Inicial -->
@@ -652,10 +1015,6 @@
               <i class="fa-solid fa-calculator"></i> Calcular
             </button>
           </form>
-          <div class="resultados" id="resultado-m6" style="display:none;">
-            <h4>Resultados:</h4>
-            <pre id="output-m6"></pre>
-          </div>
         </div>
 
       </div>
@@ -701,10 +1060,6 @@ plt.show()</textarea>
             <i class="fa-brands fa-python"></i> Ejecutar Python
           </button>
         </form>
-        <div class="resultados" id="resultado-python" style="display:none;">
-          <h4>Salida:</h4>
-          <pre id="output-python"></pre>
-        </div>
       </div>
     </div>
 
@@ -715,6 +1070,21 @@ plt.show()</textarea>
     <p>© 2023 Métodos Numéricos - Universidad Nacional</p>
   </footer>
 
+  <!-- Ventanas modales para resultados -->
+  <div id="modal-resultados" class="modal">
+    <div class="modal-contenido">
+      <div class="modal-header">
+        <h3 id="modal-titulo">Resultados del Cálculo</h3>
+        <button class="cerrar">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div id="modal-contenido"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pyodide -->
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js"></script>
   <script>
     // Toggle del menú móvil
     document.getElementById('menu-toggle').addEventListener('click', function() {
@@ -730,68 +1100,1078 @@ plt.show()</textarea>
       });
     });
 
-    // Funciones de cálculo (simuladas - en un entorno real se conectarían a backend)
-    function calcularSistemaEcuaciones() {
-      const matriz = document.getElementById('matriz-coef').value;
-      const vector = document.getElementById('vector-sol').value;
-      const metodo = document.getElementById('metodo-sistema').value;
-      
-      const resultado = `Método: ${metodo.toUpperCase()}
-Matriz: ${matriz}
-Vector: ${vector}
+    // Inicialización de Pyodide
+    let pyodide;
+    async function initPyodide() {
+      pyodide = await loadPyodide({
+        indexURL: "https://cdn.jsdelivr.net/pyodide/v0.24.1/full/"
+      });
+      await pyodide.loadPackage(["numpy", "matplotlib"]);
+      console.log("Pyodide cargado correctamente");
+    }
+    initPyodide();
 
-Resultado simulado:
-x = [1.000, -2.000, 3.000]
+    // Funciones para manejar ventanas modales
+    const modal = document.getElementById('modal-resultados');
+    const modalTitulo = document.getElementById('modal-titulo');
+    const modalContenido = document.getElementById('modal-contenido');
+    const cerrarBtn = document.querySelector('.cerrar');
 
-Este cálculo se ejecutaría con Python en el backend.`;
-      
-      document.getElementById('output-m1').textContent = resultado;
-      document.getElementById('resultado-m1').style.display = 'block';
+    function mostrarModal(titulo, contenido) {
+      modalTitulo.textContent = titulo;
+      modalContenido.innerHTML = contenido;
+      modal.style.display = 'block';
+      document.body.style.overflow = 'hidden';
     }
 
-    function calcularInterpolacion() {
+    function cerrarModal() {
+      modal.style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+
+    cerrarBtn.onclick = cerrarModal;
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        cerrarModal();
+      }
+    }
+
+    // Función para mostrar resultados en modal
+    function mostrarResultados(titulo, texto, grafico = null) {
+      let contenido = `
+        <div class="resultados-modal">
+          <pre>${texto}</pre>
+        </div>
+      `;
+      
+      if (grafico) {
+        contenido += `
+          <div class="grafico-modal">
+            <h4>Visualización Gráfica</h4>
+            <img src="${grafico}" alt="Gráfico del resultado">
+          </div>
+        `;
+      }
+      
+      mostrarModal(titulo, contenido);
+    }
+
+    // Función para mostrar campos de matriz según el tipo seleccionado
+    function mostrarCamposMatriz() {
+      const tipoMatriz = document.getElementById('tipo-matriz').value;
+      
+      // Ocultar todos los campos de matriz
+      document.querySelectorAll('.matriz-inputs').forEach(div => {
+        div.classList.remove('active');
+      });
+      
+      // Mostrar solo el campo seleccionado
+      if (tipoMatriz) {
+        document.getElementById(`matriz-${tipoMatriz}`).classList.add('active');
+      }
+    }
+
+    // Función para obtener la matriz aumentada según el tipo seleccionado
+    function obtenerMatrizDesdeFormulario() {
+      const tipoMatriz = document.getElementById('tipo-matriz').value;
+      
+      if (tipoMatriz === 'personalizada') {
+        return document.getElementById('matriz-aumentada').value;
+      }
+      
+      let matriz = '';
+      
+      switch(tipoMatriz) {
+        case '2x2':
+          matriz = 
+            document.getElementById('m2x2_x1').value + ' ' +
+            document.getElementById('m2x2_y1').value + ' ' +
+            document.getElementById('m2x2_r1').value + '\n' +
+            document.getElementById('m2x2_x2').value + ' ' +
+            document.getElementById('m2x2_y2').value + ' ' +
+            document.getElementById('m2x2_r2').value;
+          break;
+          
+        case '2x3':
+          matriz = 
+            document.getElementById('m2x3_x1').value + ' ' +
+            document.getElementById('m2x3_y1').value + ' ' +
+            document.getElementById('m2x3_z1').value + ' ' +
+            document.getElementById('m2x3_r1').value + '\n' +
+            document.getElementById('m2x3_x2').value + ' ' +
+            document.getElementById('m2x3_y2').value + ' ' +
+            document.getElementById('m2x3_z2').value + ' ' +
+            document.getElementById('m2x3_r2').value;
+          break;
+          
+        case '3x3':
+          matriz = 
+            document.getElementById('m3x3_x1').value + ' ' +
+            document.getElementById('m3x3_y1').value + ' ' +
+            document.getElementById('m3x3_z1').value + ' ' +
+            document.getElementById('m3x3_r1').value + '\n' +
+            document.getElementById('m3x3_x2').value + ' ' +
+            document.getElementById('m3x3_y2').value + ' ' +
+            document.getElementById('m3x3_z2').value + ' ' +
+            document.getElementById('m3x3_r2').value + '\n' +
+            document.getElementById('m3x3_x3').value + ' ' +
+            document.getElementById('m3x3_y3').value + ' ' +
+            document.getElementById('m3x3_z3').value + ' ' +
+            document.getElementById('m3x3_r3').value;
+          break;
+          
+        case '3x4':
+          matriz = 
+            document.getElementById('m3x4_x1').value + ' ' +
+            document.getElementById('m3x4_y1').value + ' ' +
+            document.getElementById('m3x4_z1').value + ' ' +
+            document.getElementById('m3x4_w1').value + ' ' +
+            document.getElementById('m3x4_r1').value + '\n' +
+            document.getElementById('m3x4_x2').value + ' ' +
+            document.getElementById('m3x4_y2').value + ' ' +
+            document.getElementById('m3x4_z2').value + ' ' +
+            document.getElementById('m3x4_w2').value + ' ' +
+            document.getElementById('m3x4_r2').value + '\n' +
+            document.getElementById('m3x4_x3').value + ' ' +
+            document.getElementById('m3x4_y3').value + ' ' +
+            document.getElementById('m3x4_z3').value + ' ' +
+            document.getElementById('m3x4_w3').value + ' ' +
+            document.getElementById('m3x4_r3').value;
+          break;
+          
+        case '4x4':
+          matriz = 
+            document.getElementById('m4x4_x1').value + ' ' +
+            document.getElementById('m4x4_y1').value + ' ' +
+            document.getElementById('m4x4_z1').value + ' ' +
+            document.getElementById('m4x4_w1').value + ' ' +
+            document.getElementById('m4x4_r1').value + '\n' +
+            document.getElementById('m4x4_x2').value + ' ' +
+            document.getElementById('m4x4_y2').value + ' ' +
+            document.getElementById('m4x4_z2').value + ' ' +
+            document.getElementById('m4x4_w2').value + ' ' +
+            document.getElementById('m4x4_r2').value + '\n' +
+            document.getElementById('m4x4_x3').value + ' ' +
+            document.getElementById('m4x4_y3').value + ' ' +
+            document.getElementById('m4x4_z3').value + ' ' +
+            document.getElementById('m4x4_w3').value + ' ' +
+            document.getElementById('m4x4_r3').value + '\n' +
+            document.getElementById('m4x4_x4').value + ' ' +
+            document.getElementById('m4x4_y4').value + ' ' +
+            document.getElementById('m4x4_z4').value + ' ' +
+            document.getElementById('m4x4_w4').value + ' ' +
+            document.getElementById('m4x4_r4').value;
+          break;
+      }
+      
+      return matriz;
+    }
+
+    // Función para calcular sistemas de ecuaciones
+    async function calcularSistemaEcuaciones() {
+      if (!pyodide) {
+        alert("Pyodide aún se está cargando. Por favor, espera unos segundos.");
+        return;
+      }
+
+      const tipoMatriz = document.getElementById('tipo-matriz').value;
+      if (!tipoMatriz) {
+        alert("Por favor, selecciona un tipo de matriz.");
+        return;
+      }
+
+      const matrizTexto = obtenerMatrizDesdeFormulario();
+      const metodo = document.getElementById('metodo-sistema').value;
+      
+      mostrarModal("Calculando...", "<p>Procesando la matriz y aplicando el método seleccionado...</p>");
+
+      try {
+        let code;
+        let titulo = "";
+        
+        if (metodo === 'gauss') {
+          titulo = "Resultados - Eliminación de Gauss";
+          code = `
+import numpy as np
+import matplotlib.pyplot as plt
+from io import BytesIO
+import base64
+
+# Leer matriz aumentada
+A = [list(map(float, row.split())) for row in """${matrizTexto}""".splitlines()]
+A = np.array(A, dtype=float)
+
+n, m = A.shape
+pasos = []
+
+mostrar = lambda M, msg: pasos.append(msg + "\\n" + str(M) + "\\n")
+mostrar(A, "Matriz inicial:")
+
+# Eliminación hacia adelante
+for i in range(n):
+    if A[i,i] == 0:
+        for k in range(i+1, n):
+            if A[k,i] != 0:
+                A[[i,k]] = A[[k,i]]
+                pasos.append(f"Se cambia fila {i+1} con fila {k+1}")
+                break
+    pivote = A[i,i]
+    if pivote == 0:
+        continue
+    A[i] = A[i] / pivote
+    mostrar(A, f"Dividimos fila {i+1} entre {pivote} para hacer pivote = 1")
+    for j in range(i+1, n):
+        factor = A[j,i]
+        A[j] = A[j] - factor*A[i]
+        mostrar(A, f"Eliminamos el valor en fila {j+1}, columna {i+1}")
+
+# Sustitución regresiva
+x = np.zeros(n)
+for i in range(n-1, -1, -1):
+    x[i] = A[i,-1] - np.dot(A[i,i+1:n], x[i+1:n])
+pasos.append("Solución final: " + str(x))
+
+# Graficar si es 2x2 o 3x3
+img = ""
+if n == 2:
+    x_vals = np.linspace(-10,10,400)
+    plt.figure()
+    for i in range(2):
+        a,b,c = A[i,0], A[i,1], A[i,2]
+        if b != 0:
+            y = (c - a*x_vals)/b
+            plt.plot(x_vals,y,label=f"Ecuación {i+1}")
+    plt.legend(); plt.grid();
+    plt.title("Sistema 2x2")
+    buf = BytesIO(); plt.savefig(buf, format='png'); buf.seek(0)
+    img = "data:image/png;base64," + base64.b64encode(buf.read()).decode()
+    plt.close()
+elif n == 3:
+    from mpl_toolkits.mplot3d import Axes3D
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+    x_vals = np.linspace(-10,10,20)
+    y_vals = np.linspace(-10,10,20)
+    X, Y = np.meshgrid(x_vals, y_vals)
+    for i in range(3):
+        a,b,c,d = A[i,0], A[i,1], A[i,2], A[i,3]
+        if c != 0:
+            Z = (d - a*X - b*Y)/c
+            ax.plot_surface(X,Y,Z,alpha=0.3)
+    ax.set_title("Sistema 3x3");
+    buf = BytesIO(); plt.savefig(buf, format='png'); buf.seek(0)
+    img = "data:image/png;base64," + base64.b64encode(buf.read()).decode()
+    plt.close()
+
+"\\n".join(pasos), img
+          `;
+        } else if (metodo === 'gauss-jordan') {
+          titulo = "Resultados - Gauss-Jordan";
+          code = `
+import numpy as np
+import matplotlib.pyplot as plt
+from io import BytesIO
+import base64
+
+# Leer matriz
+A = [list(map(float, row.split())) for row in """${matrizTexto}""".splitlines()]
+A = np.array(A, dtype=float)
+
+n, m = A.shape
+pasos = []
+
+# Mostrar matriz con explicación
+mostrar = lambda M, msg: pasos.append(msg + "\\n" + str(M) + "\\n")
+mostrar(A, "Matriz inicial:")
+
+# Gauss-Jordan
+for i in range(n):
+    if A[i,i] == 0:
+        for k in range(i+1, n):
+            if A[k,i] != 0:
+                A[[i,k]] = A[[k,i]]
+                pasos.append(f"Se cambia fila {i+1} con fila {k+1}")
+                break
+    pivote = A[i,i]
+    A[i] = A[i] / pivote
+    mostrar(A, f"Dividimos fila {i+1} por {pivote} para hacer pivote = 1")
+    for j in range(n):
+        if j != i:
+            factor = A[j,i]
+            A[j] = A[j] - factor*A[i]
+            mostrar(A, f"Quitamos {factor}*fila {i+1} de fila {j+1}")
+
+sol = A[:,-1]
+pasos.append("Solución directa: " + str(sol))
+
+# Graficar si es 2x2 o 3x3
+img = ""
+if n == 2:
+    x = np.linspace(-10,10,400)
+    plt.figure()
+    for i in range(2):
+        a,b,c = A[i,0], A[i,1], A[i,2]
+        if b != 0:
+            y = (c - a*x)/b
+            plt.plot(x,y,label=f"Ecuación {i+1}")
+    plt.legend(); plt.grid();
+    plt.title("Sistema 2x2")
+    buf = BytesIO(); plt.savefig(buf, format='png'); buf.seek(0)
+    img = "data:image/png;base64," + base64.b64encode(buf.read()).decode()
+    plt.close()
+elif n == 3:
+    from mpl_toolkits.mplot3d import Axes3D
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+    x = np.linspace(-10,10,20)
+    y = np.linspace(-10,10,20)
+    X, Y = np.meshgrid(x, y)
+    for i in range(3):
+        a,b,c,d = A[i,0], A[i,1], A[i,2], A[i,3]
+        if c != 0:
+            Z = (d - a*X - b*Y)/c
+            ax.plot_surface(X,Y,Z,alpha=0.3)
+    ax.set_title("Sistema 3x3");
+    buf = BytesIO(); plt.savefig(buf, format='png'); buf.seek(0)
+    img = "data:image/png;base64," + base64.b64encode(buf.read()).decode()
+    plt.close()
+
+"\\n".join(pasos), img
+          `;
+        } else if (metodo === 'lu') {
+          titulo = "Resultados - Descomposición LU";
+          code = `
+import numpy as np
+
+def parse_matrix(s):
+    rows = [r for r in s.splitlines() if r.strip()]
+    M = [list(map(float, r.split())) for r in rows]
+    return np.array(M, dtype=float)
+
+A = parse_matrix("""${matrizTexto}""")
+n, m = A.shape
+if n != m-1:
+    raise Exception('La matriz debe ser n x (n+1) para ser una matriz aumentada')
+
+# Extraer la matriz de coeficientes y el vector b
+b = A[:,-1]
+A = A[:,:-1]
+
+# Preparar salida de texto
+lines = []
+lines.append('Paso 0: Esta es la matriz A que diste:')
+for row in A:
+    lines.append('  ' + '  '.join(f"{x:8.4f}" for x in row))
+lines.append('\\nVector b:')
+for val in b:
+    lines.append('  ' + f"{val:8.4f}")
+
+# Implementar Doolittle con pivot parcial (PLU). Guardamos P si hay intercambios.
+P = np.eye(n)
+L = np.zeros((n,n))
+U = A.copy()
+permutations = []
+
+for k in range(n):
+    # Pivot parcial: buscar fila con mayor |U[i,k]| para i>=k
+    pivot_row = max(range(k, n), key=lambda i: abs(U[i,k]))
+    if abs(U[pivot_row,k]) < 1e-12:
+        lines.append(f'Atención: pivote prácticamente cero en columna {k+1}. La descomposición LU puede fallar.')
+        continue
+    if pivot_row != k:
+        # intercambiar filas en U y en P y en L (parcial)
+        U[[k,pivot_row],:] = U[[pivot_row,k],:]
+        P[[k,pivot_row],:] = P[[pivot_row,k],:]
+        if k>0:
+            L[[k,pivot_row],:k] = L[[pivot_row,k],:k]
+        permutations.append((k+1, pivot_row+1))
+        lines.append(f'Swap: intercambiamos fila {k+1} con fila {pivot_row+1} para pivotar.')
+    # Construir L y actualizar U
+    L[k,k] = 1.0
+    pivot = U[k,k]
+    for i in range(k+1, n):
+        multiplier = U[i,k] / pivot
+        L[i,k] = multiplier
+        U[i,:] = U[i,:] - multiplier * U[k,:]
+    # Mostrar L y U después del paso
+    lines.append(f'Después del paso k={k+1}:')
+    lines.append('L parcial:')
+    for r in L:
+        lines.append('  ' + '  '.join(f"{x:8.4f}" for x in r))
+    lines.append('U parcial:')
+    for r in U:
+        lines.append('  ' + '  '.join(f"{x:8.4f}" for x in r))
+
+# Resultado final
+lines.append('\\nResultado final:')
+lines.append('Matriz P (permutación):')
+for r in P:
+    lines.append('  ' + '  '.join(f"{int(x):1d}" if abs(x-round(x))<1e-9 else f"{x:8.4f}" for x in r))
+lines.append('Matriz L:')
+for r in L:
+    lines.append('  ' + '  '.join(f"{x:8.4f}" for x in r))
+lines.append('Matriz U:')
+for r in U:
+    lines.append('  ' + '  '.join(f"{x:8.4f}" for x in r))
+
+# Resolver A x = b usando PLU: PA = LU -> Ly = Pb -> Ux = y
+Pb = P.dot(b)
+lines.append('\\nResolver sistema usando PLU: Pb es:')
+for val in Pb:
+    lines.append('  ' + f"{val:8.4f}")
+# forward substitution Ly = Pb
+y = np.zeros(n)
+for i in range(n):
+    y[i] = Pb[i] - np.dot(L[i,:i], y[:i])
+lines.append('\\nSolución intermedia y (Ly = Pb):')
+for val in y:
+    lines.append('  ' + f"{val:8.4f}")
+# back substitution Ux = y
+x = np.zeros(n)
+for i in range(n-1, -1, -1):
+    x[i] = (y[i] - np.dot(U[i,i+1:], x[i+1:])) / U[i,i]
+lines.append('\\nSolución final x:')
+for i,val in enumerate(x):
+    lines.append(f'  x{i+1} = {val:12.6f}')
+
+"\\n".join(lines), ""
+          `;
+        }
+
+        const [texto, img] = await pyodide.runPythonAsync(code);
+        mostrarResultados(titulo, texto, img);
+      } catch (err) {
+        mostrarResultados("Error", 'Error: ' + err);
+      }
+    }
+
+    // Función para calcular interpolación
+    async function calcularInterpolacion() {
+      if (!pyodide) {
+        alert("Pyodide aún se está cargando. Por favor, espera unos segundos.");
+        return;
+      }
+
       const puntosX = document.getElementById('puntos-x').value;
       const puntosY = document.getElementById('puntos-y').value;
       const puntoInterpolar = document.getElementById('punto-interpolar').value;
       const metodo = document.getElementById('metodo-interpolacion').value;
       
-      const resultado = `Método: ${metodo.toUpperCase()}
-Puntos X: ${puntosX}
-Puntos Y: ${puntosY}
-Punto a interpolar: ${puntoInterpolar}
+      mostrarModal("Calculando...", "<p>Procesando los puntos y aplicando interpolación...</p>");
 
-Resultado simulado:
-Valor interpolado en x=${puntoInterpolar}: 6.250
+      try {
+        let code;
+        let titulo = "";
+        
+        if (metodo === 'lagrange') {
+          titulo = "Resultados - Interpolación de Lagrange";
+          code = `
+import numpy as np
+import matplotlib.pyplot as plt
+from io import BytesIO
+import base64
 
-Este cálculo se ejecutaría con Python en el backend.`;
-      
-      document.getElementById('output-m2').textContent = resultado;
-      document.getElementById('resultado-m2').style.display = 'block';
+# Convertir puntos de entrada
+x_puntos = [float(x.strip()) for x in """${puntosX}""".split(",")]
+y_puntos = [float(y.strip()) for y in """${puntosY}""".split(",")]
+x_eval = float("""${puntoInterpolar}""")
+
+n = len(x_puntos)
+pasos = []
+
+# Verificar que no hay x duplicados
+if len(set(x_puntos)) != n:
+    raise Exception("ERROR: No se puede interpolar con valores de x repetidos.")
+
+pasos.append("=== INTERPOLACIÓN DE LAGRANGE PASO A PASO ===")
+pasos.append(f"Puntos dados: {list(zip(x_puntos, y_puntos))}")
+pasos.append(f"Punto a interpolar: x = {x_eval}")
+pasos.append("")
+
+# Algoritmo de Lagrange
+resultado = 0.0
+
+for i in range(n):
+    xi = x_puntos[i]
+    yi = y_puntos[i]
+    Li = 1.0
+    
+    pasos.append(f"Punto {i}: (x_{i}={xi}, y_{i}={yi})")
+    
+    for j in range(n):
+        if j == i:
+            continue
+        numerador = (x_eval - x_puntos[j])
+        denominador = (xi - x_puntos[j])
+        factor = numerador / denominador
+        Li *= factor
+        
+        pasos.append(f"  j={j}: (x - x_{j})=({x_eval}-{x_puntos[j]})={numerador}")
+        pasos.append(f"        (x_{i} - x_{j})=({xi}-{x_puntos[j]})={denominador}")
+        pasos.append(f"  Factor = {numerador}/{denominador} = {factor}")
+        pasos.append(f"  L_{i} acumulado = {Li}")
+    
+    contribucion = yi * Li
+    resultado += contribucion
+    pasos.append(f"L_{i}({x_eval}) = {Li}")
+    pasos.append(f"Contribución: y_{i}*L_{i} = {yi}*{Li} = {contribucion}")
+    pasos.append(f"Suma parcial = {resultado}")
+    pasos.append("")
+
+pasos.append("=== RESULTADO FINAL ===")
+pasos.append(f"P({x_eval}) = {resultado}")
+
+# Generar gráfica
+img = ""
+try:
+    x_min = min(x_puntos)
+    x_max = max(x_puntos)
+    margen = (x_max - x_min) * 0.2 if x_max != x_min else 1.0
+    x_vals = np.linspace(x_min - margen, x_max + margen, 300)
+    
+    # Función para evaluar Lagrange sin mostrar pasos
+    def lagrange_eval(x_puntos, y_puntos, x):
+        n = len(x_puntos)
+        resultado = 0.0
+        for i in range(n):
+            Li = 1.0
+            for j in range(n):
+                if j != i:
+                    Li *= (x - x_puntos[j]) / (x_puntos[i] - x_puntos[j])
+            resultado += y_puntos[i] * Li
+        return resultado
+    
+    y_vals = [lagrange_eval(x_puntos, y_puntos, xv) for xv in x_vals]
+    
+    plt.figure(figsize=(10, 6))
+    plt.plot(x_vals, y_vals, label="Polinomio de Lagrange", color="blue", linewidth=2)
+    plt.scatter(x_puntos, y_puntos, color="red", s=100, label="Puntos dados", zorder=5)
+    plt.scatter([x_eval], [resultado], color="green", s=100, label=f"P({x_eval}) = {resultado:.4f}", zorder=5)
+    
+    for i, (xi, yi) in enumerate(zip(x_puntos, y_puntos)):
+        plt.annotate(f"({xi},{yi})", (xi, yi), textcoords="offset points", xytext=(5,5), fontsize=9)
+    
+    plt.title("Interpolación de Lagrange")
+    plt.xlabel("x")
+    plt.ylabel("P(x)")
+    plt.grid(True, alpha=0.3)
+    plt.legend()
+    
+    buf = BytesIO()
+    plt.savefig(buf, format='png', dpi=100, bbox_inches='tight')
+    buf.seek(0)
+    img = "data:image/png;base64," + base64.b64encode(buf.read()).decode()
+    plt.close()
+except Exception as e:
+    pasos.append(f"Nota: No se pudo generar la gráfica: {e}")
+
+"\\n".join(pasos), img
+          `;
+        } else if (metodo === 'newton') {
+          titulo = "Resultados - Diferencias Divididas de Newton";
+          code = `
+import numpy as np
+import matplotlib.pyplot as plt
+from io import BytesIO
+import base64
+
+# Convertir puntos de entrada
+x_puntos = [float(x.strip()) for x in """${puntosX}""".split(",")]
+y_puntos = [float(y.strip()) for y in """${puntosY}""".split(",")]
+x_eval = float("""${puntoInterpolar}""")
+
+n = len(x_puntos)
+pasos = []
+
+# Verificar que no hay x duplicados
+if len(set(x_puntos)) != n:
+    raise Exception("ERROR: No se puede interpolar con valores de x repetidos.")
+
+pasos.append("=== DIFERENCIAS DIVIDIDAS DE NEWTON PASO A PASO ===")
+pasos.append(f"Puntos dados: {list(zip(x_puntos, y_puntos))}")
+pasos.append(f"Punto a interpolar: x = {x_eval}")
+pasos.append("")
+
+# Construir tabla de diferencias divididas CORREGIDA
+tabla = np.zeros((n, n))
+for i in range(n):
+    tabla[i, 0] = y_puntos[i]
+
+pasos.append("Construyendo la tabla de diferencias divididas:")
+pasos.append("Primera columna (diferencias de orden 0):")
+for i in range(n):
+    pasos.append(f"  f[x_{i}] = {y_puntos[i]}")
+
+# Calcular diferencias divididas
+for j in range(1, n):
+    pasos.append(f"")
+    pasos.append(f"--- Diferencias de orden {j} ---")
+    for i in range(n - j):
+        numerador = tabla[i+1, j-1] - tabla[i, j-1]
+        denominador = x_puntos[i+j] - x_puntos[i]
+        tabla[i, j] = numerador / denominador
+        pasos.append(f"f[x_{i},...,x_{i+j}] = (f[x_{i+1},...,x_{i+j-1}] - f[x_{i},...,x_{i+j-1}]) / (x_{i+j} - x_{i})")
+        pasos.append(f"  = ({tabla[i+1, j-1]:.6f} - {tabla[i, j-1]:.6f}) / ({x_puntos[i+j]} - {x_puntos[i]})")
+        pasos.append(f"  = {numerador:.6f} / {denominador:.6f} = {tabla[i, j]:.6f}")
+
+# Mostrar tabla completa
+pasos.append(f"")
+pasos.append("=== TABLA COMPLETA DE DIFERENCIAS DIVIDIDAS ===")
+for i in range(n):
+    fila = f"x_{i} = {x_puntos[i]:.2f}: "
+    for j in range(n-i):
+        fila += f"{tabla[i, j]:.6f}  "
+    pasos.append(fila)
+
+# Aplicar el polinomio de Newton CORREGIDO
+pasos.append(f"")
+pasos.append("=== APLICANDO POLINOMIO DE NEWTON ===")
+resultado = tabla[0, 0]
+pasos.append(f"P({x_eval}) = {resultado:.6f}")
+
+producto = 1.0
+for i in range(1, n):
+    producto *= (x_eval - x_puntos[i-1])
+    termino = tabla[0, i] * producto
+    resultado += termino
+    
+    # Construir la expresión del término
+    expresion = f" + {tabla[0, i]:.6f}"
+    for k in range(i):
+        expresion += f"*(x - {x_puntos[k]:.2f})"
+    
+    pasos.append(f"{expresion}")
+    pasos.append(f"  = {tabla[0, i]:.6f} * {producto:.6f} = {termino:.6f}")
+    pasos.append(f"Suma parcial = {resultado:.6f}")
+
+pasos.append(f"")
+pasos.append("=== RESULTADO FINAL ===")
+pasos.append(f"P({x_eval}) = {resultado:.10f}")
+
+# Generar gráfica CORREGIDA
+img = ""
+try:
+    x_min = min(x_puntos)
+    x_max = max(x_puntos)
+    margen = (x_max - x_min) * 0.2 if x_max != x_min else 1.0
+    x_vals = np.linspace(x_min - margen, x_max + margen, 300)
+    
+    # Función para evaluar Newton CORREGIDA
+    def newton_eval(x_puntos, tabla, x):
+        n = len(x_puntos)
+        resultado = tabla[0, 0]
+        producto = 1.0
+        for i in range(1, n):
+            producto *= (x - x_puntos[i-1])
+            resultado += tabla[0, i] * producto
+        return resultado
+    
+    y_vals = [newton_eval(x_puntos, tabla, xv) for xv in x_vals]
+    
+    plt.figure(figsize=(10, 6))
+    plt.plot(x_vals, y_vals, label="Polinomio de Newton", color="purple", linewidth=2)
+    plt.scatter(x_puntos, y_puntos, color="red", s=100, label="Puntos dados", zorder=5)
+    plt.scatter([x_eval], [resultado], color="green", s=100, label=f"P({x_eval}) = {resultado:.4f}", zorder=5)
+    
+    for i, (xi, yi) in enumerate(zip(x_puntos, y_puntos)):
+        plt.annotate(f"({xi},{yi})", (xi, yi), textcoords="offset points", xytext=(5,5), fontsize=9)
+    
+    plt.title("Interpolación de Newton - Diferencias Divididas")
+    plt.xlabel("x")
+    plt.ylabel("P(x)")
+    plt.grid(True, alpha=0.3)
+    plt.legend()
+    
+    buf = BytesIO()
+    plt.savefig(buf, format='png', dpi=100, bbox_inches='tight')
+    buf.seek(0)
+    img = "data:image/png;base64," + base64.b64encode(buf.read()).decode()
+    plt.close()
+except Exception as e:
+    pasos.append(f"Nota: No se pudo generar la gráfica: {e}")
+
+"\\n".join(pasos), img
+          `;
+        }
+
+        const [texto, img] = await pyodide.runPythonAsync(code);
+        mostrarResultados(titulo, texto, img);
+      } catch (err) {
+        mostrarResultados("Error", 'Error: ' + err);
+      }
     }
 
-    function calcularRaices() {
+    // Función para calcular raíces de ecuaciones (incluye método de la Secante)
+    async function calcularRaices() {
+      if (!pyodide) {
+        alert("Pyodide aún se está cargando. Por favor, espera unos segundos.");
+        return;
+      }
+
       const funcion = document.getElementById('funcion-raiz').value;
+      const derivada = document.getElementById('funcion-derivada-raiz').value;
       const a = document.getElementById('intervalo-a').value;
       const b = document.getElementById('intervalo-b').value;
       const tolerancia = document.getElementById('tolerancia-raiz').value;
       const metodo = document.getElementById('metodo-raiz').value;
       
-      const resultado = `Método: ${metodo.toUpperCase()}
-Función: f(x) = ${funcion}
-Intervalo: [${a}, ${b}]
-Tolerancia: ${tolerancia}
+      mostrarModal("Calculando...", "<p>Procesando la función y aplicando el método seleccionado...</p>");
 
-Resultado simulado:
-Raíz encontrada: x ≈ 2.000
-Iteraciones: 12
-Error: 0.0005
+      try {
+        let code;
+        let titulo = "";
+        
+        if (metodo === 'biseccion') {
+          titulo = "Resultados - Método de Bisección";
+          code = `
+import numpy as np
+import matplotlib.pyplot as plt
+from io import BytesIO
+import base64
 
-Este cálculo se ejecutaría con Python en el backend.`;
-      
-      document.getElementById('output-m3').textContent = resultado;
-      document.getElementById('resultado-m3').style.display = 'block';
+# Función de entrada
+f_str = """${funcion}"""
+f = lambda x: eval(f_str, {"x": x, "np": np})
+
+a = float("""${a}""")
+b = float("""${b}""")
+tol = float("""${tolerancia}""")
+max_iter = 50
+
+pasos = []
+
+pasos.append("🌟 Bienvenido al método de BISECCIÓN 🌟")
+pasos.append("Voy a buscar dónde la función se hace CERO (la raíz).")
+pasos.append(f"Empezamos con el intervalo: a = {a}, b = {b}")
+pasos.append("--------------------------------------------------")
+
+# Verificar condición inicial
+if f(a) * f(b) > 0:
+    pasos.append("⚠️ Error: La función tiene el mismo signo en a y b.")
+    pasos.append("Necesito que f(a) y f(b) tengan signos opuestos.")
+    raiz = None
+    historia = []
+else:
+    historia = []
+    raiz = None
+
+    for i in range(1, max_iter + 1):
+        m = (a + b) / 2  # punto medio
+        fm = f(m)
+
+        pasos.append(f"🔹 Iteración {i}:")
+        pasos.append(f"   a = {a:.6f}, b = {b:.6f}")
+        pasos.append(f"   El punto medio es m = {m:.6f}")
+        pasos.append(f"   f(m) = {fm:.6f}")
+
+        historia.append((a, b, m, fm))
+
+        # Criterio de parada
+        if abs(fm) < tol or (b - a)/2 < tol:
+            pasos.append("✅ ¡Encontré la raíz aproximada!")
+            raiz = m
+            break
+
+        # Revisamos en qué sub-intervalo está la raíz
+        if f(a) * fm < 0:
+            b = m
+            pasos.append("👉 La raíz está entre a y m. Ahora b = m")
+        else:
+            a = m
+            pasos.append("👉 La raíz está entre m y b. Ahora a = m")
+
+        pasos.append("--------------------------------------------------")
+
+    if raiz is not None:
+        pasos.append(f"\\n🌈 La raíz aproximada es: x = {raiz:.6f}")
+        pasos.append(f"f({raiz:.6f}) = {f(raiz):.6f}")
+    else:
+        pasos.append("❌ No se pudo encontrar la raíz en el número máximo de iteraciones")
+
+# Generar gráfica
+img = ""
+try:
+    if raiz is not None:
+        # Crear un rango de valores para x
+        x_min = min(historia[0][0], historia[0][1], raiz) - 1
+        x_max = max(historia[0][0], historia[0][1], raiz) + 1
+        x_vals = np.linspace(x_min, x_max, 400)
+        y_vals = [f(x) for x in x_vals]
+        
+        plt.figure(figsize=(10, 6))
+        
+        # Graficar la función
+        plt.plot(x_vals, y_vals, label=f"f(x) = {f_str}", color="blue", linewidth=2)
+        plt.axhline(0, color="black", linewidth=0.8)  # eje X
+        
+        # Graficar los intervalos y puntos medios
+        for i, (ai, bi, mi, fmi) in enumerate(historia):
+            plt.plot([ai, bi], [0, 0], 'ro-', alpha=0.3, markersize=5)
+            plt.plot(mi, fmi, 'ro', markersize=6)
+            plt.text(mi, fmi, f"{i+1}", fontsize=8, color="red")
+        
+        # Marcar la raíz final
+        plt.plot(raiz, f(raiz), 'go', markersize=8, label=f"Raíz: x ≈ {raiz:.4f}")
+        
+        plt.title("Método de Bisección - Paso a paso")
+        plt.xlabel("x")
+        plt.ylabel("f(x)")
+        plt.grid(True, alpha=0.3)
+        plt.legend()
+        
+        buf = BytesIO()
+        plt.savefig(buf, format='png', dpi=100, bbox_inches='tight')
+        buf.seek(0)
+        img = "data:image/png;base64," + base64.b64encode(buf.read()).decode()
+        plt.close()
+except Exception as e:
+    pasos.append(f"Nota: No se pudo generar la gráfica: {e}")
+
+"\\n".join(pasos), img
+          `;
+        } else if (metodo === 'newton-rapson') {
+          titulo = "Resultados - Método de Newton-Raphson";
+          code = `
+import numpy as np
+import matplotlib.pyplot as plt
+from io import BytesIO
+import base64
+
+# Función de entrada
+f_str = """${funcion}"""
+df_str = """${derivada}"""
+
+f = lambda x: eval(f_str, {"x": x, "np": np})
+df = lambda x: eval(df_str, {"x": x, "np": np})
+
+x0 = float("""${a}""")
+tol = float("""${tolerancia}""")
+max_iter = 50
+
+pasos = []
+
+pasos.append("🌟 Bienvenido al método de NEWTON-RAPHSON 🌟")
+pasos.append("Voy a buscar dónde la función se hace CERO (la raíz).")
+pasos.append(f"Empezamos con el valor inicial: x0 = {x0}")
+pasos.append("--------------------------------------------------")
+
+historia = []
+x = x0
+
+for i in range(1, max_iter + 1):
+    fx = f(x)
+    dfx = df(x)
+
+    if dfx == 0:
+        pasos.append("⚠️ La derivada se volvió cero. No puedo continuar.")
+        raiz = None
+        break
+
+    x_new = x - fx / dfx
+
+    pasos.append(f"🔹 Iteración {i}:")
+    pasos.append(f"   x = {x:.6f}")
+    pasos.append(f"   f(x) = {fx:.6f}")
+    pasos.append(f"   f'(x) = {dfx:.6f}")
+    pasos.append(f"   Nuevo valor x = {x_new:.6f}")
+
+    historia.append((x, fx))
+
+    if abs(x_new - x) < tol:
+        pasos.append("✅ ¡Encontré la raíz aproximada!")
+        x = x_new
+        raiz = x
+        break
+
+    x = x_new
+    pasos.append("--------------------------------------------------")
+
+if 'raiz' not in locals() or raiz is None:
+    pasos.append("❌ No se pudo encontrar la raíz en el número máximo de iteraciones")
+    raiz = None
+else:
+    pasos.append(f"\\n🌈 La raíz aproximada es: x = {raiz:.6f}")
+    pasos.append(f"f({raiz:.6f}) = {f(raiz):.6f}")
+
+# Generar gráfica
+img = ""
+try:
+    if raiz is not None and len(historia) > 0:
+        # Crear un rango de valores para x
+        x_vals = [h[0] for h in historia]
+        x_min = min(x_vals + [raiz]) - 1
+        x_max = max(x_vals + [raiz]) + 1
+        
+        x_range = np.linspace(x_min, x_max, 400)
+        y_range = [f(x) for x in x_range]
+        
+        plt.figure(figsize=(10, 6))
+        
+        # Graficar la función
+        plt.plot(x_range, y_range, label=f"f(x) = {f_str}", color="blue", linewidth=2)
+        plt.axhline(0, color="black", linewidth=0.8)  # eje X
+        
+        # Graficar los puntos de la historia
+        for i, (xi, fxi) in enumerate(historia, start=1):
+            plt.plot(xi, fxi, "ro", markersize=6)
+            plt.text(xi, fxi, f"{i}", fontsize=8, color="blue")
+            
+            # Dibujar línea tangente
+            if i < len(historia):
+                x_next = historia[i][0]
+                # Calcular pendiente en xi
+                m = df(xi)
+                # Ecuación de la recta tangente: y = f(xi) + m*(x - xi)
+                x_tangent = np.linspace(xi - 0.5, xi + 0.5, 50)
+                y_tangent = fxi + m * (x_tangent - xi)
+                plt.plot(x_tangent, y_tangent, 'r--', alpha=0.5, linewidth=1)
+        
+        # Marcar la raíz final
+        plt.plot(raiz, f(raiz), 'go', markersize=8, label=f"Raíz: x ≈ {raiz:.4f}")
+        
+        plt.title("Método de Newton-Raphson - Paso a paso")
+        plt.xlabel("x")
+        plt.ylabel("f(x)")
+        plt.grid(True, alpha=0.3)
+        plt.legend()
+        
+        buf = BytesIO()
+        plt.savefig(buf, format='png', dpi=100, bbox_inches='tight')
+        buf.seek(0)
+        img = "data:image/png;base64," + base64.b64encode(buf.read()).decode()
+        plt.close()
+except Exception as e:
+    pasos.append(f"Nota: No se pudo generar la gráfica: {e}")
+
+"\\n".join(pasos), img
+          `;
+        } else if (metodo === 'secante') {
+          titulo = "Resultados - Método de la Secante";
+          code = `
+import numpy as np
+import matplotlib.pyplot as plt
+from io import BytesIO
+import base64
+
+# Función de entrada
+f_str = """${funcion}"""
+f = lambda x: eval(f_str, {"x": x, "np": np})
+
+x0 = float("""${a}""")
+x1 = float("""${b}""")
+tol = float("""${tolerancia}""")
+max_iter = 50
+
+pasos = []
+
+pasos.append("🌟 Bienvenido al método de la SECANTE 🌟")
+pasos.append("Voy a buscar dónde la función se hace CERO (la raíz).")
+pasos.append(f"Empezamos con: x0 = {x0}, x1 = {x1}")
+pasos.append("--------------------------------------------------")
+
+historia = []
+
+for i in range(1, max_iter + 1):
+    f0 = f(x0)
+    f1 = f(x1)
+
+    if f1 - f0 == 0:
+        pasos.append("⚠️ Error: división por cero en la fórmula de la secante.")
+        raiz = None
+        break
+
+    # Fórmula de la secante
+    x2 = x1 - f1 * (x1 - x0) / (f1 - f0)
+
+    pasos.append(f"🔹 Iteración {i}:")
+    pasos.append(f"   x0 = {x0:.6f}, f(x0) = {f0:.6f}")
+    pasos.append(f"   x1 = {x1:.6f}, f(x1) = {f1:.6f}")
+    pasos.append(f"   Nuevo valor x2 = {x2:.6f}")
+
+    historia.append((x1, f1))
+
+    if abs(x2 - x1) < tol:
+        pasos.append("✅ ¡Encontré la raíz aproximada!")
+        x1 = x2
+        raiz = x1
+        break
+
+    # Avanzamos los puntos
+    x0, x1 = x1, x2
+
+    pasos.append("--------------------------------------------------")
+
+if 'raiz' not in locals() or raiz is None:
+    pasos.append("❌ No se pudo encontrar la raíz en el número máximo de iteraciones")
+    raiz = None
+else:
+    pasos.append(f"\\n🌈 La raíz aproximada es: x = {raiz:.6f}")
+    pasos.append(f"f({raiz:.6f}) = {f(raiz):.6f}")
+
+# Generar gráfica
+img = ""
+try:
+    if raiz is not None and len(historia) > 0:
+        # Crear un rango de valores para x
+        x_vals = [h[0] for h in historia]
+        x_min = min(x_vals + [raiz, x0]) - 1
+        x_max = max(x_vals + [raiz, x0]) + 1
+        
+        x_range = np.linspace(x_min, x_max, 400)
+        y_range = [f(x) for x in x_range]
+        
+        plt.figure(figsize=(10, 6))
+        
+        # Graficar la función
+        plt.plot(x_range, y_range, label=f"f(x) = {f_str}", color="blue", linewidth=2)
+        plt.axhline(0, color="black", linewidth=0.8)  # eje X
+        
+        # Graficar los puntos de la historia
+        for i, (xi, fxi) in enumerate(historia, start=1):
+            plt.plot(xi, fxi, "ro", markersize=6)
+            plt.text(xi, fxi, f"{i}", fontsize=8, color="blue")
+            
+            # Dibujar línea secante
+            if i < len(historia):
+                x_prev = historia[i-1][0] if i > 1 else float("""${a}""")
+                f_prev = historia[i-1][1] if i > 1 else f(float("""${a}"""))
+                
+                # Calcular pendiente de la secante
+                m = (fxi - f_prev) / (xi - x_prev)
+                # Ecuación de la recta secante: y = f(xi) + m*(x - xi)
+                x_secante = np.linspace(min(x_prev, xi) - 0.5, max(x_prev, xi) + 0.5, 50)
+                y_secante = fxi + m * (x_secante - xi)
+                plt.plot(x_secante, y_secante, 'r--', alpha=0.5, linewidth=1)
+        
+        # Marcar la raíz final
+        plt.plot(raiz, f(raiz), 'go', markersize=8, label=f"Raíz: x ≈ {raiz:.4f}")
+        
+        plt.title("Método de la Secante - Paso a paso")
+        plt.xlabel("x")
+        plt.ylabel("f(x)")
+        plt.grid(True, alpha=0.3)
+        plt.legend()
+        
+        buf = BytesIO()
+        plt.savefig(buf, format='png', dpi=100, bbox_inches='tight')
+        buf.seek(0)
+        img = "data:image/png;base64," + base64.b64encode(buf.read()).decode()
+        plt.close()
+except Exception as e:
+    pasos.append(f"Nota: No se pudo generar la gráfica: {e}")
+
+"\\n".join(pasos), img
+          `;
+        }
+
+        const [texto, img] = await pyodide.runPythonAsync(code);
+        mostrarResultados(titulo, texto, img);
+      } catch (err) {
+        mostrarResultados("Error", 'Error: ' + err);
+      }
     }
 
+    // Funciones de cálculo para los otros métodos
     function calcularDerivada() {
       const funcion = document.getElementById('funcion-derivada').value;
       const punto = document.getElementById('punto-derivada').value;
@@ -808,8 +2188,7 @@ Derivada f'(${punto}) ≈ 11.000
 
 Este cálculo se ejecutaría con Python en el backend.`;
       
-      document.getElementById('output-m4').textContent = resultado;
-      document.getElementById('resultado-m4').style.display = 'block';
+      mostrarResultados("Diferenciación Numérica - Resultados", resultado);
     }
 
     function calcularIntegral() {
@@ -829,8 +2208,7 @@ Integral ≈ 2.667
 
 Este cálculo se ejecutaría con Python en el backend.`;
       
-      document.getElementById('output-m5').textContent = resultado;
-      document.getElementById('resultado-m5').style.display = 'block';
+      mostrarResultados("Integración Numérica - Resultados", resultado);
     }
 
     function calcularEDO() {
@@ -852,8 +2230,7 @@ y(${xf}) ≈ 11.389
 
 Este cálculo se ejecutaría con Python en el backend.`;
       
-      document.getElementById('output-m6').textContent = resultado;
-      document.getElementById('resultado-m6').style.display = 'block';
+      mostrarResultados("Problemas de Valor Inicial - Resultados", resultado);
     }
 
     function ejecutarPython() {
@@ -868,8 +2245,7 @@ ${codigo}
 Nota: En una implementación real, este código se enviaría a un servidor
 con Python y matplotlib para generar las gráficas.`;
       
-      document.getElementById('output-python').textContent = resultado;
-      document.getElementById('resultado-python').style.display = 'block';
+      mostrarResultados("Ejecución de Python - Resultados", resultado);
     }
   </script>
 </body>
