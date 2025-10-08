@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <link rel="shortcut icon" href="./imagenes/logo.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cálculos - Métodos Numéricos</title>
   <style>
@@ -866,7 +867,7 @@
           </form>
         </div>
 
-        <!-- Método 3: Raíces de Ecuaciones -->
+        <!-- Método 3: Raíces de Ecuaciones (INCLUYE MÉTODO DE LA SECANTE) -->
         <div class="calculo-card" data-id="m3">
           <div class="calculo-icono">
             <i class="fa-solid fa-square-root-variable"></i>
@@ -875,11 +876,11 @@
           <form class="metodo-form" data-metodo="biseccion">
             <div class="form-group">
               <label for="funcion-raiz">Función f(x):</label>
-              <input type="text" id="funcion-raiz" placeholder="x**2 - 4" value="x**3 - x - 2">
+              <input type="text" id="funcion-raiz" placeholder="x**2 - 4" value="np.sin(x) - 0.5">
             </div>
             <div class="form-group">
               <label for="funcion-derivada-raiz">Derivada f'(x) (para Newton-Raphson):</label>
-              <input type="text" id="funcion-derivada-raiz" placeholder="2*x" value="3*x**2 - 1">
+              <input type="text" id="funcion-derivada-raiz" placeholder="2*x" value="np.cos(x)">
             </div>
             <div class="form-group">
               <label for="intervalo-a">Valor inicial x₀ (para Newton) / a (para Bisección y Secante):</label>
@@ -907,7 +908,7 @@
           </form>
         </div>
 
-        <!-- Método 4: Diferenciación Numérica -->
+        <!-- Método 4: Diferenciación Numérica (ACTUALIZADO) -->
         <div class="calculo-card" data-id="m4">
           <div class="calculo-icono">
             <i class="fa-solid fa-calculator"></i>
@@ -916,15 +917,19 @@
           <form class="metodo-form" data-metodo="diferenciacion">
             <div class="form-group">
               <label for="funcion-derivada">Función f(x):</label>
-              <input type="text" id="funcion-derivada" placeholder="x**3 + 2*x**2 - 5*x + 1" value="x**3 + 2*x**2 - 5*x + 1">
+              <input type="text" id="funcion-derivada" placeholder="np.sin(x)" value="np.sin(x)">
             </div>
             <div class="form-group">
-              <label for="punto-derivada">Punto x₀:</label>
-              <input type="number" id="punto-derivada" step="any" placeholder="2" value="2">
+              <label for="intervalo-a-derivada">Valor inicial del intervalo (a):</label>
+              <input type="number" id="intervalo-a-derivada" step="any" placeholder="0" value="0">
             </div>
             <div class="form-group">
-              <label for="h-derivada">Valor de h:</label>
-              <input type="number" id="h-derivada" step="any" placeholder="0.001" value="0.001">
+              <label for="intervalo-b-derivada">Valor final del intervalo (b):</label>
+              <input type="number" id="intervalo-b-derivada" step="any" placeholder="6.28" value="6.28">
+            </div>
+            <div class="form-group">
+              <label for="n-puntos-derivada">Número de puntos:</label>
+              <input type="number" id="n-puntos-derivada" placeholder="100" value="100">
             </div>
             <div class="form-group">
               <label for="metodo-derivada">Método:</label>
@@ -940,7 +945,7 @@
           </form>
         </div>
 
-        <!-- Método 5: Integración Numérica -->
+        <!-- Método 5: Integración Numérica (ACTUALIZADO CON REGLA DEL TRAPECIO) -->
         <div class="calculo-card" data-id="m5">
           <div class="calculo-icono">
             <i class="fa-solid fa-integral"></i>
@@ -949,7 +954,7 @@
           <form class="metodo-form" data-metodo="integracion">
             <div class="form-group">
               <label for="funcion-integral">Función f(x):</label>
-              <input type="text" id="funcion-integral" placeholder="x**2" value="x**2">
+              <input type="text" id="funcion-integral" placeholder="np.sin(x)" value="np.sin(x)">
             </div>
             <div class="form-group">
               <label for="limite-a">Límite inferior a:</label>
@@ -957,11 +962,11 @@
             </div>
             <div class="form-group">
               <label for="limite-b">Límite superior b:</label>
-              <input type="number" id="limite-b" step="any" placeholder="2" value="2">
+              <input type="number" id="limite-b" step="any" placeholder="3.14" value="3.14">
             </div>
             <div class="form-group">
               <label for="n-integral">Número de subintervalos n:</label>
-              <input type="number" id="n-integral" placeholder="100" value="100">
+              <input type="number" id="n-integral" placeholder="10" value="10">
             </div>
             <div class="form-group">
               <label for="metodo-integral">Método:</label>
@@ -1046,13 +1051,42 @@ plt.grid(True)
 plt.show()" rows="10">import matplotlib.pyplot as plt
 import numpy as np
 
-# Ejemplo: Gráfica de una función
-x = np.linspace(-5, 5, 100)
-y = x**2
+# Definir la función f(x) que queremos resolver
+def f(x):
+    return np.sin(x) - 0.5  # La función f(x) = sin(x) - 0.5
 
-plt.figure(figsize=(8, 6))
-plt.plot(x, y, 'b-', linewidth=2)
-plt.title('Gráfica de y = x²')
+# Método de la secante
+def secante(f, x0, x1, tol=1e-6, max_iter=100):
+    iteraciones = 0
+    while abs(x1 - x0) > tol and iteraciones < max_iter:
+        # Aplicamos la fórmula de la secante
+        x2 = x1 - f(x1) * (x1 - x0) / (f(x1) - f(x0))
+        # Actualizamos los puntos
+        x0, x1 = x1, x2
+        iteraciones += 1
+    return x1
+
+# Solicitar al usuario los puntos iniciales
+x0 = float(input("Introduce el primer valor inicial (x0): "))
+x1 = float(input("Introduce el segundo valor inicial (x1): "))
+
+# Encontramos la raíz usando el método de la secante
+raiz = secante(f, x0, x1)
+
+# Mostrar el resultado
+print(f"\nLa raíz aproximada es: {raiz}")
+
+# Graficar la función para ver cómo se comporta
+x = np.linspace(0, 2*np.pi, 400)
+y = f(x)
+
+plt.plot(x, y, label="f(x) = sin(x) - 0.5")
+plt.axhline(0, color='black',linewidth=1)  # Línea horizontal en y=0
+plt.axvline(raiz, color='r', linestyle='--', label=f"Raíz aproximada: {raiz:.5f}")
+plt.title('Método de la Secante para encontrar la raíz de f(x) = sin(x) - 0.5')
+plt.xlabel('x')
+plt.ylabel('f(x)')
+plt.legend()
 plt.grid(True)
 plt.show()</textarea>
           </div>
@@ -1067,7 +1101,7 @@ plt.show()</textarea>
 
   <!-- FOOTER -->
   <footer>
-    <p>© 2023 Métodos Numéricos - Universidad Nacional</p>
+    <p>© 2025 Métodos Numéricos - Universidad Mariana</p>
   </footer>
 
   <!-- Ventanas modales para resultados -->
@@ -1801,7 +1835,7 @@ except Exception as e:
       }
     }
 
-    // Función para calcular raíces de ecuaciones (incluye método de la Secante)
+    // Función para calcular raíces de ecuaciones (INCLUYE MÉTODO DE LA SECANTE)
     async function calcularRaices() {
       if (!pyodide) {
         alert("Pyodide aún se está cargando. Por favor, espera unos segundos.");
@@ -2171,46 +2205,536 @@ except Exception as e:
       }
     }
 
-    // Funciones de cálculo para los otros métodos
-    function calcularDerivada() {
+    // Función para calcular derivada numérica (ACTUALIZADA CON MÉTODO HACIA ATRÁS COMPLETO)
+    async function calcularDerivada() {
+      if (!pyodide) {
+        alert("Pyodide aún se está cargando. Por favor, espera unos segundos.");
+        return;
+      }
+
       const funcion = document.getElementById('funcion-derivada').value;
-      const punto = document.getElementById('punto-derivada').value;
-      const h = document.getElementById('h-derivada').value;
+      const a = document.getElementById('intervalo-a-derivada').value;
+      const b = document.getElementById('intervalo-b-derivada').value;
+      const n = document.getElementById('n-puntos-derivada').value;
       const metodo = document.getElementById('metodo-derivada').value;
       
-      const resultado = `Método: ${metodo.toUpperCase()}
-Función: f(x) = ${funcion}
-Punto: x = ${punto}
-h = ${h}
+      mostrarModal("Calculando...", "<p>Procesando la función y aplicando diferenciación numérica...</p>");
 
-Resultado simulado:
-Derivada f'(${punto}) ≈ 11.000
+      try {
+        let code;
+        let titulo = "";
+        
+        if (metodo === 'adelante') {
+          titulo = "Resultados - Diferenciación Numérica Hacia Adelante";
+          code = `
+import numpy as np
+import matplotlib.pyplot as plt
+from io import BytesIO
+import base64
 
-Este cálculo se ejecutaría con Python en el backend.`;
-      
-      mostrarResultados("Diferenciación Numérica - Resultados", resultado);
+# === MÉTODO DE DIFERENCIACIÓN NUMÉRICA HACIA ADELANTE ===
+
+# Paso 1: Definir la función a derivar
+def f(x):
+    return ${funcion}  # Función proporcionada por el usuario
+
+# Paso 2: Obtener parámetros del usuario
+a = float("""${a}""")
+b = float("""${b}""")
+n = int("""${n}""")
+
+# Paso 3: Crear los puntos y calcular los valores de la función
+x = np.linspace(a, b, n)
+y = f(x)
+
+# Paso 4: Calcular la derivada numérica por el método hacia adelante
+h = x[1] - x[0]
+dy_dx = np.zeros(n)
+for i in range(n - 1):
+    dy_dx[i] = (y[i + 1] - y[i]) / h
+dy_dx[-1] = np.nan  # No se puede calcular en el último punto
+
+# Paso 5: Mostrar resultados
+resultados = []
+resultados.append("=== RESULTADOS DEL MÉTODO HACIA ADELANTE ===")
+resultados.append(f"Función: f(x) = ${funcion}")
+resultados.append(f"Intervalo: [{a}, {b}]")
+resultados.append(f"Número de puntos: {n}")
+resultados.append(f"Paso h: {h:.6f}")
+resultados.append("")
+resultados.append("x\\t\\tf(x)\\t\\tf'(x) aproximada")
+resultados.append("-" * 50)
+for i in range(n - 1):
+    resultados.append(f"{x[i]:.4f}\\t\\t{y[i]:.4f}\\t\\t{dy_dx[i]:.4f}")
+resultados.append(f"{x[-1]:.4f}\\t\\t{y[-1]:.4f}\\t\\tNo calculable")
+
+# Paso 6: Graficar función y derivada
+plt.figure(figsize=(10,5))
+plt.plot(x, y, 'b-', label='f(x)', linewidth=2)
+plt.plot(x, dy_dx, 'r--', label="Derivada hacia adelante f'(x)", linewidth=2)
+plt.title("Diferenciación Numérica - Método Hacia Adelante")
+plt.xlabel("x")
+plt.ylabel("Valor")
+plt.legend()
+plt.grid(True)
+
+# Guardar gráfica como imagen
+buf = BytesIO()
+plt.savefig(buf, format='png', dpi=100, bbox_inches='tight')
+buf.seek(0)
+img = "data:image/png;base64," + base64.b64encode(buf.read()).decode()
+plt.close()
+
+"\\n".join(resultados), img
+          `;
+        } else if (metodo === 'atras') {
+          titulo = "Resultados - Diferenciación Numérica Hacia Atrás";
+          code = `
+import numpy as np
+import matplotlib.pyplot as plt
+from io import BytesIO
+import base64
+
+# === MÉTODO DE DIFERENCIACIÓN NUMÉRICA HACIA ATRÁS ===
+
+# Paso 1: Definir la función (puedes cambiarla)
+def f(x):
+    return ${funcion}
+
+# Derivada exacta (para comparar)
+def f_prime_exact(x):
+    # Calcular derivada exacta usando sympy o manualmente
+    # Para funciones comunes, definimos manualmente
+    if "${funcion}" == "np.sin(x)":
+        return np.cos(x)
+    elif "${funcion}" == "np.cos(x)":
+        return -np.sin(x)
+    elif "${funcion}" == "np.exp(x)":
+        return np.exp(x)
+    elif "${funcion}" == "x**2":
+        return 2*x
+    elif "${funcion}" == "x**3":
+        return 3*x**2
+    else:
+        # Para otras funciones, usar diferencia centrada como aproximación
+        h_small = 1e-8
+        return (f(x + h_small) - f(x - h_small)) / (2 * h_small)
+
+# Paso 2: Parámetros del intervalo
+a = float("""${a}""")
+b = float("""${b}""")
+n = int("""${n}""")  # número de puntos
+
+# Paso 3: Crear puntos y valores
+x = np.linspace(a, b, n)
+y = f(x)
+
+# Paso 4: Calcular derivada hacia atrás
+h = x[1] - x[0]
+dy_dx = np.zeros(n)
+dy_dx[0] = np.nan  # no se puede calcular en el primer punto
+for i in range(1, n):
+    dy_dx[i] = (y[i] - y[i - 1]) / h
+
+# Paso 5: Derivada exacta y error
+y_prime_exact = f_prime_exact(x)
+error = np.abs(dy_dx - y_prime_exact)
+
+# Paso 6: Mostrar resultados en algunos puntos
+resultados = []
+resultados.append("=== RESULTADOS DEL MÉTODO HACIA ATRÁS ===")
+resultados.append(f"Función: f(x) = ${funcion}")
+resultados.append(f"Intervalo: [{a}, {b}]")
+resultados.append(f"Número de puntos: {n}")
+resultados.append(f"Paso h: {h:.6f}")
+resultados.append("")
+resultados.append(" x        f'(x) exacta     f'(x) numérica     error")
+resultados.append("-" * 60)
+
+# Mostrar algunos puntos representativos
+indices_muestra = [1, 2, 10, min(50, n-1), min(98, n-1)]
+for i in indices_muestra:
+    if i < n:
+        resultados.append(f"{x[i]:.4f}   {y_prime_exact[i]:.6f}          {dy_dx[i]:.6f}        {error[i]:.6f}")
+
+# Paso 7: Graficar función y derivadas
+plt.figure(figsize=(12, 8))
+
+# Subplot 1: Función y derivadas
+plt.subplot(2, 1, 1)
+plt.plot(x, y, 'b-', label='f(x)', linewidth=2)
+plt.plot(x, y_prime_exact, 'k-', label='Derivada exacta', linewidth=2)
+plt.plot(x, dy_dx, 'r--', label="Derivada numérica (hacia atrás)", linewidth=2)
+plt.title("Diferenciación Numérica - Método Hacia Atrás")
+plt.xlabel("x")
+plt.ylabel("Valor")
+plt.legend()
+plt.grid(True)
+
+# Subplot 2: Error
+plt.subplot(2, 1, 2)
+plt.plot(x[1:], error[1:], 'm-', linewidth=2)
+plt.title("Error absoluto |f'numérica - f'exacta| (Método Hacia Atrás)")
+plt.xlabel("x")
+plt.ylabel("Error absoluto")
+plt.grid(True)
+
+plt.tight_layout()
+
+# Guardar gráfica como imagen
+buf = BytesIO()
+plt.savefig(buf, format='png', dpi=100, bbox_inches='tight')
+buf.seek(0)
+img = "data:image/png;base64," + base64.b64encode(buf.read()).decode()
+plt.close()
+
+"\\n".join(resultados), img
+          `;
+        } else if (metodo === 'centrada') {
+          titulo = "Resultados - Diferenciación Numérica Centrada";
+          code = `
+import numpy as np
+import matplotlib.pyplot as plt
+from io import BytesIO
+import base64
+
+# === MÉTODO DE DIFERENCIACIÓN NUMÉRICA CENTRADA ===
+
+# Paso 1: Definir la función a derivar
+def f(x):
+    return ${funcion}  # Función proporcionada por el usuario
+
+# Paso 2: Obtener parámetros del usuario
+a = float("""${a}""")
+b = float("""${b}""")
+n = int("""${n}""")
+
+# Paso 3: Crear los puntos y calcular los valores de la función
+x = np.linspace(a, b, n)
+y = f(x)
+
+# Paso 4: Calcular la derivada numérica por el método centrado
+h = x[1] - x[0]
+dy_dx = np.zeros(n)
+dy_dx[0] = np.nan  # No se puede calcular en el primer punto
+dy_dx[-1] = np.nan  # No se puede calcular en el último punto
+for i in range(1, n - 1):
+    dy_dx[i] = (y[i + 1] - y[i - 1]) / (2 * h)
+
+# Paso 5: Mostrar resultados
+resultados = []
+resultados.append("=== RESULTADOS DEL MÉTODO CENTRADO ===")
+resultados.append(f"Función: f(x) = ${funcion}")
+resultados.append(f"Intervalo: [{a}, {b}]")
+resultados.append(f"Número de puntos: {n}")
+resultados.append(f"Paso h: {h:.6f}")
+resultados.append("")
+resultados.append("x\\t\\tf(x)\\t\\tf'(x) aproximada")
+resultados.append("-" * 50)
+resultados.append(f"{x[0]:.4f}\\t\\t{y[0]:.4f}\\t\\tNo calculable")
+for i in range(1, n - 1):
+    resultados.append(f"{x[i]:.4f}\\t\\t{y[i]:.4f}\\t\\t{dy_dx[i]:.4f}")
+resultados.append(f"{x[-1]:.4f}\\t\\t{y[-1]:.4f}\\t\\tNo calculable")
+
+# Paso 6: Graficar función y derivada
+plt.figure(figsize=(10,5))
+plt.plot(x, y, 'b-', label='f(x)', linewidth=2)
+plt.plot(x, dy_dx, 'r--', label="Derivada centrada f'(x)", linewidth=2)
+plt.title("Diferenciación Numérica - Método Centrado")
+plt.xlabel("x")
+plt.ylabel("Valor")
+plt.legend()
+plt.grid(True)
+
+# Guardar gráfica como imagen
+buf = BytesIO()
+plt.savefig(buf, format='png', dpi=100, bbox_inches='tight')
+buf.seek(0)
+img = "data:image/png;base64," + base64.b64encode(buf.read()).decode()
+plt.close()
+
+"\\n".join(resultados), img
+          `;
+        }
+
+        const [texto, img] = await pyodide.runPythonAsync(code);
+        mostrarResultados(titulo, texto, img);
+      } catch (err) {
+        mostrarResultados("Error", 'Error: ' + err);
+      }
     }
 
-    function calcularIntegral() {
+    // Función para calcular integral numérica (ACTUALIZADA CON REGLA DEL TRAPECIO COMPLETA)
+    async function calcularIntegral() {
+      if (!pyodide) {
+        alert("Pyodide aún se está cargando. Por favor, espera unos segundos.");
+        return;
+      }
+
       const funcion = document.getElementById('funcion-integral').value;
       const a = document.getElementById('limite-a').value;
       const b = document.getElementById('limite-b').value;
       const n = document.getElementById('n-integral').value;
       const metodo = document.getElementById('metodo-integral').value;
       
-      const resultado = `Método: ${metodo.toUpperCase()}
-Función: f(x) = ${funcion}
-Límites: [${a}, ${b}]
-Subintervalos: n = ${n}
+      mostrarModal("Calculando...", "<p>Procesando la función y aplicando integración numérica...</p>");
 
-Resultado simulado:
-Integral ≈ 2.667
+      try {
+        let code;
+        let titulo = "";
+        
+        if (metodo === 'trapecio') {
+          titulo = "Resultados - Regla del Trapecio";
+          code = `
+import numpy as np
+import matplotlib.pyplot as plt
+from io import BytesIO
+import base64
 
-Este cálculo se ejecutaría con Python en el backend.`;
-      
-      mostrarResultados("Integración Numérica - Resultados", resultado);
+# === MÉTODO DE INTEGRACIÓN NUMÉRICA: REGLA DEL TRAPECIO ===
+
+# Paso 1: Definir la función (puedes cambiarla)
+def f(x):
+    return ${funcion}
+
+# Función para calcular integral exacta (para comparar)
+def integral_exacta(a, b):
+    # Para funciones comunes, definimos manualmente la integral
+    if "${funcion}" == "np.sin(x)":
+        return -np.cos(b) + np.cos(a)
+    elif "${funcion}" == "np.cos(x)":
+        return np.sin(b) - np.sin(a)
+    elif "${funcion}" == "np.exp(x)":
+        return np.exp(b) - np.exp(a)
+    elif "${funcion}" == "x**2":
+        return (b**3 - a**3) / 3
+    elif "${funcion}" == "x**3":
+        return (b**4 - a**4) / 4
+    else:
+        # Para otras funciones, usar cuadratura adaptativa simple
+        # Esta es una aproximación, no es exacta
+        x_fine = np.linspace(a, b, 1000)
+        y_fine = f(x_fine)
+        return np.trapz(y_fine, x_fine)
+
+# Paso 2: Ingreso de datos
+a = float("""${a}""")
+b = float("""${b}""")
+n = int("""${n}""")
+
+# Paso 3: Crear puntos y valores
+x = np.linspace(a, b, n + 1)
+y = f(x)
+h = (b - a) / n
+
+# Paso 4: Aplicar la fórmula del trapecio
+# I = h/2 * [f(x0) + 2Σf(xi) + f(xn)]
+I = (h / 2) * (y[0] + 2 * np.sum(y[1:-1]) + y[-1])
+
+# Paso 5: Comparar con la integral exacta
+I_exact = integral_exacta(a, b)
+error = abs(I - I_exact)
+
+# Paso 6: Mostrar resultados
+resultados = []
+resultados.append("=== RESULTADOS REGLA DEL TRAPECIO ===")
+resultados.append(f"Función: f(x) = ${funcion}")
+resultados.append(f"Intervalo: [{a}, {b}] con n = {n} subintervalos")
+resultados.append(f"Paso h: {h:.6f}")
+resultados.append("")
+resultados.append(f"Valor aproximado: {I:.8f}")
+resultados.append(f"Valor exacto:      {I_exact:.8f}")
+resultados.append(f"Error absoluto:    {error:.2e}")
+resultados.append("")
+resultados.append("Fórmula aplicada:")
+resultados.append(f"I = (h/2) * [f(x₀) + 2Σf(xᵢ) + f(xₙ)]")
+resultados.append(f"  = ({h:.4f}/2) * [f({a:.4f}) + 2Σf(xᵢ) + f({b:.4f})]")
+resultados.append(f"  = {I:.8f}")
+
+# Paso 7: Graficar función y trapecios
+x_plot = np.linspace(a, b, 200)
+y_plot = f(x_plot)
+
+plt.figure(figsize=(12, 8))
+
+# Subplot 1: Función y área aproximada
+plt.subplot(2, 1, 1)
+plt.plot(x_plot, y_plot, 'b', label='f(x)', linewidth=2)
+plt.fill_between(x, 0, y, color='orange', alpha=0.3, label='Área aproximada (Trapecio)')
+
+# Dibujar los trapecios
+for i in range(n):
+    x_trap = [x[i], x[i+1], x[i+1], x[i]]
+    y_trap = [0, 0, y[i+1], y[i]]
+    plt.fill(x_trap, y_trap, 'orange', alpha=0.2)
+    plt.plot([x[i], x[i]], [0, y[i]], 'k--', alpha=0.5, linewidth=0.8)
+    plt.plot([x[i+1], x[i+1]], [0, y[i+1]], 'k--', alpha=0.5, linewidth=0.8)
+
+plt.title("Integración Numérica - Regla del Trapecio")
+plt.xlabel("x")
+plt.ylabel("f(x)")
+plt.legend()
+plt.grid(True)
+
+# Subplot 2: Error por subintervalo
+plt.subplot(2, 1, 2)
+errores_por_intervalo = []
+for i in range(n):
+    # Calcular el área exacta del subintervalo
+    area_exacta_sub = integral_exacta(x[i], x[i+1])
+    # Calcular el área aproximada del subintervalo
+    area_aprox_sub = (h / 2) * (y[i] + y[i+1])
+    error_sub = abs(area_exacta_sub - area_aprox_sub)
+    errores_por_intervalo.append(error_sub)
+
+x_centros = [(x[i] + x[i+1]) / 2 for i in range(n)]
+plt.bar(x_centros, errores_por_intervalo, width=h*0.8, alpha=0.7, color='red')
+plt.title("Error por subintervalo")
+plt.xlabel("x")
+plt.ylabel("Error absoluto")
+plt.grid(True, alpha=0.3)
+
+plt.tight_layout()
+
+# Guardar gráfica como imagen
+buf = BytesIO()
+plt.savefig(buf, format='png', dpi=100, bbox_inches='tight')
+buf.seek(0)
+img = "data:image/png;base64," + base64.b64encode(buf.read()).decode()
+plt.close()
+
+"\\n".join(resultados), img
+          `;
+        } else if (metodo === 'simpson13') {
+          titulo = "Resultados - Regla de Simpson 1/3";
+          code = `
+import numpy as np
+import matplotlib.pyplot as plt
+from io import BytesIO
+import base64
+
+# === MÉTODO DE INTEGRACIÓN NUMÉRICA: SIMPSON 1/3 ===
+
+def f(x):
+    return ${funcion}
+
+a = float("""${a}""")
+b = float("""${b}""")
+n = int("""${n}""")
+
+# Verificar que n es par para Simpson 1/3
+if n % 2 != 0:
+    n = n + 1  # Hacer n par
+
+x = np.linspace(a, b, n + 1)
+y = f(x)
+h = (b - a) / n
+
+# Aplicar fórmula de Simpson 1/3
+I = (h / 3) * (y[0] + y[-1] + 4 * np.sum(y[1:-1:2]) + 2 * np.sum(y[2:-1:2]))
+
+resultados = []
+resultados.append("=== RESULTADOS REGLA DE SIMPSON 1/3 ===")
+resultados.append(f"Función: f(x) = ${funcion}")
+resultados.append(f"Intervalo: [{a}, {b}] con n = {n} subintervalos")
+resultados.append(f"Paso h: {h:.6f}")
+resultados.append("")
+resultados.append(f"Valor aproximado: {I:.8f}")
+resultados.append("")
+resultados.append("Fórmula aplicada:")
+resultados.append(f"I = (h/3) * [f(x₀) + f(xₙ) + 4Σf(x_impares) + 2Σf(x_pares)]")
+
+# Graficar
+x_plot = np.linspace(a, b, 200)
+y_plot = f(x_plot)
+
+plt.figure(figsize=(10, 6))
+plt.plot(x_plot, y_plot, 'b-', label='f(x)', linewidth=2)
+plt.fill_between(x, 0, y, color='green', alpha=0.3, label='Área aproximada (Simpson 1/3)')
+plt.title("Integración Numérica - Regla de Simpson 1/3")
+plt.xlabel("x")
+plt.ylabel("f(x)")
+plt.legend()
+plt.grid(True)
+
+buf = BytesIO()
+plt.savefig(buf, format='png', dpi=100, bbox_inches='tight')
+buf.seek(0)
+img = "data:image/png;base64," + base64.b64encode(buf.read()).decode()
+plt.close()
+
+"\\n".join(resultados), img
+          `;
+        } else if (metodo === 'simpson38') {
+          titulo = "Resultados - Regla de Simpson 3/8";
+          code = `
+import numpy as np
+import matplotlib.pyplot as plt
+from io import BytesIO
+import base64
+
+# === MÉTODO DE INTEGRACIÓN NUMÉRICA: SIMPSON 3/8 ===
+
+def f(x):
+    return ${funcion}
+
+a = float("""${a}""")
+b = float("""${b}""")
+n = int("""${n}""")
+
+# Verificar que n es múltiplo de 3 para Simpson 3/8
+if n % 3 != 0:
+    n = n + (3 - n % 3)  # Hacer n múltiplo de 3
+
+x = np.linspace(a, b, n + 1)
+y = f(x)
+h = (b - a) / n
+
+# Aplicar fórmula de Simpson 3/8
+I = (3 * h / 8) * (y[0] + y[-1] + 3 * np.sum(y[1:-1:3] + y[2:-1:3]) + 2 * np.sum(y[3:-1:3]))
+
+resultados = []
+resultados.append("=== RESULTADOS REGLA DE SIMPSON 3/8 ===")
+resultados.append(f"Función: f(x) = ${funcion}")
+resultados.append(f"Intervalo: [{a}, {b}] con n = {n} subintervalos")
+resultados.append(f"Paso h: {h:.6f}")
+resultados.append("")
+resultados.append(f"Valor aproximado: {I:.8f}")
+resultados.append("")
+resultados.append("Fórmula aplicada:")
+resultados.append(f"I = (3h/8) * [f(x₀) + f(xₙ) + 3Σ(f(x_{i+1}) + f(x_{i+2})) + 2Σf(x_{i+3})]")
+
+# Graficar
+x_plot = np.linspace(a, b, 200)
+y_plot = f(x_plot)
+
+plt.figure(figsize=(10, 6))
+plt.plot(x_plot, y_plot, 'b-', label='f(x)', linewidth=2)
+plt.fill_between(x, 0, y, color='purple', alpha=0.3, label='Área aproximada (Simpson 3/8)')
+plt.title("Integración Numérica - Regla de Simpson 3/8")
+plt.xlabel("x")
+plt.ylabel("f(x)")
+plt.legend()
+plt.grid(True)
+
+buf = BytesIO()
+plt.savefig(buf, format='png', dpi=100, bbox_inches='tight')
+buf.seek(0)
+img = "data:image/png;base64," + base64.b64encode(buf.read()).decode()
+plt.close()
+
+"\\n".join(resultados), img
+          `;
+        }
+
+        const [texto, img] = await pyodide.runPythonAsync(code);
+        mostrarResultados(titulo, texto, img);
+      } catch (err) {
+        mostrarResultados("Error", 'Error: ' + err);
+      }
     }
 
+    // Funciones de cálculo para los otros métodos
     function calcularEDO() {
       const funcion = document.getElementById('funcion-edo').value;
       const condicion = document.getElementById('condicion-inicial').value;
