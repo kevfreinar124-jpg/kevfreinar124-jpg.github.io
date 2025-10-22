@@ -1,0 +1,1529 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <link rel="shortcut icon" href="./imagenes/logo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ejercicios - Métodos Numéricos</title>
+  <style>
+    /* ====== RESET & BASE ====== */
+    * { 
+      box-sizing: border-box; 
+      margin: 0; 
+      padding: 0; 
+    }
+
+    html, body { 
+      height: 100%; 
+    }
+
+    body {
+      font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: linear-gradient(180deg, #f6fbff 0%, #eef6ff 100%);
+      color: #08304b;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      line-height: 1.6;
+    }
+
+    /* ====== HEADER ====== */
+    header {
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      color: #fff;
+      padding: 1.6rem 1rem;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 6px 18px rgba(37, 17, 103, 0.12);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    header h1 { 
+      font-size: 2.2rem; 
+      letter-spacing: 0.4px; 
+      margin: 0;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    header p { 
+      font-size: 1rem; 
+      opacity: 0.92; 
+      margin-top: 0.5rem;
+      max-width: 600px;
+    }
+
+    /* ====== NAV ====== */
+    nav { 
+      background: linear-gradient(135deg, #00509d, #003f88);
+      padding: 0.8rem 0;
+      width: 100%;
+    }
+
+    nav ul {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+      padding: 0.6rem 1rem;
+      flex-wrap: wrap;
+      list-style: none;
+      margin: 0;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      padding: 0.7rem 1.2rem;
+      border-radius: 12px;
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(4px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    nav a.activo {
+      background: #a9d6e5;
+      color: #0b3b67;
+    }
+
+    .menu-toggle {
+      position: absolute;
+      right: 1rem;
+      top: 1rem;
+      font-size: 1.8rem;
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+      padding: 0.4rem 0.8rem;
+      border-radius: 8px;
+      display: none;
+      cursor: pointer;
+      z-index: 101;
+      border: none;
+    }
+
+    /* ====== MAIN LAYOUT ====== */
+    main { 
+      max-width: 1200px; 
+      margin: 2rem auto; 
+      padding: 0 1rem 3rem; 
+    }
+
+    .intro-card {
+      background: linear-gradient(180deg, #ffffff, #fbfdff);
+      border-radius: 18px;
+      padding: 2.5rem;
+      box-shadow: 0 10px 30px rgba(9, 30, 63, 0.08);
+      text-align: center;
+      margin-bottom: 2.5rem;
+      position: relative;
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+      border: 1px solid rgba(37, 117, 252, 0.1);
+    }
+
+    .intro-card h2, 
+    .intro-card h3 { 
+      color: #0b3b67; 
+      font-size: 2rem; 
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .intro-card p { 
+      color: #27404f; 
+      font-size: 1.1rem; 
+      max-width: 900px; 
+      margin: auto;
+      line-height: 1.7;
+    }
+
+    .btn, .btn-ventajas {
+      margin-top: 1rem;
+      padding: 1rem 2.2rem;
+      background: linear-gradient(90deg, #2575fc, #6a11cb);
+      color: #fff;
+      border: none;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 6px 15px rgba(37, 117, 252, 0.3);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1.1rem;
+    }
+
+    .metodos-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      max-width: 1100px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .metodo-card {
+      background: linear-gradient(180deg, #ffffff, #f3f9ff);
+      border-radius: 16px;
+      padding: 2rem;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(3, 30, 60, 0.08);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      min-height: 240px;
+      border: 1px solid rgba(37, 117, 252, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .metodo-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, #2575fc, #6a11cb);
+    }
+
+    .metodo-icono {
+      font-size: 3rem;
+      background: linear-gradient(90deg, #2575fc, #6a11cb);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      align-self: center;
+    }
+
+    .metodo-card h3 { 
+      font-size: 1.4rem; 
+      color: #052b43; 
+      margin-top: 0.5rem;
+      font-weight: 700;
+    }
+
+    .metodo-card p { 
+      color: #445; 
+      font-size: 1rem; 
+      flex: 1;
+      line-height: 1.6;
+    }
+
+    .card-actions { 
+      display: flex; 
+      gap: 0.8rem; 
+      justify-content: center; 
+      margin-top: 1rem; 
+    }
+
+    .btn-sm {
+      padding: 0.6rem 1.2rem;
+      background: linear-gradient(90deg, #2575fc, #6a11cb);
+      color: #fff; 
+      border-radius: 10px; 
+      font-weight: 600; 
+      border: none; 
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(37, 117, 252, 0.25);
+      text-decoration: none;
+      display: inline-block;
+      font-size: 0.95rem;
+    }
+
+    .categoria {
+      margin-bottom: 3rem;
+    }
+
+    .categoria-titulo {
+      font-size: 1.6rem;
+      color: #0b3b67;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.8rem;
+      border-bottom: 2px solid #e0e9f3;
+      position: relative;
+      font-weight: 700;
+    }
+
+    .categoria-titulo::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 80px;
+      height: 3px;
+      background: linear-gradient(90deg, #2575fc, #6a11cb);
+      border-radius: 2px;
+    }
+
+    /* ====== PESTAÑAS ====== */
+    .tabs-container {
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      border: 1px solid #e0e9f3;
+      margin-top: 2rem;
+    }
+
+    .tabs-header {
+      display: flex;
+      background: linear-gradient(90deg, #f8fbff, #eef6ff);
+      border-bottom: 1px solid #e0e9f3;
+      overflow-x: auto;
+    }
+
+    .tab-btn {
+      padding: 1rem 1.5rem;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      color: #596b75;
+      white-space: nowrap;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .tab-btn:hover {
+      color: #2575fc;
+    }
+
+    .tab-btn.active {
+      color: #2575fc;
+    }
+
+    .tab-btn.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, #2575fc, #6a11cb);
+    }
+
+    .tabs-content {
+      padding: 2rem;
+    }
+
+    .tab-pane {
+      display: none;
+    }
+
+    .tab-pane.active {
+      display: block;
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* ====== EJERCICIOS ====== */
+    .ejercicio-container {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      border: 1px solid #e0e9f3;
+    }
+
+    .ejercicio-enunciado {
+      margin-bottom: 1.5rem;
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+
+    .ejercicio-paso {
+      margin-bottom: 1.5rem;
+      padding: 1rem;
+      background: #f8f9fa;
+      border-radius: 8px;
+      border-left: 4px solid #2575fc;
+    }
+
+    .ejercicio-paso h6 {
+      font-size: 1rem;
+      margin-bottom: 0.8rem;
+      color: #0b3b67;
+    }
+
+    .input-container {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin: 0.5rem 0;
+      flex-wrap: wrap;
+    }
+
+    .input-ejercicio {
+      padding: 0.5rem;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      width: 100px;
+      text-align: center;
+      font-size: 1rem;
+    }
+
+    .input-ejercicio:focus {
+      outline: none;
+      border-color: #2575fc;
+      box-shadow: 0 0 0 2px rgba(37, 117, 252, 0.2);
+    }
+
+    .btn-verificar {
+      padding: 0.6rem 1.2rem;
+      background: linear-gradient(90deg, #2575fc, #6a11cb);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+
+    .btn-verificar:disabled {
+      background: #cbd5e1;
+      cursor: not-allowed;
+    }
+
+    .resultado {
+      margin-top: 1rem;
+      padding: 1rem;
+      border-radius: 8px;
+      font-weight: 600;
+    }
+
+    .resultado.correcto {
+      background: #d1fae5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+    }
+
+    .resultado.incorrecto {
+      background: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+    }
+
+    .solucion-paso {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: #eff6ff;
+      border-radius: 8px;
+      display: none;
+    }
+
+    .solucion-paso.mostrar {
+      display: block;
+    }
+
+    .btn-siguiente {
+      padding: 0.6rem 1.2rem;
+      background: linear-gradient(90deg, #10b981, #059669);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 1rem;
+      display: none;
+    }
+
+    .btn-siguiente.mostrar {
+      display: inline-block;
+    }
+
+    .btn-reiniciar {
+      padding: 0.6rem 1.2rem;
+      background: linear-gradient(90deg, #f59e0b, #d97706);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+
+    .progreso-ejercicio {
+      margin: 1rem 0;
+      padding: 1rem;
+      background: #f0f9ff;
+      border-radius: 8px;
+      border-left: 4px solid #38bdf8;
+    }
+
+    .barra-progreso {
+      width: 100%;
+      height: 8px;
+      background: #e2e8f0;
+      border-radius: 4px;
+      margin: 0.5rem 0;
+      overflow: hidden;
+    }
+
+    .progreso {
+      height: 100%;
+      background: linear-gradient(90deg, #10b981, #059669);
+      border-radius: 4px;
+      transition: width 0.3s ease;
+    }
+
+    .formula {
+      font-family: 'Courier New', monospace;
+      background: #f8f9fa;
+      padding: 0.5rem;
+      border-radius: 4px;
+      margin: 0.5rem 0;
+      border-left: 3px solid #2575fc;
+    }
+
+    .matriz {
+      font-family: 'Courier New', monospace;
+      background: #f8f9fa;
+      padding: 1rem;
+      border-radius: 6px;
+      margin: 1rem 0;
+      border: 1px solid #e2e8f0;
+    }
+
+    footer { 
+      text-align: center; 
+      margin-top: 3rem; 
+      color: #596b75; 
+      font-size: 0.95rem; 
+      padding: 2rem 0;
+      border-top: 1px solid #e0e9f3;
+    }
+
+    @media (max-width: 900px) {
+      .metodo-card { 
+        min-height: 220px; 
+        padding: 1.5rem;
+      }
+      .metodo-card h3 { font-size: 1.2rem; }
+      .intro-card h2, .intro-card h3 { font-size: 1.6rem; }
+    }
+
+    @media (max-width: 768px) {
+      .menu-toggle { display: block; }
+      nav ul { display: none; position: absolute; right: 1rem; top: 4.5rem; width: 250px; flex-direction: column; gap: 0.5rem; padding: 1rem; border-radius: 12px; background: rgba(14, 46, 83, 0.98); box-shadow: 0 10px 30px rgba(2, 14, 34, 0.3); backdrop-filter: blur(10px); z-index: 100; }
+      nav ul.show { display: flex; }
+      .intro-card { padding: 1.5rem; }
+      .metodos-container { grid-template-columns: 1fr; gap: 1.5rem; }
+      header h1 { font-size: 1.8rem; }
+      header p { font-size: 0.9rem; }
+      .tabs-header { flex-wrap: wrap; }
+      .tab-btn { flex: 1; min-width: 120px; }
+    }
+
+    @media (max-width: 480px) {
+      main { padding: 0 0.5rem 2rem; }
+      .btn, .btn-ventajas { padding: 0.8rem 1.5rem; font-size: 1rem; }
+      .input-container { flex-direction: column; align-items: flex-start; }
+      .input-ejercicio { width: 80px; }
+    }
+
+    html { scroll-behavior: smooth; }
+    ::selection { background: rgba(37, 117, 252, 0.2); color: #08304b; }
+    ::-webkit-scrollbar { width: 10px; }
+    ::-webkit-scrollbar-track { background: #f1f1f1; }
+    ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #2575fc, #6a11cb); border-radius: 5px; }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+<header>
+  <span class="menu-toggle" id="menu-toggle">☰</span>
+  <h1>📝 Ejercicios - Métodos Numéricos</h1>
+  <p>Practica cada método con ejercicios interactivos paso a paso</p>
+</header>
+
+<nav>
+  <ul id="menu">
+    <li><a href="index.html">Inicio</a></li>
+    <li><a href="aprendizaje.html">Aprendizaje</a></li>
+    <li><a href="calculos.html">Cálculos</a></li>
+    <li><a href="ejercicios.html" class="activo">Ejercicios</a></li>
+    <li><a href="nosotros.html">Nosotros</a></li>
+  </ul>
+</nav>
+
+<main>
+  <section class="intro-card" aria-labelledby="intro-title">
+    <h2 id="intro-title">Ejercicios Interactivos de Métodos Numéricos</h2>
+    <p>Practica cada método numérico con ejercicios paso a paso. Completa los espacios en blanco y verifica tus respuestas para dominar cada técnica.</p>
+  </section>
+
+  <div class="categoria">
+    <h2 class="categoria-titulo">Selecciona un Método para Practicar</h2>
+    <div class="metodos-container">
+      <!-- Método 1 -->
+      <article class="metodo-card" data-id="m1" data-title="Sistemas de Ecuaciones Algebraicas Lineales">
+        <div class="metodo-icono"><i class="fa-solid fa-table"></i></div>
+        <h3>Sistemas de Ecuaciones Algebraicas Lineales</h3>
+        <p>Resuelve sistemas de ecuaciones lineales mediante métodos directos e iterativos.</p>
+        <div class="card-actions"><button class="btn-sm practicar">Practicar</button></div>
+      </article>
+
+      <!-- Método 2 -->
+      <article class="metodo-card" data-id="m2" data-title="Interpolación y Ajuste de Curvas">
+        <div class="metodo-icono"><i class="fa-solid fa-chart-line"></i></div>
+        <h3>Interpolación y Ajuste de Curvas</h3>
+        <p>Aproxima funciones a partir de datos discretos y ajusta curvas a conjuntos de puntos.</p>
+        <div class="card-actions"><button class="btn-sm practicar">Practicar</button></div>
+      </article>
+
+      <!-- Método 3 -->
+      <article class="metodo-card" data-id="m3" data-title="Raíces de Ecuaciones">
+        <div class="metodo-icono"><i class="fa-solid fa-square-root-variable"></i></div>
+        <h3>Raíces de Ecuaciones</h3>
+        <p>Encuentra las raíces de ecuaciones no lineales con métodos cerrados y abiertos.</p>
+        <div class="card-actions"><button class="btn-sm practicar">Practicar</button></div>
+      </article>
+
+      <!-- Método 4 -->
+      <article class="metodo-card" data-id="m4" data-title="Diferenciación Numérica">
+        <div class="metodo-icono"><i class="fa-solid fa-calculator"></i></div>
+        <h3>Diferenciación Numérica</h3>
+        <p>Aproxima derivadas utilizando fórmulas basadas en diferencias finitas.</p>
+        <div class="card-actions"><button class="btn-sm practicar">Practicar</button></div>
+      </article>
+
+      <!-- Método 5 -->
+      <article class="metodo-card" data-id="m5" data-title="Integración Numérica">
+        <div class="metodo-icono"><i class="fa-solid fa-integral"></i></div>
+        <h3>Integración Numérica</h3>
+        <p>Aproxima integrales definidas usando técnicas como trapecio, Simpson y cuadraturas.</p>
+        <div class="card-actions"><button class="btn-sm practicar">Practicar</button></div>
+      </article>
+
+      <!-- Método 6 -->
+      <article class="metodo-card" data-id="m6" data-title="Ecuaciones Diferenciales Ordinarias">
+        <div class="metodo-icono"><i class="fa-solid fa-wave-square"></i></div>
+        <h3>Ecuaciones Diferenciales Ordinarias</h3>
+        <p>Resuelve EDOs con métodos como Euler, Runge-Kutta y multietapa.</p>
+        <div class="card-actions"><button class="btn-sm practicar">Practicar</button></div>
+      </article>
+
+      <!-- Método 7 -->
+      <article class="metodo-card" data-id="m7" data-title="Optimización Numérica">
+        <div class="metodo-icono"><i class="fa-solid fa-bullseye"></i></div>
+        <h3>Optimización Numérica</h3>
+        <p>Encuentra máximos o mínimos de funciones usando métodos directos e iterativos.</p>
+        <div class="card-actions"><button class="btn-sm practicar">Practicar</button></div>
+      </article>
+
+      <!-- Método 8 -->
+      <article class="metodo-card" data-id="m8" data-title="Transformadas y Series">
+        <div class="metodo-icono"><i class="fa-solid fa-infinity"></i></div>
+        <h3>Transformadas y Series</h3>
+        <p>Aplica series de Fourier, transformadas de Laplace y técnicas relacionadas.</p>
+        <div class="card-actions"><button class="btn-sm practicar">Practicar</button></div>
+      </article>
+    </div>
+  </div>
+
+  <!-- Contenido dinámico de ejercicios -->
+  <div id="contenido-ejercicios"></div>
+</main>
+
+<footer>
+  &copy; 2025 Aprendizaje Métodos Numéricos. Todos los derechos reservados.
+</footer>
+
+<script>
+  // Datos de ejercicios para cada método
+  const ejercicios = {
+    m1: {
+      titulo: "Sistemas de Ecuaciones Algebraicas Lineales",
+      submetodos: [
+        {
+          nombre: "Eliminación de Gauss",
+          ejercicio: {
+            titulo: "Sistemas de Ecuaciones - Método de Gauss",
+            enunciado: "Resuelve el siguiente sistema de ecuaciones usando el método de eliminación de Gauss:",
+            sistema: "2x + 3y - z = 5\n4x + 4y - 3z = 3\n-2x + 3y - z = 1",
+            pasos: [
+              {
+                titulo: "Paso 1: Matriz aumentada",
+                descripcion: "Escribe la matriz aumentada del sistema:",
+                inputs: [
+                  { id: "a11", valor: "2" },
+                  { id: "a12", valor: "3" },
+                  { id: "a13", valor: "-1" },
+                  { id: "b1", valor: "5" },
+                  { id: "a21", valor: "4" },
+                  { id: "a22", valor: "4" },
+                  { id: "a23", valor: "-3" },
+                  { id: "b2", valor: "3" },
+                  { id: "a31", valor: "-2" },
+                  { id: "a32", valor: "3" },
+                  { id: "a33", valor: "-1" },
+                  { id: "b3", valor: "1" }
+                ]
+              },
+              {
+                titulo: "Paso 2: Eliminación hacia adelante",
+                descripcion: "Realiza operaciones para hacer ceros debajo del primer pivote:",
+                inputs: [
+                  { id: "m21", valor: "2" },
+                  { id: "r21", valor: "0" },
+                  { id: "r22", valor: "-2" },
+                  { id: "r23", valor: "-1" },
+                  { id: "r24", valor: "-7" },
+                  { id: "m31", valor: "-1" },
+                  { id: "r31", valor: "0" },
+                  { id: "r32", valor: "6" },
+                  { id: "r33", valor: "-2" },
+                  { id: "r34", valor: "6" }
+                ]
+              },
+              {
+                titulo: "Paso 3: Segundo pivote",
+                descripcion: "Haz ceros debajo del segundo pivote:",
+                inputs: [
+                  { id: "m32", valor: "3" },
+                  { id: "r31", valor: "0" },
+                  { id: "r32", valor: "0" },
+                  { id: "r33", valor: "1" },
+                  { id: "r34", valor: "15" }
+                ]
+              },
+              {
+                titulo: "Paso 4: Sustitución hacia atrás",
+                descripcion: "Resuelve el sistema triangular superior:",
+                inputs: [
+                  { id: "z", valor: "1" },
+                  { id: "y", valor: "3" },
+                  { id: "x", valor: "2" }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          nombre: "Gauss-Jordan",
+          ejercicio: {
+            titulo: "Sistemas de Ecuaciones - Método de Gauss-Jordan",
+            enunciado: "Resuelve el siguiente sistema usando el método de Gauss-Jordan:",
+            sistema: "x + 2y = 5\n3x - y = 4",
+            pasos: [
+              {
+                titulo: "Paso 1: Matriz aumentada",
+                descripcion: "Escribe la matriz aumentada del sistema:",
+                inputs: [
+                  { id: "a11", valor: "1" },
+                  { id: "a12", valor: "2" },
+                  { id: "b1", valor: "5" },
+                  { id: "a21", valor: "3" },
+                  { id: "a22", valor: "-1" },
+                  { id: "b2", valor: "4" }
+                ]
+              },
+              {
+                titulo: "Paso 2: Hacer 1 el primer pivote",
+                descripcion: "El primer pivote ya es 1, continuamos:",
+                inputs: []
+              },
+              {
+                titulo: "Paso 3: Eliminación completa",
+                descripcion: "Haz ceros arriba y abajo del pivote:",
+                inputs: [
+                  { id: "x", valor: "2" },
+                  { id: "y", valor: "1.5" }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    m2: {
+      titulo: "Interpolación y Ajuste de Curvas",
+      submetodos: [
+        {
+          nombre: "Diferencias Divididas de Newton",
+          ejercicio: {
+            titulo: "Interpolación - Diferencias Divididas de Newton",
+            enunciado: "Calcula el polinomio de interpolación usando diferencias divididas de Newton para los puntos dados:",
+            puntos: "Puntos: (1, 2), (2, 3), (4, 0)",
+            pasos: [
+              {
+                titulo: "Paso 1: Tabla de diferencias divididas",
+                descripcion: "Construye la tabla de diferencias divididas:",
+                formula: "f[xᵢ] = yᵢ\nf[xᵢ, xᵢ₊₁] = (f[xᵢ₊₁] - f[xᵢ]) / (xᵢ₊₁ - xᵢ)\nf[xᵢ, xᵢ₊₁, xᵢ₊₂] = (f[xᵢ₊₁, xᵢ₊₂] - f[xᵢ, xᵢ₊₁]) / (xᵢ₊₂ - xᵢ)",
+                inputs: [
+                  { id: "f1", valor: "2", label: "f[x₁] =" },
+                  { id: "f2", valor: "3", label: "f[x₂] =" },
+                  { id: "f3", valor: "0", label: "f[x₃] =" }
+                ]
+              },
+              {
+                titulo: "Paso 2: Primeras diferencias divididas",
+                descripcion: "Calcula las primeras diferencias divididas:",
+                inputs: [
+                  { id: "f12", valor: "1", label: "f[x₁,x₂] = (3 - 2)/(2 - 1) =" },
+                  { id: "f23", valor: "-1.5", label: "f[x₂,x₃] = (0 - 3)/(4 - 2) =" }
+                ]
+              },
+              {
+                titulo: "Paso 3: Segundas diferencias divididas",
+                descripcion: "Calcula las segundas diferencias divididas:",
+                inputs: [
+                  { id: "f123", valor: "-0.833", label: "f[x₁,x₂,x₃] = (-1.5 - 1)/(4 - 1) =" }
+                ]
+              },
+              {
+                titulo: "Paso 4: Polinomio de interpolación",
+                descripcion: "Construye el polinomio usando la fórmula de Newton:",
+                formula: "P(x) = f[x₁] + f[x₁,x₂](x - x₁) + f[x₁,x₂,x₃](x - x₁)(x - x₂)",
+                inputs: [
+                  { id: "polinomio", valor: "2 + 1(x-1) - 0.833(x-1)(x-2)" }
+                ]
+              },
+              {
+                titulo: "Paso 5: Simplificar el polinomio",
+                descripcion: "Simplifica la expresión del polinomio:",
+                inputs: [
+                  { id: "polinomio_simplificado", valor: "-0.833x² + 3.5x - 0.667" }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          nombre: "Interpolación de Lagrange",
+          ejercicio: {
+            titulo: "Interpolación de Lagrange",
+            enunciado: "Encuentra el polinomio de interpolación de Lagrange para los puntos dados:",
+            puntos: "Puntos: (1, 2), (2, 3), (4, 0)",
+            pasos: [
+              {
+                titulo: "Paso 1: Fórmula general",
+                descripcion: "La fórmula del polinomio de Lagrange es: L(x) = Σ yᵢ * lᵢ(x), donde lᵢ(x) = Π (x - xⱼ)/(xᵢ - xⱼ)",
+                inputs: []
+              },
+              {
+                titulo: "Paso 2: Calcular l₀(x)",
+                descripcion: "Para el punto (1, 2): l₀(x) = (x - 2)(x - 4)/((1 - 2)(1 - 4))",
+                inputs: [
+                  { id: "l0", valor: "(x² - 6x + 8)/3" }
+                ]
+              },
+              {
+                titulo: "Paso 3: Calcular l₁(x)",
+                descripcion: "Para el punto (2, 3): l₁(x) = (x - 1)(x - 4)/((2 - 1)(2 - 4))",
+                inputs: [
+                  { id: "l1", valor: "(-x² + 5x - 4)/2" }
+                ]
+              },
+              {
+                titulo: "Paso 4: Calcular l₂(x)",
+                descripcion: "Para el punto (4, 0): l₂(x) = (x - 1)(x - 2)/((4 - 1)(4 - 2))",
+                inputs: [
+                  { id: "l2", valor: "(x² - 3x + 2)/6" }
+                ]
+              },
+              {
+                titulo: "Paso 5: Polinomio final",
+                descripcion: "L(x) = 2*l₀(x) + 3*l₁(x) + 0*l₂(x)",
+                inputs: [
+                  { id: "Lx", valor: "-x²/2 + 7x/2 - 3" }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          nombre: "Regresión Lineal",
+          ejercicio: {
+            titulo: "Regresión Lineal",
+            enunciado: "Calcula la pendiente de la recta de regresión para los puntos (1,1), (2,3), (3,3):",
+            puntos: "Puntos: (1,1), (2,3), (3,3)",
+            pasos: [
+              {
+                titulo: "Paso 1: Calcular promedios",
+                descripcion: "x̄ = (1+2+3)/3, ȳ = (1+3+3)/3",
+                inputs: [
+                  { id: "xbar", valor: "2" },
+                  { id: "ybar", valor: "2.333" }
+                ]
+              },
+              {
+                titulo: "Paso 2: Calcular pendiente",
+                descripcion: "m = Σ(xᵢ - x̄)(yᵢ - ȳ) / Σ(xᵢ - x̄)²",
+                inputs: [
+                  { id: "m", valor: "1" }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    m3: {
+      titulo: "Raíces de Ecuaciones",
+      submetodos: [
+        {
+          nombre: "Método de Bisección",
+          ejercicio: {
+            titulo: "Método de Bisección",
+            enunciado: "Encuentra la raíz de f(x) = x³ - x - 2 en el intervalo [1, 2] usando el método de bisección:",
+            pasos: [
+              {
+                titulo: "Paso 1: Verificar cambio de signo",
+                descripcion: "f(1) = 1³ - 1 - 2 = -2, f(2) = 2³ - 2 - 2 = 4. Hay cambio de signo, existe raíz.",
+                inputs: [
+                  { id: "f1", valor: "-2" },
+                  { id: "f2", valor: "4" }
+                ]
+              },
+              {
+                titulo: "Paso 2: Primera iteración",
+                descripcion: "c = (a + b)/2 = (1 + 2)/2 = 1.5, f(c) = 1.5³ - 1.5 - 2",
+                inputs: [
+                  { id: "c1", valor: "1.5" },
+                  { id: "fc1", valor: "-0.125" }
+                ]
+              },
+              {
+                titulo: "Paso 3: Segunda iteración",
+                descripcion: "Como f(1.5) < 0, nuevo intervalo [1.5, 2], c = (1.5 + 2)/2",
+                inputs: [
+                  { id: "c2", valor: "1.75" },
+                  { id: "fc2", valor: "1.609" }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          nombre: "Método de Newton-Raphson",
+          ejercicio: {
+            titulo: "Método de Newton-Raphson",
+            enunciado: "Aplica una iteración del método de Newton-Raphson para f(x)=x²-4 con x₀=3:",
+            pasos: [
+              {
+                titulo: "Paso 1: Derivada",
+                descripcion: "f'(x) = 2x",
+                inputs: []
+              },
+              {
+                titulo: "Paso 2: Fórmula de Newton-Raphson",
+                descripcion: "x₁ = x₀ - f(x₀)/f'(x₀)",
+                inputs: []
+              },
+              {
+                titulo: "Paso 3: Primera iteración",
+                descripcion: "x₁ = 3 - (3²-4)/(2*3)",
+                inputs: [
+                  { id: "x1", valor: "2.1667" }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    m4: {
+      titulo: "Diferenciación Numérica",
+      submetodos: [
+        {
+          nombre: "Diferencias Progresivas",
+          ejercicio: {
+            titulo: "Diferenciación Numérica - Diferencias Progresivas",
+            enunciado: "Calcula la derivada de f(x) = x² en x = 2 usando diferencias finitas progresivas con h = 0.1:",
+            pasos: [
+              {
+                titulo: "Paso 1: Fórmula de diferencias progresivas",
+                descripcion: "La fórmula para la primera derivada usando diferencias progresivas es:",
+                formula: "f'(x) ≈ [f(x + h) - f(x)] / h",
+                inputs: []
+              },
+              {
+                titulo: "Paso 2: Calcular f(x) y f(x + h)",
+                descripcion: "Calcula los valores de la función en los puntos necesarios:",
+                inputs: [
+                  { id: "f2", valor: "4", label: "f(2) = 2² =" },
+                  { id: "f21", valor: "4.41", label: "f(2.1) = 2.1² =" }
+                ]
+              },
+              {
+                titulo: "Paso 3: Aplicar la fórmula",
+                descripcion: "Sustituye los valores en la fórmula de diferencias progresivas:",
+                inputs: [
+                  { id: "derivada", valor: "4.1", label: "f'(2) ≈ (4.41 - 4) / 0.1 =" }
+                ]
+              },
+              {
+                titulo: "Paso 4: Comparar con valor exacto",
+                descripcion: "Compara el resultado con el valor exacto de la derivada:",
+                inputs: [
+                  { id: "exacto", valor: "4", label: "Valor exacto: f'(x) = 2x, f'(2) =" },
+                  { id: "error", valor: "0.1", label: "Error absoluto = |4.1 - 4| =" }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          nombre: "Diferencias Regresivas",
+          ejercicio: {
+            titulo: "Diferenciación Numérica - Diferencias Regresivas",
+            enunciado: "Calcula la derivada de f(x) = x² en x = 2 usando diferencias finitas regresivas con h = 0.1:",
+            pasos: [
+              {
+                titulo: "Paso 1: Fórmula de diferencias regresivas",
+                descripcion: "La fórmula para la primera derivada usando diferencias regresivas es:",
+                formula: "f'(x) ≈ [f(x) - f(x - h)] / h",
+                inputs: []
+              },
+              {
+                titulo: "Paso 2: Calcular f(x) y f(x - h)",
+                descripcion: "Calcula los valores de la función en los puntos necesarios:",
+                inputs: [
+                  { id: "f2", valor: "4", label: "f(2) = 2² =" },
+                  { id: "f19", valor: "3.61", label: "f(1.9) = 1.9² =" }
+                ]
+              },
+              {
+                titulo: "Paso 3: Aplicar la fórmula",
+                descripcion: "Sustituye los valores en la fórmula de diferencias regresivas:",
+                inputs: [
+                  { id: "derivada", valor: "3.9", label: "f'(2) ≈ (4 - 3.61) / 0.1 =" }
+                ]
+              },
+              {
+                titulo: "Paso 4: Comparar con valor exacto",
+                descripcion: "Compara el resultado con el valor exacto de la derivada:",
+                inputs: [
+                  { id: "exacto", valor: "4", label: "Valor exacto: f'(x) = 2x, f'(2) =" },
+                  { id: "error", valor: "0.1", label: "Error absoluto = |3.9 - 4| =" }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          nombre: "Diferencias Centrales",
+          ejercicio: {
+            titulo: "Diferenciación Numérica - Diferencias Centrales",
+            enunciado: "Calcula la derivada de f(x) = x² en x = 2 usando diferencias finitas centrales con h = 0.1:",
+            pasos: [
+              {
+                titulo: "Paso 1: Fórmula de diferencias centrales",
+                descripcion: "La fórmula para la primera derivada usando diferencias centrales es:",
+                formula: "f'(x) ≈ [f(x + h) - f(x - h)] / (2h)",
+                inputs: []
+              },
+              {
+                titulo: "Paso 2: Calcular f(x + h) y f(x - h)",
+                descripcion: "Calcula los valores de la función en los puntos necesarios:",
+                inputs: [
+                  { id: "f21", valor: "4.41", label: "f(2.1) = 2.1² =" },
+                  { id: "f19", valor: "3.61", label: "f(1.9) = 1.9² =" }
+                ]
+              },
+              {
+                titulo: "Paso 3: Aplicar la fórmula",
+                descripcion: "Sustituye los valores en la fórmula de diferencias centrales:",
+                inputs: [
+                  { id: "derivada", valor: "4", label: "f'(2) ≈ (4.41 - 3.61) / (2×0.1) =" }
+                ]
+              },
+              {
+                titulo: "Paso 4: Comparar con valor exacto",
+                descripcion: "Compara el resultado con el valor exacto de la derivada:",
+                inputs: [
+                  { id: "exacto", valor: "4", label: "Valor exacto: f'(x) = 2x, f'(2) =" },
+                  { id: "error", valor: "0", label: "Error absoluto = |4 - 4| =" }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    m5: {
+      titulo: "Integración Numérica",
+      submetodos: [
+        {
+          nombre: "Regla del Trapecio",
+          ejercicio: {
+            titulo: "Integración Numérica - Regla del Trapecio",
+            enunciado: "Aproxima ∫₀² x² dx usando la regla del trapecio con n = 4 subintervalos:",
+            pasos: [
+              {
+                titulo: "Paso 1: Calcular h",
+                descripcion: "h = (b - a)/n = (2 - 0)/4",
+                inputs: [
+                  { id: "h", valor: "0.5" }
+                ]
+              },
+              {
+                titulo: "Paso 2: Puntos de evaluación",
+                descripcion: "x₀ = 0, x₁ = 0.5, x₂ = 1, x₃ = 1.5, x₄ = 2",
+                inputs: []
+              },
+              {
+                titulo: "Paso 3: Calcular f(xᵢ)",
+                descripcion: "f(x) = x², entonces: f(0)=0, f(0.5)=0.25, f(1)=1, f(1.5)=2.25, f(2)=4",
+                inputs: [
+                  { id: "f0", valor: "0" },
+                  { id: "f1", valor: "0.25" },
+                  { id: "f2", valor: "1" },
+                  { id: "f3", valor: "2.25" },
+                  { id: "f4", valor: "4" }
+                ]
+              },
+              {
+                titulo: "Paso 4: Aplicar fórmula del trapecio",
+                descripcion: "∫f(x)dx ≈ h/2 * [f(x₀) + 2(f(x₁)+f(x₂)+f(x₃)) + f(x₄)]",
+                inputs: [
+                  { id: "integral", valor: "2.75" }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          nombre: "Regla de Simpson",
+          ejercicio: {
+            titulo: "Integración Numérica - Regla de Simpson",
+            enunciado: "Aproxima ∫₀² x² dx usando la regla de Simpson con n = 4 subintervalos:",
+            pasos: [
+              {
+                titulo: "Paso 1: Calcular h",
+                descripcion: "h = (b - a)/n = (2 - 0)/4 = 0.5",
+                inputs: [
+                  { id: "h", valor: "0.5" }
+                ]
+              },
+              {
+                titulo: "Paso 2: Aplicar fórmula de Simpson",
+                descripcion: "∫f(x)dx ≈ h/3 * [f(x₀) + 4f(x₁) + 2f(x₂) + 4f(x₃) + f(x₄)]",
+                inputs: [
+                  { id: "integral", valor: "2.6667" }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    m6: {
+      titulo: "Ecuaciones Diferenciales Ordinarias",
+      submetodos: [
+        {
+          nombre: "Método de Euler",
+          ejercicio: {
+            titulo: "Ecuaciones Diferenciales - Método de Euler",
+            enunciado: "Resuelve y' = x + y, y(0) = 1 en [0, 0.2] usando el método de Euler con h = 0.1:",
+            pasos: [
+              {
+                titulo: "Paso 1: Fórmula de Euler",
+                descripcion: "yᵢ₊₁ = yᵢ + h * f(xᵢ, yᵢ)",
+                inputs: []
+              },
+              {
+                titulo: "Paso 2: Primera iteración",
+                descripcion: "x₀ = 0, y₀ = 1, f(x₀, y₀) = 0 + 1 = 1, y₁ = 1 + 0.1 * 1",
+                inputs: [
+                  { id: "y1", valor: "1.1" }
+                ]
+              },
+              {
+                titulo: "Paso 3: Segunda iteración",
+                descripcion: "x₁ = 0.1, y₁ = 1.1, f(x₁, y₁) = 0.1 + 1.1 = 1.2, y₂ = 1.1 + 0.1 * 1.2",
+                inputs: [
+                  { id: "y2", valor: "1.22" }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    m7: {
+      titulo: "Optimización Numérica",
+      submetodos: [
+        {
+          nombre: "Método de Newton",
+          ejercicio: {
+            titulo: "Optimización - Método de Newton",
+            enunciado: "Encuentra el mínimo de f(x) = x² - 4x + 5 usando el método de Newton con x₀ = 0:",
+            pasos: [
+              {
+                titulo: "Paso 1: Derivadas",
+                descripcion: "f'(x) = 2x - 4, f''(x) = 2",
+                inputs: []
+              },
+              {
+                titulo: "Paso 2: Fórmula de Newton",
+                descripcion: "x₁ = x₀ - f'(x₀)/f''(x₀)",
+                inputs: []
+              },
+              {
+                titulo: "Paso 3: Primera iteración",
+                descripcion: "f'(0) = -4, f''(0) = 2, x₁ = 0 - (-4)/2",
+                inputs: [
+                  { id: "x1", valor: "2" }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    m8: {
+      titulo: "Transformadas y Series",
+      submetodos: [
+        {
+          nombre: "Series de Fourier",
+          ejercicio: {
+            titulo: "Series de Fourier",
+            enunciado: "Encuentra los coeficientes de Fourier para f(x) = x en [-π, π]:",
+            pasos: [
+              {
+                titulo: "Paso 1: Coeficiente a₀",
+                descripcion: "a₀ = (1/π) ∫₋π^π x dx = 0 (función impar)",
+                inputs: [
+                  { id: "a0", valor: "0" }
+                ]
+              },
+              {
+                titulo: "Paso 2: Coeficientes bₙ",
+                descripcion: "bₙ = (1/π) ∫₋π^π x sin(nx) dx = 2(-1)ⁿ⁺¹/n",
+                inputs: [
+                  { id: "bn", valor: "2(-1)ⁿ⁺¹/n" }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  };
+
+  // Variables globales para ejercicios
+  let ejercicioActual = null;
+  let pasoActual = 0;
+  let respuestasCorrectas = 0;
+
+  // Inicialización
+  document.addEventListener('DOMContentLoaded', function() {
+    // Menú móvil
+    const menuToggle = document.getElementById('menu-toggle');
+    const menu = document.getElementById('menu');
+    menuToggle.addEventListener('click', () => { menu.classList.toggle('show'); });
+
+    // Botones de practicar
+    document.querySelectorAll('.practicar').forEach(btn => {
+      btn.addEventListener('click', e => {
+        const card = e.target.closest('.metodo-card');
+        const id = card.getAttribute('data-id');
+        const titulo = card.getAttribute('data-title');
+        
+        ejercicioActual = id;
+        pasoActual = 0;
+        respuestasCorrectas = 0;
+        
+        cargarEjercicios(id, titulo);
+      });
+    });
+  });
+
+  // Función para cargar ejercicios de un método
+  function cargarEjercicios(id, titulo) {
+    const metodo = ejercicios[id];
+    const contenidoEjercicios = document.getElementById('contenido-ejercicios');
+    
+    let html = `
+      <div class="categoria">
+        <h2 class="categoria-titulo">${metodo.titulo}</h2>
+        <div class="tabs-container">
+          <div class="tabs-header">
+    `;
+    
+    // Crear botones de pestañas
+    metodo.submetodos.forEach((submetodo, index) => {
+      html += `<button class="tab-btn ${index === 0 ? 'active' : ''}" data-tab="tab-${index}">${submetodo.nombre}</button>`;
+    });
+    
+    html += `
+          </div>
+          <div class="tabs-content">
+    `;
+    
+    // Crear contenido de pestañas
+    metodo.submetodos.forEach((submetodo, index) => {
+      html += `
+        <div class="tab-pane ${index === 0 ? 'active' : ''}" id="tab-${index}">
+          <div class="ejercicio-container">
+            <h3>${submetodo.ejercicio.titulo}</h3>
+            <div class="ejercicio-enunciado">
+              <p><strong>${submetodo.ejercicio.enunciado}</strong></p>
+              ${submetodo.ejercicio.sistema ? `<pre>${submetodo.ejercicio.sistema}</pre>` : ''}
+              ${submetodo.ejercicio.puntos ? `<p>${submetodo.ejercicio.puntos}</p>` : ''}
+            </div>
+            
+            <div class="progreso-ejercicio">
+              <p>Progreso: <span id="progreso-texto-${index}">Paso 1 de ${submetodo.ejercicio.pasos.length}</span></p>
+              <div class="barra-progreso">
+                <div class="progreso" id="progreso-barra-${index}" style="width: ${(1/submetodo.ejercicio.pasos.length)*100}%"></div>
+              </div>
+            </div>
+            
+            <div id="pasos-container-${index}">
+              ${generarPasoHTML(submetodo.ejercicio.pasos[0], 0, index)}
+            </div>
+            
+            <div id="resultado-container-${index}"></div>
+            
+            <button class="btn-verificar" data-ejercicio="${index}">Verificar Respuestas</button>
+            <button class="btn-siguiente" data-ejercicio="${index}">Siguiente Paso</button>
+            <button class="btn-reiniciar" data-ejercicio="${index}">Reiniciar Ejercicio</button>
+          </div>
+        </div>
+      `;
+    });
+    
+    html += `
+          </div>
+        </div>
+      </div>
+    `;
+    
+    contenidoEjercicios.innerHTML = html;
+    
+    // Inicializar funcionalidad de pestañas
+    inicializarTabs();
+    inicializarEjercicios(id);
+    
+    // Desplazar hacia la sección de ejercicios
+    contenidoEjercicios.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // Función para generar el HTML de un paso
+  function generarPasoHTML(paso, numeroPaso, ejercicioIndex) {
+    let inputsHTML = '';
+    
+    if (paso.inputs && paso.inputs.length > 0) {
+      inputsHTML = '<div class="input-container">';
+      paso.inputs.forEach(input => {
+        const label = input.label || `${input.id} =`;
+        inputsHTML += `
+          <span>${label}</span>
+          <input type="text" class="input-ejercicio" id="${input.id}-${ejercicioIndex}" placeholder="?">
+        `;
+      });
+      inputsHTML += '</div>';
+    }
+    
+    let formulaHTML = '';
+    if (paso.formula) {
+      formulaHTML = `<div class="formula">${paso.formula}</div>`;
+    }
+    
+    return `
+      <div class="ejercicio-paso">
+        <h6>${paso.titulo}</h6>
+        <p>${paso.descripcion}</p>
+        ${formulaHTML}
+        ${inputsHTML}
+      </div>
+    `;
+  }
+
+  // Función para inicializar las pestañas
+  function inicializarTabs() {
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabPanes = document.querySelectorAll('.tab-pane');
+    
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Remover clase active de todos los botones y paneles
+        tabBtns.forEach(b => b.classList.remove('active'));
+        tabPanes.forEach(p => p.classList.remove('active'));
+        
+        // Agregar clase active al botón y panel seleccionado
+        btn.classList.add('active');
+        const tabId = btn.getAttribute('data-tab');
+        document.getElementById(tabId).classList.add('active');
+        
+        // Reiniciar variables al cambiar de pestaña
+        pasoActual = 0;
+        respuestasCorrectas = 0;
+      });
+    });
+  }
+
+  // Función para inicializar los ejercicios
+  function inicializarEjercicios(idMetodo) {
+    const metodo = ejercicios[idMetodo];
+    
+    // Event listeners para botones de verificar
+    document.querySelectorAll('.btn-verificar').forEach(btn => {
+      btn.addEventListener('click', e => {
+        const ejercicioIndex = e.target.getAttribute('data-ejercicio');
+        const resultadoContainer = document.getElementById(`resultado-container-${ejercicioIndex}`);
+        const btnVerificar = e.target;
+        const btnSiguiente = document.querySelector(`.btn-siguiente[data-ejercicio="${ejercicioIndex}"]`);
+        
+        const ejercicio = metodo.submetodos[ejercicioIndex].ejercicio;
+        const paso = ejercicio.pasos[pasoActual];
+        
+        let todasCorrectas = true;
+        let resultadoHTML = '<div class="resultado">';
+        
+        if (paso.inputs && paso.inputs.length > 0) {
+          paso.inputs.forEach(input => {
+            const elemento = document.getElementById(`${input.id}-${ejercicioIndex}`);
+            const respuestaUsuario = elemento.value.trim();
+            const respuestaCorrecta = input.valor;
+            
+            // Permitir tolerancia para números decimales
+            if (esNumero(respuestaCorrecta) && esNumero(respuestaUsuario)) {
+              const numUsuario = parseFloat(respuestaUsuario);
+              const numCorrecto = parseFloat(respuestaCorrecta);
+              
+              if (Math.abs(numUsuario - numCorrecto) < 0.01) {
+                elemento.style.borderColor = '#10b981';
+                elemento.style.backgroundColor = '#d1fae5';
+              } else {
+                elemento.style.borderColor = '#ef4444';
+                elemento.style.backgroundColor = '#fee2e2';
+                todasCorrectas = false;
+              }
+            } else if (respuestaUsuario === respuestaCorrecta) {
+              elemento.style.borderColor = '#10b981';
+              elemento.style.backgroundColor = '#d1fae5';
+            } else {
+              elemento.style.borderColor = '#ef4444';
+              elemento.style.backgroundColor = '#fee2e2';
+              todasCorrectas = false;
+            }
+          });
+          
+          if (todasCorrectas) {
+            resultadoHTML += '<div class="correcto">✓ ¡Todas las respuestas son correctas!</div>';
+            respuestasCorrectas++;
+            btnVerificar.disabled = true;
+            btnSiguiente.classList.add('mostrar');
+          } else {
+            resultadoHTML += '<div class="incorrecto">✗ Algunas respuestas son incorrectas. Revisa e intenta de nuevo.</div>';
+          }
+        } else {
+          // Si no hay inputs, simplemente avanzamos
+          resultadoHTML += '<div class="correcto">Paso completado. Puedes continuar.</div>';
+          respuestasCorrectas++;
+          btnVerificar.disabled = true;
+          btnSiguiente.classList.add('mostrar');
+        }
+        
+        resultadoHTML += '</div>';
+        resultadoContainer.innerHTML = resultadoHTML;
+      });
+    });
+    
+    // Event listeners para botones de siguiente
+    document.querySelectorAll('.btn-siguiente').forEach(btn => {
+      btn.addEventListener('click', e => {
+        const ejercicioIndex = e.target.getAttribute('data-ejercicio');
+        const ejercicio = metodo.submetodos[ejercicioIndex].ejercicio;
+        const pasosContainer = document.getElementById(`pasos-container-${ejercicioIndex}`);
+        const resultadoContainer = document.getElementById(`resultado-container-${ejercicioIndex}`);
+        const btnVerificar = document.querySelector(`.btn-verificar[data-ejercicio="${ejercicioIndex}"]`);
+        const btnSiguiente = e.target;
+        const progresoTexto = document.getElementById(`progreso-texto-${ejercicioIndex}`);
+        const progresoBarra = document.getElementById(`progreso-barra-${ejercicioIndex}`);
+        
+        pasoActual++;
+        
+        if (pasoActual < ejercicio.pasos.length) {
+          pasosContainer.innerHTML += generarPasoHTML(ejercicio.pasos[pasoActual], pasoActual, ejercicioIndex);
+          
+          // Actualizar progreso
+          progresoTexto.textContent = `Paso ${pasoActual + 1} de ${ejercicio.pasos.length}`;
+          progresoBarra.style.width = `${((pasoActual + 1)/ejercicio.pasos.length)*100}%`;
+          
+          // Restablecer botones
+          btnVerificar.disabled = false;
+          btnSiguiente.classList.remove('mostrar');
+          resultadoContainer.innerHTML = '';
+          
+          // Desplazar hacia el nuevo paso
+          const ultimoPaso = document.querySelectorAll('.ejercicio-paso');
+          ultimoPaso[ultimoPaso.length - 1].scrollIntoView({ behavior: 'smooth' });
+        } else {
+          // Ejercicio completado
+          resultadoContainer.innerHTML = `
+            <div class="resultado correcto">
+              <h4>🎉 ¡Ejercicio Completado!</h4>
+              <p>Has completado correctamente ${respuestasCorrectas} de ${ejercicio.pasos.length} pasos.</p>
+            </div>
+          `;
+          
+          // Actualizar progreso final
+          progresoTexto.textContent = `Completado: ${respuestasCorrectas}/${ejercicio.pasos.length} correctos`;
+          progresoBarra.style.width = '100%';
+          
+          btnSiguiente.style.display = 'none';
+          btnVerificar.style.display = 'none';
+        }
+      });
+    });
+    
+    // Event listeners para botones de reiniciar
+    document.querySelectorAll('.btn-reiniciar').forEach(btn => {
+      btn.addEventListener('click', e => {
+        const ejercicioIndex = e.target.getAttribute('data-ejercicio');
+        const ejercicio = metodo.submetodos[ejercicioIndex].ejercicio;
+        const pasosContainer = document.getElementById(`pasos-container-${ejercicioIndex}`);
+        const resultadoContainer = document.getElementById(`resultado-container-${ejercicioIndex}`);
+        const btnVerificar = document.querySelector(`.btn-verificar[data-ejercicio="${ejercicioIndex}"]`);
+        const btnSiguiente = document.querySelector(`.btn-siguiente[data-ejercicio="${ejercicioIndex}"]`);
+        const progresoTexto = document.getElementById(`progreso-texto-${ejercicioIndex}`);
+        const progresoBarra = document.getElementById(`progreso-barra-${ejercicioIndex}`);
+        
+        // Reiniciar variables
+        pasoActual = 0;
+        respuestasCorrectas = 0;
+        
+        // Restablecer contenido
+        pasosContainer.innerHTML = generarPasoHTML(ejercicio.pasos[0], 0, ejercicioIndex);
+        resultadoContainer.innerHTML = '';
+        
+        // Restablecer progreso
+        progresoTexto.textContent = `Paso 1 de ${ejercicio.pasos.length}`;
+        progresoBarra.style.width = `${(1/ejercicio.pasos.length)*100}%`;
+        
+        // Restablecer botones
+        btnVerificar.disabled = false;
+        btnVerificar.style.display = 'inline-block';
+        btnSiguiente.classList.remove('mostrar');
+        btnSiguiente.style.display = 'inline-block';
+      });
+    });
+  }
+
+  // Función auxiliar para verificar si un valor es numérico
+  function esNumero(valor) {
+    return !isNaN(parseFloat(valor)) && isFinite(valor);
+  }
+</script>
+</body>
+</html>
