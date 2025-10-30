@@ -868,7 +868,7 @@
           </form>
         </div>
 
-        <!-- Método 3: Raíces de Ecuaciones (INCLUYE MÉTODO DE LA SECANTE) -->
+        <!-- Método 3: Raíces de Ecuaciones (CON BISECCIÓN CORREGIDA) -->
         <div class="calculo-card" data-id="m3">
           <div class="calculo-icono">
             <i class="fa-solid fa-square-root-variable"></i>
@@ -877,23 +877,27 @@
           <form class="metodo-form" data-metodo="biseccion">
             <div class="form-group">
               <label for="funcion-raiz">Función f(x):</label>
-              <input type="text" id="funcion-raiz" placeholder="x**2 - 4" value="np.sin(x) - 0.5">
+              <input type="text" id="funcion-raiz" placeholder="x**3 - 6*x**2 + 9*x - 2" value="x**3 - 6*x**2 + 9*x - 2">
             </div>
             <div class="form-group">
               <label for="funcion-derivada-raiz">Derivada f'(x) (para Newton-Raphson):</label>
-              <input type="text" id="funcion-derivada-raiz" placeholder="2*x" value="np.cos(x)">
+              <input type="text" id="funcion-derivada-raiz" placeholder="3*x**2 - 12*x + 9" value="3*x**2 - 12*x + 9">
             </div>
             <div class="form-group">
               <label for="intervalo-a">Valor inicial x₀ (para Newton) / a (para Bisección y Secante):</label>
-              <input type="number" id="intervalo-a" step="any" placeholder="1.5" value="1">
+              <input type="number" id="intervalo-a" step="any" placeholder="3" value="3">
             </div>
             <div class="form-group">
               <label for="intervalo-b">Valor x₁ (para Secante) / b (para Bisección):</label>
-              <input type="number" id="intervalo-b" step="any" placeholder="3" value="2">
+              <input type="number" id="intervalo-b" step="any" placeholder="4" value="4">
             </div>
             <div class="form-group">
               <label for="tolerancia-raiz">Tolerancia:</label>
               <input type="number" id="tolerancia-raiz" step="any" placeholder="0.001" value="0.001">
+            </div>
+            <div class="form-group">
+              <label for="max-iteraciones">Máximo de iteraciones:</label>
+              <input type="number" id="max-iteraciones" placeholder="5" value="5">
             </div>
             <div class="form-group">
               <label for="metodo-raiz">Método:</label>
@@ -909,7 +913,7 @@
           </form>
         </div>
 
-        <!-- Método 4: Diferenciación Numérica (ACTUALIZADO) -->
+        <!-- Método 4: Diferenciación Numérica -->
         <div class="calculo-card" data-id="m4">
           <div class="calculo-icono">
             <i class="fa-solid fa-calculator"></i>
@@ -946,7 +950,7 @@
           </form>
         </div>
 
-        <!-- Método 5: Integración Numérica (ACTUALIZADO CON REGLA DEL TRAPECIO) -->
+        <!-- Método 5: Integración Numérica -->
         <div class="calculo-card" data-id="m5">
           <div class="calculo-icono">
             <i class="fa-solid fa-integral"></i>
@@ -1052,43 +1056,44 @@ plt.grid(True)
 plt.show()" rows="10">import matplotlib.pyplot as plt
 import numpy as np
 
-# Definir la función f(x) que queremos resolver
+# Ejemplo: Método de Bisección
 def f(x):
-    return np.sin(x) - 0.5  # La función f(x) = sin(x) - 0.5
+    return x**3 - 6*x**2 + 9*x - 2
 
-# Método de la secante
-def secante(f, x0, x1, tol=1e-6, max_iter=100):
-    iteraciones = 0
-    while abs(x1 - x0) > tol and iteraciones < max_iter:
-        # Aplicamos la fórmula de la secante
-        x2 = x1 - f(x1) * (x1 - x0) / (f(x1) - f(x0))
-        # Actualizamos los puntos
-        x0, x1 = x1, x2
-        iteraciones += 1
-    return x1
+def biseccion(f, a, b, tol=1e-6, max_iter=100):
+    if f(a) * f(b) >= 0:
+        print("Error: f(a) y f(b) deben tener signos opuestos.")
+        return None
+    
+    for i in range(max_iter):
+        c = (a + b) / 2
+        if abs(f(c)) < tol or (b - a)/2 < tol:
+            print(f"Raíz encontrada: {c:.6f} en {i+1} iteraciones")
+            return c
+        if f(a) * f(c) < 0:
+            b = c
+        else:
+            a = c
+    print("Máximo de iteraciones alcanzado")
+    return (a + b) / 2
 
-# Solicitar al usuario los puntos iniciales
-x0 = float(input("Introduce el primer valor inicial (x0): "))
-x1 = float(input("Introduce el segundo valor inicial (x1): "))
+# Ejecutar bisección
+raiz = biseccion(f, 3, 4)
+print(f"Resultado final: {raiz}")
 
-# Encontramos la raíz usando el método de la secante
-raiz = secante(f, x0, x1)
-
-# Mostrar el resultado
-print(f"\nLa raíz aproximada es: {raiz}")
-
-# Graficar la función para ver cómo se comporta
-x = np.linspace(0, 2*np.pi, 400)
+# Graficar
+x = np.linspace(2, 5, 400)
 y = f(x)
-
-plt.plot(x, y, label="f(x) = sin(x) - 0.5")
-plt.axhline(0, color='black',linewidth=1)  # Línea horizontal en y=0
-plt.axvline(raiz, color='r', linestyle='--', label=f"Raíz aproximada: {raiz:.5f}")
-plt.title('Método de la Secante para encontrar la raíz de f(x) = sin(x) - 0.5')
-plt.xlabel('x')
-plt.ylabel('f(x)')
+plt.figure(figsize=(10, 6))
+plt.plot(x, y, 'b-', linewidth=2, label='f(x)')
+plt.axhline(0, color='black', linewidth=0.8)
+if raiz:
+    plt.axvline(raiz, color='red', linestyle='--', label=f'Raíz: {raiz:.4f}')
 plt.legend()
 plt.grid(True)
+plt.title('Método de Bisección')
+plt.xlabel('x')
+plt.ylabel('f(x)')
 plt.show()</textarea>
           </div>
           <button type="button" class="btn-calcular" onclick="ejecutarPython()">
@@ -1727,7 +1732,7 @@ pasos.append(f"Puntos dados: {list(zip(x_puntos, y_puntos))}")
 pasos.append(f"Punto a interpolar: x = {x_eval}")
 pasos.append("")
 
-# Construir tabla de diferencias divididas CORREGIDA
+# Construir tabla de diferencias divididas
 tabla = np.zeros((n, n))
 for i in range(n):
     tabla[i, 0] = y_puntos[i]
@@ -1758,7 +1763,7 @@ for i in range(n):
         fila += f"{tabla[i, j]:.6f}  "
     pasos.append(fila)
 
-# Aplicar el polinomio de Newton CORREGIDO
+# Aplicar el polinomio de Newton
 pasos.append(f"")
 pasos.append("=== APLICANDO POLINOMIO DE NEWTON ===")
 resultado = tabla[0, 0]
@@ -1783,7 +1788,7 @@ pasos.append(f"")
 pasos.append("=== RESULTADO FINAL ===")
 pasos.append(f"P({x_eval}) = {resultado:.10f}")
 
-# Generar gráfica CORREGIDA
+# Generar gráfica
 img = ""
 try:
     x_min = min(x_puntos)
@@ -1791,7 +1796,7 @@ try:
     margen = (x_max - x_min) * 0.2 if x_max != x_min else 1.0
     x_vals = np.linspace(x_min - margen, x_max + margen, 300)
     
-    # Función para evaluar Newton CORREGIDA
+    # Función para evaluar Newton
     def newton_eval(x_puntos, tabla, x):
         n = len(x_puntos)
         resultado = tabla[0, 0]
@@ -1836,7 +1841,7 @@ except Exception as e:
       }
     }
 
-    // Función para calcular raíces de ecuaciones (INCLUYE MÉTODO DE LA SECANTE)
+    // Función para calcular raíces de ecuaciones (CON BISECCIÓN CORREGIDA)
     async function calcularRaices() {
       if (!pyodide) {
         alert("Pyodide aún se está cargando. Por favor, espera unos segundos.");
@@ -1848,6 +1853,7 @@ except Exception as e:
       const a = document.getElementById('intervalo-a').value;
       const b = document.getElementById('intervalo-b').value;
       const tolerancia = document.getElementById('tolerancia-raiz').value;
+      const maxIter = document.getElementById('max-iteraciones').value;
       const metodo = document.getElementById('metodo-raiz').value;
       
       mostrarModal("Calculando...", "<p>Procesando la función y aplicando el método seleccionado...</p>");
@@ -1857,12 +1863,13 @@ except Exception as e:
         let titulo = "";
         
         if (metodo === 'biseccion') {
-          titulo = "Resultados - Método de Bisección";
+          titulo = "Resultados - Método de Bisección (Mejorado)";
           code = `
 import numpy as np
 import matplotlib.pyplot as plt
 from io import BytesIO
 import base64
+import math
 
 # Función de entrada
 f_str = """${funcion}"""
@@ -1871,94 +1878,90 @@ f = lambda x: eval(f_str, {"x": x, "np": np})
 a = float("""${a}""")
 b = float("""${b}""")
 tol = float("""${tolerancia}""")
-max_iter = 50
+max_iter = int("""${maxIter}""")
 
 pasos = []
 
-pasos.append("🌟 Bienvenido al método de BISECCIÓN 🌟")
-pasos.append("Voy a buscar dónde la función se hace CERO (la raíz).")
-pasos.append(f"Empezamos con el intervalo: a = {a}, b = {b}")
-pasos.append("--------------------------------------------------")
+# Verificación de condición inicial
+if f(a) * f(b) >= 0:
+    raise ValueError("f(a) y f(b) deben tener signos opuestos.")
 
-# Verificar condición inicial
-if f(a) * f(b) > 0:
-    pasos.append("⚠️ Error: La función tiene el mismo signo en a y b.")
-    pasos.append("Necesito que f(a) y f(b) tengan signos opuestos.")
-    raiz = None
-    historia = []
-else:
-    historia = []
-    raiz = None
+# Estimar número teórico de iteraciones
+k_teorico = math.ceil(math.log2((b - a) / tol))
 
-    for i in range(1, max_iter + 1):
-        m = (a + b) / 2  # punto medio
-        fm = f(m)
+pasos.append("="*70)
+pasos.append(" MÉTODO DE BISECCIÓN (paso a paso) ")
+pasos.append(f"Función: f(x) = {f_str}")
+pasos.append(f"Intervalo inicial: [{a}, {b}]")
+pasos.append(f"Tolerancia: {tol}")
+pasos.append(f"Iteraciones teóricas necesarias: {k_teorico}")
+pasos.append("")
 
-        pasos.append(f"🔹 Iteración {i}:")
-        pasos.append(f"   a = {a:.6f}, b = {b:.6f}")
-        pasos.append(f"   El punto medio es m = {m:.6f}")
-        pasos.append(f"   f(m) = {fm:.6f}")
+for k in range(1, max_iter + 1):
+    xk = (a + b) / 2
+    fxk = f(xk)
+    
+    pasos.append(f"Iteración {k}:")
+    pasos.append(f"  Intervalo: [{a:.6f}, {b:.6f}]")
+    pasos.append(f"  x_{k} = {xk:.6f}")
+    pasos.append(f"  f(x_{k}) = {fxk:.6f}")
 
-        historia.append((a, b, m, fm))
-
-        # Criterio de parada
-        if abs(fm) < tol or (b - a)/2 < tol:
-            pasos.append("✅ ¡Encontré la raíz aproximada!")
-            raiz = m
-            break
-
-        # Revisamos en qué sub-intervalo está la raíz
-        if f(a) * fm < 0:
-            b = m
-            pasos.append("👉 La raíz está entre a y m. Ahora b = m")
-        else:
-            a = m
-            pasos.append("👉 La raíz está entre m y b. Ahora a = m")
-
-        pasos.append("--------------------------------------------------")
-
-    if raiz is not None:
-        pasos.append(f"\\n🌈 La raíz aproximada es: x = {raiz:.6f}")
-        pasos.append(f"f({raiz:.6f}) = {f(raiz):.6f}")
+    # Actualizar intervalo
+    if f(a) * fxk < 0:
+        b = xk
+        pasos.append("  -> La raíz está en [a, xk], actualizo b = xk")
     else:
-        pasos.append("❌ No se pudo encontrar la raíz en el número máximo de iteraciones")
+        a = xk
+        pasos.append("  -> La raíz está en [xk, b], actualizo a = xk")
+
+    # Cota de error
+    error = (b - a) / 2
+    pasos.append(f"  Cota de error: {error:.6f}")
+    
+    # Criterio de parada
+    if error < tol:
+        pasos.append("  ✅ Criterio de parada alcanzado (error < tol).")
+        break
+    pasos.append("")
+
+raiz_aprox = (a + b) / 2
+pasos.append("="*70)
+pasos.append(f"Raíz aproximada tras {k} iteraciones: {raiz_aprox:.6f}")
+pasos.append(f"f({raiz_aprox:.6f}) = {f(raiz_aprox):.6f}")
 
 # Generar gráfica
 img = ""
 try:
-    if raiz is not None:
-        # Crear un rango de valores para x
-        x_min = min(historia[0][0], historia[0][1], raiz) - 1
-        x_max = max(historia[0][0], historia[0][1], raiz) + 1
-        x_vals = np.linspace(x_min, x_max, 400)
-        y_vals = [f(x) for x in x_vals]
-        
-        plt.figure(figsize=(10, 6))
-        
-        # Graficar la función
-        plt.plot(x_vals, y_vals, label=f"f(x) = {f_str}", color="blue", linewidth=2)
-        plt.axhline(0, color="black", linewidth=0.8)  # eje X
-        
-        # Graficar los intervalos y puntos medios
-        for i, (ai, bi, mi, fmi) in enumerate(historia):
-            plt.plot([ai, bi], [0, 0], 'ro-', alpha=0.3, markersize=5)
-            plt.plot(mi, fmi, 'ro', markersize=6)
-            plt.text(mi, fmi, f"{i+1}", fontsize=8, color="red")
-        
-        # Marcar la raíz final
-        plt.plot(raiz, f(raiz), 'go', markersize=8, label=f"Raíz: x ≈ {raiz:.4f}")
-        
-        plt.title("Método de Bisección - Paso a paso")
-        plt.xlabel("x")
-        plt.ylabel("f(x)")
-        plt.grid(True, alpha=0.3)
-        plt.legend()
-        
-        buf = BytesIO()
-        plt.savefig(buf, format='png', dpi=100, bbox_inches='tight')
-        buf.seek(0)
-        img = "data:image/png;base64," + base64.b64encode(buf.read()).decode()
-        plt.close()
+    # Crear un rango de valores para x
+    x_min = min(float("""${a}"""), float("""${b}"""), raiz_aprox) - 1
+    x_max = max(float("""${a}"""), float("""${b}"""), raiz_aprox) + 1
+    x_vals = np.linspace(x_min, x_max, 400)
+    y_vals = [f(x) for x in x_vals]
+    
+    plt.figure(figsize=(10, 6))
+    
+    # Graficar la función
+    plt.plot(x_vals, y_vals, label=f"f(x) = {f_str}", color="blue", linewidth=2)
+    plt.axhline(0, color="black", linewidth=0.8)  # eje X
+    
+    # Marcar el intervalo inicial
+    plt.axvline(float("""${a}"""), color="orange", linestyle="--", alpha=0.7, label="a inicial")
+    plt.axvline(float("""${b}"""), color="orange", linestyle="--", alpha=0.7, label="b inicial")
+    
+    # Marcar la raíz final
+    plt.plot(raiz_aprox, f(raiz_aprox), 'go', markersize=8, label=f"Raíz: x ≈ {raiz_aprox:.4f}")
+    
+    plt.title("Método de Bisección - Resultado Final")
+    plt.xlabel("x")
+    plt.ylabel("f(x)")
+    plt.grid(True, alpha=0.3)
+    plt.legend()
+    
+    buf = BytesIO()
+    plt.savefig(buf, format='png', dpi=100, bbox_inches='tight')
+    buf.seek(0)
+    img = "data:image/png;base64," + base64.b64encode(buf.read()).decode()
+    plt.close()
 except Exception as e:
     pasos.append(f"Nota: No se pudo generar la gráfica: {e}")
 
@@ -1981,7 +1984,7 @@ df = lambda x: eval(df_str, {"x": x, "np": np})
 
 x0 = float("""${a}""")
 tol = float("""${tolerancia}""")
-max_iter = 50
+max_iter = int("""${maxIter}""")
 
 pasos = []
 
@@ -2095,7 +2098,7 @@ f = lambda x: eval(f_str, {"x": x, "np": np})
 x0 = float("""${a}""")
 x1 = float("""${b}""")
 tol = float("""${tolerancia}""")
-max_iter = 50
+max_iter = int("""${maxIter}""")
 
 pasos = []
 
@@ -2206,7 +2209,7 @@ except Exception as e:
       }
     }
 
-    // Función para calcular derivada numérica (ACTUALIZADA CON MÉTODO HACIA ATRÁS COMPLETO)
+    // Función para calcular derivada numérica
     async function calcularDerivada() {
       if (!pyodide) {
         alert("Pyodide aún se está cargando. Por favor, espera unos segundos.");
@@ -2465,7 +2468,7 @@ plt.close()
       }
     }
 
-    // Función para calcular integral numérica (ACTUALIZADA CON REGLA DEL TRAPECIO COMPLETA)
+    // Función para calcular integral numérica
     async function calcularIntegral() {
       if (!pyodide) {
         alert("Pyodide aún se está cargando. Por favor, espera unos segundos.");
