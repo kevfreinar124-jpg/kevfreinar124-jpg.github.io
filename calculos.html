@@ -2695,7 +2695,7 @@ y = f(x)
 h = (b - a) / n
 
 # Aplicar fórmula de Simpson 3/8
-I = (3 * h / 8) * (y[0] + y[-1] + 3 * np.sum(y[1:-1:3] + y[2:-1:3]) + 2 * np.sum(y[3:-1:3]))
+I = (3 * h / 8) * (y[0] + y[-1] + 3 * (np.sum(y[1:-1:3]) + np.sum(y[2:-1:3])) + 2 * np.sum(y[3:-1:3]))
 
 resultados = []
 resultados.append("=== RESULTADOS REGLA DE SIMPSON 3/8 ===")
@@ -2706,7 +2706,7 @@ resultados.append("")
 resultados.append(f"Valor aproximado: {I:.8f}")
 resultados.append("")
 resultados.append("Fórmula aplicada:")
-resultados.append(f"I = (3h/8) * [f(x₀) + f(xₙ) + 3Σ(f(x_{i+1}) + f(x_{i+2})) + 2Σf(x_{i+3})]")
+resultados.append(f"I = (3h/8) * [f(x₀) + f(xₙ) + 3(Σf(x₁₊₃) + Σf(x₂₊₃)) + 2Σf(x₃₊₃)]")
 
 # Graficar
 x_plot = np.linspace(a, b, 200)
