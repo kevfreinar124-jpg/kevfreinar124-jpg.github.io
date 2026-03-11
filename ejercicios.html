@@ -279,6 +279,7 @@
       background: linear-gradient(90deg, #f8fbff, #eef6ff);
       border-bottom: 1px solid #e0e9f3;
       overflow-x: auto;
+      scrollbar-width: thin;
     }
 
     .tab-btn {
@@ -345,6 +346,14 @@
       line-height: 1.6;
     }
 
+    .ejercicio-enunciado pre {
+      background: #f8f9fa;
+      padding: 1rem;
+      border-radius: 8px;
+      font-family: 'Courier New', monospace;
+      margin: 1rem 0;
+    }
+
     .ejercicio-paso {
       margin-bottom: 1.5rem;
       padding: 1rem;
@@ -361,25 +370,56 @@
 
     .input-container {
       display: flex;
-      align-items: center;
-      gap: 0.5rem;
+      flex-direction: column;
+      gap: 1rem;
       margin: 0.5rem 0;
-      flex-wrap: wrap;
     }
 
-    .input-ejercicio {
+    .opcion-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
       padding: 0.5rem;
-      border: 1px solid #cbd5e1;
+      background: #fff;
       border-radius: 6px;
-      width: 100px;
-      text-align: center;
+      border: 1px solid #e2e8f0;
+      transition: all 0.2s ease;
+    }
+
+    .opcion-item:hover {
+      background: #f0f9ff;
+      border-color: #2575fc;
+      transform: translateX(5px);
+    }
+
+    .opcion-item input[type="radio"] {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+    }
+
+    .opcion-item input[type="radio"]:disabled {
+      cursor: not-allowed;
+    }
+
+    .opcion-item label {
+      cursor: pointer;
+      flex: 1;
       font-size: 1rem;
     }
 
-    .input-ejercicio:focus {
-      outline: none;
-      border-color: #2575fc;
-      box-shadow: 0 0 0 2px rgba(37, 117, 252, 0.2);
+    .opcion-item label.disabled {
+      cursor: not-allowed;
+    }
+
+    .opcion-item.correcta {
+      background: #d1fae5;
+      border-color: #10b981;
+    }
+
+    .opcion-item.incorrecta {
+      background: #fee2e2;
+      border-color: #ef4444;
     }
 
     .btn-verificar {
@@ -392,11 +432,18 @@
       cursor: pointer;
       margin-top: 1rem;
       margin-right: 0.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .btn-verificar:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(37, 117, 252, 0.3);
     }
 
     .btn-verificar:disabled {
       background: #cbd5e1;
       cursor: not-allowed;
+      opacity: 0.7;
     }
 
     .resultado {
@@ -418,18 +465,6 @@
       border: 1px solid #fecaca;
     }
 
-    .solucion-paso {
-      margin-top: 1rem;
-      padding: 1rem;
-      background: #eff6ff;
-      border-radius: 8px;
-      display: none;
-    }
-
-    .solucion-paso.mostrar {
-      display: block;
-    }
-
     .btn-siguiente {
       padding: 0.6rem 1.2rem;
       background: linear-gradient(90deg, #10b981, #059669);
@@ -440,6 +475,12 @@
       cursor: pointer;
       margin-top: 1rem;
       display: none;
+      transition: all 0.3s ease;
+    }
+
+    .btn-siguiente:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
     }
 
     .btn-siguiente.mostrar {
@@ -456,6 +497,12 @@
       cursor: pointer;
       margin-top: 1rem;
       margin-left: 0.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .btn-reiniciar:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
     }
 
     .progreso-ejercicio {
@@ -482,22 +529,24 @@
       transition: width 0.3s ease;
     }
 
-    .formula {
-      font-family: 'Courier New', monospace;
-      background: #f8f9fa;
-      padding: 0.5rem;
-      border-radius: 4px;
-      margin: 0.5rem 0;
-      border-left: 3px solid #2575fc;
+    .concepto-ayuda {
+      background: #fff3e0;
+      border-left: 4px solid #ff9800;
+      padding: 1rem;
+      margin: 1rem 0;
+      border-radius: 0 8px 8px 0;
+      font-size: 0.95rem;
     }
 
-    .matriz {
-      font-family: 'Courier New', monospace;
-      background: #f8f9fa;
-      padding: 1rem;
-      border-radius: 6px;
-      margin: 1rem 0;
-      border: 1px solid #e2e8f0;
+    .concepto-ayuda i {
+      color: #ff9800;
+      margin-right: 0.5rem;
+    }
+
+    .footer-buttons {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
     }
 
     footer { 
@@ -528,13 +577,13 @@
       header p { font-size: 0.9rem; }
       .tabs-header { flex-wrap: wrap; }
       .tab-btn { flex: 1; min-width: 120px; }
+      .footer-buttons { flex-direction: column; }
+      .footer-buttons button { width: 100%; margin: 0.25rem 0; }
     }
 
     @media (max-width: 480px) {
       main { padding: 0 0.5rem 2rem; }
       .btn, .btn-ventajas { padding: 0.8rem 1.5rem; font-size: 1rem; }
-      .input-container { flex-direction: column; align-items: flex-start; }
-      .input-ejercicio { width: 80px; }
     }
 
     html { scroll-behavior: smooth; }
@@ -566,7 +615,7 @@
 <main>
   <section class="intro-card" aria-labelledby="intro-title">
     <h2 id="intro-title">Ejercicios Interactivos de Métodos Numéricos</h2>
-    <p>Practica cada método numérico con ejercicios paso a paso. Completa los espacios en blanco y verifica tus respuestas para dominar cada técnica.</p>
+    <p>Practica cada método numérico con ejercicios paso a paso. Selecciona la respuesta correcta entre las opciones múltiples para cada paso. Debes responder correctamente para poder avanzar al siguiente paso.</p>
   </section>
 
   <div class="categoria">
@@ -584,7 +633,7 @@
       <article class="metodo-card" data-id="m2" data-title="Interpolación y Ajuste de Curvas">
         <div class="metodo-icono"><i class="fa-solid fa-chart-line"></i></div>
         <h3>Interpolación</h3>
-        <p>Lagrange, Newton, Splines, Regresión</p>
+        <p>Newton, Lagrange, Splines, Regresión</p>
         <div class="card-actions"><button class="btn-sm practicar">Practicar</button></div>
       </article>
 
@@ -600,7 +649,7 @@
       <article class="metodo-card" data-id="m4" data-title="Diferenciación Numérica">
         <div class="metodo-icono"><i class="fa-solid fa-calculator"></i></div>
         <h3>Diferenciación</h3>
-        <p>Progresivas, Regresivas, Centradas, Orden superior</p>
+        <p>Progresivas, Regresivas, Centrales, 2da derivada</p>
         <div class="card-actions"><button class="btn-sm practicar">Practicar</button></div>
       </article>
 
@@ -608,7 +657,7 @@
       <article class="metodo-card" data-id="m5" data-title="Integración Numérica">
         <div class="metodo-icono"><i class="fa-solid fa-integral"></i></div>
         <h3>Integración</h3>
-        <p>Trapecio, Simpson 1/3, Simpson 3/8, Cuadratura Gaussiana</p>
+        <p>Trapecio, Simpson 1/3, Simpson 3/8, Cuadratura</p>
         <div class="card-actions"><button class="btn-sm practicar">Practicar</button></div>
       </article>
 
@@ -616,7 +665,7 @@
       <article class="metodo-card" data-id="m6" data-title="Ecuaciones Diferenciales Ordinarias">
         <div class="metodo-icono"><i class="fa-solid fa-wave-square"></i></div>
         <h3>EDOs</h3>
-        <p>Euler, Runge-Kutta 2 y 4, Predictor-Corrector</p>
+        <p>Euler, RK2, RK4, Predictor-Corrector</p>
         <div class="card-actions"><button class="btn-sm practicar">Practicar</button></div>
       </article>
 
@@ -624,7 +673,7 @@
       <article class="metodo-card" data-id="m7" data-title="Optimización Numérica">
         <div class="metodo-icono"><i class="fa-solid fa-bullseye"></i></div>
         <h3>Optimización</h3>
-        <p>Descenso gradiente, Newton, Búsqueda dorada</p>
+        <p>Gradiente, Newton, Sección Dorada</p>
         <div class="card-actions"><button class="btn-sm practicar">Practicar</button></div>
       </article>
 
@@ -647,76 +696,45 @@
 </footer>
 
 <script>
-  // Datos de ejercicios para cada método
+  // Datos de ejercicios - VERSIÓN COMPLETA CON TODOS LOS MÉTODOS
   const ejercicios = {
+    // ===== M1: SISTEMAS DE ECUACIONES =====
     m1: {
       titulo: "Sistemas de Ecuaciones Algebraicas Lineales",
       submetodos: [
         {
           nombre: "Eliminación de Gauss",
           ejercicio: {
-            titulo: "Sistemas de Ecuaciones - Método de Gauss",
-            enunciado: "Resuelve el siguiente sistema de ecuaciones usando el método de eliminación de Gauss:",
-            sistema: "2x + 3y - z = 5\n4x + 4y - 3z = 3\n-2x + 3y - z = 1",
+            titulo: "Eliminación de Gauss",
+            enunciado: "Resuelve el sistema usando eliminación de Gauss:",
+            sistema: "2x + 3y = 8\n4x - y = 6",
+            concepto: "En eliminación de Gauss, transformamos la matriz aumentada a forma triangular superior mediante operaciones fila.",
             pasos: [
               {
                 titulo: "Paso 1: Matriz aumentada",
                 descripcion: "Escribe la matriz aumentada del sistema:",
-                inputs: [
-                  { id: "a11", valor: "2", label: "a₁₁ =" },
-                  { id: "a12", valor: "3", label: "a₁₂ =" },
-                  { id: "a13", valor: "-1", label: "a₁₃ =" },
-                  { id: "b1", valor: "5", label: "b₁ =" },
-                  { id: "a21", valor: "4", label: "a₂₁ =" },
-                  { id: "a22", valor: "4", label: "a₂₂ =" },
-                  { id: "a23", valor: "-3", label: "a₂₃ =" },
-                  { id: "b2", valor: "3", label: "b₂ =" },
-                  { id: "a31", valor: "-2", label: "a₃₁ =" },
-                  { id: "a32", valor: "3", label: "a₃₂ =" },
-                  { id: "a33", valor: "-1", label: "a₃₃ =" },
-                  { id: "b3", valor: "1", label: "b₃ =" }
+                opciones: [
+                  { valor: "[2 3 | 8; 4 -1 | 6]", correcto: true },
+                  { valor: "[2 3 | 6; 4 -1 | 8]", correcto: false },
+                  { valor: "[3 2 | 8; -1 4 | 6]", correcto: false }
                 ]
               },
               {
-                titulo: "Paso 2: Eliminación hacia adelante (fila 2)",
-                descripcion: "Haz cero en la posición (2,1) usando: F₂ ← F₂ - (a₂₁/a₁₁)F₁",
-                inputs: [
-                  { id: "m21", valor: "2", label: "Multiplicador m₂₁ =" },
-                  { id: "a21n", valor: "0", label: "Nuevo a₂₁ =" },
-                  { id: "a22n", valor: "-2", label: "Nuevo a₂₂ =" },
-                  { id: "a23n", valor: "-1", label: "Nuevo a₂₃ =" },
-                  { id: "b2n", valor: "-7", label: "Nuevo b₂ =" }
+                titulo: "Paso 2: Eliminación",
+                descripcion: "Para hacer cero en (2,1), calcula el multiplicador m = a₂₁/a₁₁:",
+                opciones: [
+                  { valor: "2", correcto: true },
+                  { valor: "4", correcto: false },
+                  { valor: "0.5", correcto: false }
                 ]
               },
               {
-                titulo: "Paso 3: Eliminación hacia adelante (fila 3)",
-                descripcion: "Haz cero en la posición (3,1) usando: F₃ ← F₃ - (a₃₁/a₁₁)F₁",
-                inputs: [
-                  { id: "m31", valor: "-1", label: "Multiplicador m₃₁ =" },
-                  { id: "a31n", valor: "0", label: "Nuevo a₃₁ =" },
-                  { id: "a32n", valor: "6", label: "Nuevo a₃₂ =" },
-                  { id: "a33n", valor: "-2", label: "Nuevo a₃₃ =" },
-                  { id: "b3n", valor: "6", label: "Nuevo b₃ =" }
-                ]
-              },
-              {
-                titulo: "Paso 4: Eliminación hacia adelante (fila 3 sobre fila 2)",
-                descripcion: "Haz cero en la posición (3,2) usando: F₃ ← F₃ - (a₃₂/a₂₂)F₂",
-                inputs: [
-                  { id: "m32", valor: "-3", label: "Multiplicador m₃₂ =" },
-                  { id: "a32nn", valor: "0", label: "Nuevo a₃₂ =" },
-                  { id: "a33nn", valor: "-5", label: "Nuevo a₃₃ =" },
-                  { id: "b3nn", valor: "-15", label: "Nuevo b₃ =" }
-                ]
-              },
-              {
-                titulo: "Paso 5: Sustitución hacia atrás",
-                descripcion: "Resuelve el sistema triangular superior:",
-                formula: "De la última ecuación: -5z = -15 → z = 3\nDe la segunda: -2y - z = -7 → -2y -3 = -7 → y = 2\nDe la primera: 2x + 3y - z = 5 → 2x + 6 -3 = 5 → x = 1",
-                inputs: [
-                  { id: "x", valor: "1", label: "x =" },
-                  { id: "y", valor: "2", label: "y =" },
-                  { id: "z", valor: "3", label: "z =" }
+                titulo: "Paso 3: Solución",
+                descripcion: "Después de la eliminación, obtienes: 2x + 3y = 8, -7y = -10. ¿Cuál es y?",
+                opciones: [
+                  { valor: "10/7 ≈ 1.4286", correcto: true },
+                  { valor: "7/10 = 0.7", correcto: false },
+                  { valor: "2", correcto: false }
                 ]
               }
             ]
@@ -725,45 +743,73 @@
         {
           nombre: "Gauss-Jordan",
           ejercicio: {
-            titulo: "Sistemas de Ecuaciones - Método de Gauss-Jordan",
-            enunciado: "Resuelve el siguiente sistema usando el método de Gauss-Jordan:",
-            sistema: "x + 2y = 5\n3x - y = 4",
+            titulo: "Gauss-Jordan",
+            enunciado: "Resuelve el sistema usando Gauss-Jordan:",
+            sistema: "x + y = 3\nx - y = 1",
+            concepto: "Gauss-Jordan continúa hasta obtener una matriz diagonal con unos.",
             pasos: [
               {
                 titulo: "Paso 1: Matriz aumentada",
-                descripcion: "Escribe la matriz aumentada del sistema:",
-                inputs: [
-                  { id: "a11", valor: "1", label: "a₁₁ =" },
-                  { id: "a12", valor: "2", label: "a₁₂ =" },
-                  { id: "b1", valor: "5", label: "b₁ =" },
-                  { id: "a21", valor: "3", label: "a₂₁ =" },
-                  { id: "a22", valor: "-1", label: "a₂₂ =" },
-                  { id: "b2", valor: "4", label: "b₂ =" }
+                descripcion: "Matriz aumentada del sistema:",
+                opciones: [
+                  { valor: "[1 1 | 3; 1 -1 | 1]", correcto: true },
+                  { valor: "[1 1 | 1; 1 -1 | 3]", correcto: false },
+                  { valor: "[1 -1 | 3; 1 1 | 1]", correcto: false }
                 ]
               },
               {
-                titulo: "Paso 2: Hacer 1 el primer pivote",
-                descripcion: "El primer pivote ya es 1, continuamos. Elimina el término debajo: F₂ ← F₂ - 3F₁",
-                inputs: [
-                  { id: "a21n", valor: "0", label: "Nuevo a₂₁ =" },
-                  { id: "a22n", valor: "-7", label: "Nuevo a₂₂ =" },
-                  { id: "b2n", valor: "-11", label: "Nuevo b₂ =" }
+                titulo: "Paso 2: Eliminación",
+                descripcion: "Aplicamos F₂ ← F₂ - F₁. ¿Cuál es el nuevo valor en (2,2)?",
+                opciones: [
+                  { valor: "-2", correcto: true },
+                  { valor: "2", correcto: false },
+                  { valor: "0", correcto: false }
                 ]
               },
               {
-                titulo: "Paso 3: Normalizar segunda fila",
-                descripcion: "Divide la segunda fila por -7 para hacer pivote = 1",
-                inputs: [
-                  { id: "a22nn", valor: "1", label: "Nuevo a₂₂ =" },
-                  { id: "b2nn", valor: "11/7 ≈ 1.5714", label: "Nuevo b₂ =" }
+                titulo: "Paso 3: Solución",
+                descripcion: "Después de normalizar, la solución es:",
+                opciones: [
+                  { valor: "x = 2, y = 1", correcto: true },
+                  { valor: "x = 1, y = 2", correcto: false },
+                  { valor: "x = 3, y = 0", correcto: false }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          nombre: "Descomposición LU",
+          ejercicio: {
+            titulo: "Descomposición LU",
+            enunciado: "Para la matriz A = [4, 3; 6, 3], encuentra el multiplicador:",
+            concepto: "La descomposición LU factoriza A = L·U, donde L es triangular inferior con unos en diagonal.",
+            pasos: [
+              {
+                titulo: "Paso 1: Multiplicador",
+                descripcion: "Para hacer cero en (2,1), m = a₂₁/a₁₁ = ?",
+                opciones: [
+                  { valor: "1.5", correcto: true },
+                  { valor: "0.6667", correcto: false },
+                  { valor: "2", correcto: false }
                 ]
               },
               {
-                titulo: "Paso 4: Eliminar arriba del segundo pivote",
-                descripcion: "F₁ ← F₁ - 2F₂ para eliminar el término de y en la primera ecuación",
-                inputs: [
-                  { id: "x", valor: "2", label: "x =" },
-                  { id: "y", valor: "1.5714", label: "y =" }
+                titulo: "Paso 2: Matriz U",
+                descripcion: "Después de la eliminación, ¿cuál es U₂₂?",
+                opciones: [
+                  { valor: "-6", correcto: true },
+                  { valor: "3", correcto: false },
+                  { valor: "-3", correcto: false }
+                ]
+              },
+              {
+                titulo: "Paso 3: Matriz L",
+                descripcion: "¿Cuál es L₂₁?",
+                opciones: [
+                  { valor: "1.5", correcto: true },
+                  { valor: "1", correcto: false },
+                  { valor: "0", correcto: false }
                 ]
               }
             ]
@@ -772,34 +818,35 @@
         {
           nombre: "Método de Jacobi",
           ejercicio: {
-            titulo: "Método Iterativo de Jacobi",
-            enunciado: "Resuelve el sistema 10x + 2y + z = 9, 2x + 10y + z = 12, 2x + 2y + 10z = 13 usando el método de Jacobi con vector inicial (0,0,0) para 2 iteraciones:",
-            sistema: "10x + 2y + z = 9\n2x + 10y + z = 12\n2x + 2y + 10z = 13",
+            titulo: "Método de Jacobi",
+            enunciado: "Para 4x + y = 9, x + 4y = 6, con (0,0):",
+            concepto: "Jacobi usa valores de la iteración anterior: x = (9 - y)/4, y = (6 - x)/4",
             pasos: [
               {
-                titulo: "Paso 1: Despejar cada variable",
-                descripcion: "Despeja x, y, z de cada ecuación:",
-                formula: "x = (9 - 2y - z)/10\ny = (12 - 2x - z)/10\nz = (13 - 2x - 2y)/10",
-                inputs: []
-              },
-              {
-                titulo: "Paso 2: Iteración 1 (k=0)",
-                descripcion: "Usando x⁰=0, y⁰=0, z⁰=0, calcula los nuevos valores:",
-                formula: "x¹ = (9 - 2×0 - 0)/10 = 0.9\ny¹ = (12 - 2×0 - 0)/10 = 1.2\nz¹ = (13 - 2×0 - 2×0)/10 = 1.3",
-                inputs: [
-                  { id: "x1", valor: "0.9", label: "x¹ =" },
-                  { id: "y1", valor: "1.2", label: "y¹ =" },
-                  { id: "z1", valor: "1.3", label: "z¹ =" }
+                titulo: "Paso 1: Despeje",
+                descripcion: "¿Cuál es la expresión para x?",
+                opciones: [
+                  { valor: "x = (9 - y)/4", correcto: true },
+                  { valor: "x = (9 + y)/4", correcto: false },
+                  { valor: "x = (9 - y)/1", correcto: false }
                 ]
               },
               {
-                titulo: "Paso 3: Iteración 2 (k=1)",
-                descripcion: "Usando x¹=0.9, y¹=1.2, z¹=1.3, calcula los nuevos valores:",
-                formula: "x² = (9 - 2×1.2 - 1.3)/10 = (9 - 2.4 - 1.3)/10 = 5.3/10 = 0.53\ny² = (12 - 2×0.9 - 1.3)/10 = (12 - 1.8 - 1.3)/10 = 8.9/10 = 0.89\nz² = (13 - 2×0.9 - 2×1.2)/10 = (13 - 1.8 - 2.4)/10 = 8.8/10 = 0.88",
-                inputs: [
-                  { id: "x2", valor: "0.53", label: "x² =" },
-                  { id: "y2", valor: "0.89", label: "y² =" },
-                  { id: "z2", valor: "0.88", label: "z² =" }
+                titulo: "Paso 2: Iteración 1",
+                descripcion: "Con x⁰=0, y⁰=0, ¿cuál es x¹?",
+                opciones: [
+                  { valor: "2.25", correcto: true },
+                  { valor: "1.5", correcto: false },
+                  { valor: "3", correcto: false }
+                ]
+              },
+              {
+                titulo: "Paso 3: Iteración 1",
+                descripcion: "Con x¹=2.25, ¿cuál es y¹?",
+                opciones: [
+                  { valor: "0.9375", correcto: true },
+                  { valor: "1.5", correcto: false },
+                  { valor: "0.5", correcto: false }
                 ]
               }
             ]
@@ -808,57 +855,35 @@
         {
           nombre: "Gauss-Seidel",
           ejercicio: {
-            titulo: "Método de Gauss-Seidel",
-            enunciado: "Resuelve el mismo sistema usando Gauss-Seidel con vector inicial (0,0,0) para 2 iteraciones:",
-            sistema: "10x + 2y + z = 9\n2x + 10y + z = 12\n2x + 2y + 10z = 13",
+            titulo: "Gauss-Seidel",
+            enunciado: "Mismo sistema 4x + y = 9, x + 4y = 6 con (0,0):",
+            concepto: "Gauss-Seidel usa valores actualizados inmediatamente.",
             pasos: [
               {
-                titulo: "Paso 1: Despejar cada variable",
-                descripcion: "Despeja x, y, z de cada ecuación (misma fórmula que Jacobi):",
-                formula: "x = (9 - 2y - z)/10\ny = (12 - 2x - z)/10\nz = (13 - 2x - 2y)/10",
-                inputs: []
-              },
-              {
-                titulo: "Paso 2: Iteración 1 (k=0) - Calcular x¹",
-                descripcion: "Usando y⁰=0, z⁰=0: x¹ = (9 - 2×0 - 0)/10",
-                inputs: [
-                  { id: "x1", valor: "0.9", label: "x¹ =" }
+                titulo: "Paso 1: x¹",
+                descripcion: "Primero calculamos x¹ = (9 - 0)/4 = ?",
+                opciones: [
+                  { valor: "2.25", correcto: true },
+                  { valor: "2", correcto: false },
+                  { valor: "2.5", correcto: false }
                 ]
               },
               {
-                titulo: "Paso 3: Iteración 1 - Calcular y¹",
-                descripcion: "Usando x¹=0.9 (ya calculado) y z⁰=0: y¹ = (12 - 2×0.9 - 0)/10",
-                inputs: [
-                  { id: "y1", valor: "1.02", label: "y¹ =" }
+                titulo: "Paso 2: y¹",
+                descripcion: "Con x¹=2.25, calculamos y¹ = (6 - 2.25)/4 = ?",
+                opciones: [
+                  { valor: "0.9375", correcto: true },
+                  { valor: "0.875", correcto: false },
+                  { valor: "1", correcto: false }
                 ]
               },
               {
-                titulo: "Paso 4: Iteración 1 - Calcular z¹",
-                descripcion: "Usando x¹=0.9 y y¹=1.02: z¹ = (13 - 2×0.9 - 2×1.02)/10",
-                formula: "z¹ = (13 - 1.8 - 2.04)/10 = 9.16/10",
-                inputs: [
-                  { id: "z1", valor: "0.916", label: "z¹ =" }
-                ]
-              },
-              {
-                titulo: "Paso 5: Iteración 2 - Calcular x²",
-                descripcion: "Usando y¹=1.02, z¹=0.916: x² = (9 - 2×1.02 - 0.916)/10",
-                inputs: [
-                  { id: "x2", valor: "0.6044", label: "x² =" }
-                ]
-              },
-              {
-                titulo: "Paso 6: Iteración 2 - Calcular y²",
-                descripcion: "Usando x²=0.6044, z¹=0.916: y² = (12 - 2×0.6044 - 0.916)/10",
-                inputs: [
-                  { id: "y2", valor: "0.9875", label: "y² =" }
-                ]
-              },
-              {
-                titulo: "Paso 7: Iteración 2 - Calcular z²",
-                descripcion: "Usando x²=0.6044, y²=0.9875: z² = (13 - 2×0.6044 - 2×0.9875)/10",
-                inputs: [
-                  { id: "z2", valor: "0.9816", label: "z² =" }
+                titulo: "Paso 3: x²",
+                descripcion: "Con y¹=0.9375, calculamos x² = (9 - 0.9375)/4 = ?",
+                opciones: [
+                  { valor: "2.0156", correcto: true },
+                  { valor: "2.5", correcto: false },
+                  { valor: "1.9844", correcto: false }
                 ]
               }
             ]
@@ -867,35 +892,35 @@
         {
           nombre: "SOR",
           ejercicio: {
-            titulo: "Método SOR (Successive Over-Relaxation)",
-            enunciado: "Aplica el método SOR con ω=1.2 al sistema anterior con vector inicial (0,0,0) para 1 iteración:",
-            sistema: "10x + 2y + z = 9\n2x + 10y + z = 12\n2x + 2y + 10z = 13",
+            titulo: "SOR (Successive Over-Relaxation)",
+            enunciado: "Para ω=1.2, con x_GS=2.25, calcula x_SOR:",
+            concepto: "SOR: x_SOR = (1-ω)x_anterior + ω·x_GS",
             pasos: [
               {
-                titulo: "Paso 1: Fórmula SOR",
-                descripcion: "x⁽ᵏ⁺¹⁾ = (1-ω)x⁽ᵏ⁾ + ω × x_jacobi, donde x_jacobi usa los valores más actualizados",
-                formula: "xᵢ⁽ᵏ⁺¹⁾ = (1-ω)xᵢ⁽ᵏ⁾ + ω(bᵢ - Σⱼ<ᵢ aᵢⱼxⱼ⁽ᵏ⁺¹⁾ - Σⱼ>ᵢ aᵢⱼxⱼ⁽ᵏ⁾)/aᵢᵢ",
-                inputs: []
-              },
-              {
-                titulo: "Paso 2: Calcular x¹ con SOR",
-                descripcion: "Primero calculamos el valor de Gauss-Seidel: x_GS = (9 - 2×0 - 0)/10 = 0.9\nLuego aplicamos SOR: x¹ = (1-1.2)×0 + 1.2×0.9",
-                inputs: [
-                  { id: "x1", valor: "1.08", label: "x¹ =" }
+                titulo: "Paso 1: Fórmula",
+                descripcion: "Si x_anterior=0, x_GS=2.25, ω=1.2, ¿cuál es x_SOR?",
+                opciones: [
+                  { valor: "2.7", correcto: true },
+                  { valor: "2.25", correcto: false },
+                  { valor: "1.8", correcto: false }
                 ]
               },
               {
-                titulo: "Paso 3: Calcular y¹ con SOR",
-                descripcion: "y_GS = (12 - 2×1.08 - 0)/10 = (12 - 2.16)/10 = 9.84/10 = 0.984\ny¹ = (1-1.2)×0 + 1.2×0.984",
-                inputs: [
-                  { id: "y1", valor: "1.1808", label: "y¹ =" }
+                titulo: "Paso 2: Significado",
+                descripcion: "Si ω > 1, el método es:",
+                opciones: [
+                  { valor: "Sobrerrelajación", correcto: true },
+                  { valor: "Subrelajación", correcto: false },
+                  { valor: "Relajación simple", correcto: false }
                 ]
               },
               {
-                titulo: "Paso 4: Calcular z¹ con SOR",
-                descripcion: "z_GS = (13 - 2×1.08 - 2×1.1808)/10 = (13 - 2.16 - 2.3616)/10 = 8.4784/10 = 0.84784\nz¹ = (1-1.2)×0 + 1.2×0.84784",
-                inputs: [
-                  { id: "z1", valor: "1.0174", label: "z¹ =" }
+                titulo: "Paso 3: Convergencia",
+                descripcion: "Para que SOR converja, ω debe estar en el intervalo:",
+                opciones: [
+                  { valor: "0 < ω < 2", correcto: true },
+                  { valor: "0 < ω < 1", correcto: false },
+                  { valor: "ω > 1", correcto: false }
                 ]
               }
             ]
@@ -903,101 +928,117 @@
         }
       ]
     },
+
+    // ===== M2: INTERPOLACIÓN =====
     m2: {
       titulo: "Interpolación y Ajuste de Curvas",
       submetodos: [
         {
-          nombre: "Diferencias Divididas de Newton",
+          nombre: "Diferencias Divididas",
           ejercicio: {
-            titulo: "Interpolación - Diferencias Divididas de Newton",
-            enunciado: "Calcula el polinomio de interpolación usando diferencias divididas de Newton para los puntos dados:",
-            puntos: "Puntos: (1, 2), (2, 3), (4, 0)",
+            titulo: "Diferencias Divididas de Newton",
+            enunciado: "Para los puntos (1,2), (2,3):",
+            concepto: "Las diferencias divididas: f[xᵢ,xⱼ] = (f(xⱼ) - f(xᵢ))/(xⱼ - xᵢ)",
             pasos: [
               {
-                titulo: "Paso 1: Tabla de diferencias divididas",
-                descripcion: "Construye la tabla de diferencias divididas:",
-                formula: "f[xᵢ] = yᵢ\nf[xᵢ, xᵢ₊₁] = (f[xᵢ₊₁] - f[xᵢ]) / (xᵢ₊₁ - xᵢ)\nf[xᵢ, xᵢ₊₁, xᵢ₊₂] = (f[xᵢ₊₁, xᵢ₊₂] - f[xᵢ, xᵢ₊₁]) / (xᵢ₊₂ - xᵢ)",
-                inputs: [
-                  { id: "f1", valor: "2", label: "f[x₁] =" },
-                  { id: "f2", valor: "3", label: "f[x₂] =" },
-                  { id: "f3", valor: "0", label: "f[x₃] =" }
+                titulo: "Paso 1: f[x₁]",
+                descripcion: "¿Cuál es f[x₁] para (1,2)?",
+                opciones: [
+                  { valor: "2", correcto: true },
+                  { valor: "1", correcto: false },
+                  { valor: "3", correcto: false }
                 ]
               },
               {
-                titulo: "Paso 2: Primeras diferencias divididas",
-                descripcion: "Calcula las primeras diferencias divididas:",
-                inputs: [
-                  { id: "f12", valor: "1", label: "f[x₁,x₂] = (3 - 2)/(2 - 1) =" },
-                  { id: "f23", valor: "-1.5", label: "f[x₂,x₃] = (0 - 3)/(4 - 2) =" }
+                titulo: "Paso 2: f[x₂]",
+                descripcion: "¿Cuál es f[x₂] para (2,3)?",
+                opciones: [
+                  { valor: "3", correcto: true },
+                  { valor: "2", correcto: false },
+                  { valor: "1", correcto: false }
                 ]
               },
               {
-                titulo: "Paso 3: Segundas diferencias divididas",
-                descripcion: "Calcula las segundas diferencias divididas:",
-                inputs: [
-                  { id: "f123", valor: "-0.8333", label: "f[x₁,x₂,x₃] = (-1.5 - 1)/(4 - 1) =" }
-                ]
-              },
-              {
-                titulo: "Paso 4: Polinomio de interpolación",
-                descripcion: "Construye el polinomio usando la fórmula de Newton:",
-                formula: "P(x) = f[x₁] + f[x₁,x₂](x - x₁) + f[x₁,x₂,x₃](x - x₁)(x - x₂)",
-                inputs: [
-                  { id: "polinomio", valor: "2 + 1(x-1) - 0.8333(x-1)(x-2)" }
-                ]
-              },
-              {
-                titulo: "Paso 5: Simplificar el polinomio",
-                descripcion: "Simplifica la expresión del polinomio (expande y agrupa términos):",
-                inputs: [
-                  { id: "polinomio_simplificado", valor: "-0.8333x² + 3.5x - 0.6667" }
+                titulo: "Paso 3: f[x₁,x₂]",
+                descripcion: "Calcula f[x₁,x₂] = (3-2)/(2-1):",
+                opciones: [
+                  { valor: "1", correcto: true },
+                  { valor: "2", correcto: false },
+                  { valor: "0.5", correcto: false }
                 ]
               }
             ]
           }
         },
         {
-          nombre: "Interpolación de Lagrange",
+          nombre: "Lagrange",
           ejercicio: {
             titulo: "Interpolación de Lagrange",
-            enunciado: "Encuentra el polinomio de interpolación de Lagrange para los puntos dados:",
-            puntos: "Puntos: (1, 2), (2, 3), (4, 0)",
+            enunciado: "Para (1,2), (2,3), encuentra l₀(x):",
+            concepto: "lᵢ(x) = Π (x-xⱼ)/(xᵢ-xⱼ) para j≠i",
             pasos: [
               {
-                titulo: "Paso 1: Fórmula general",
-                descripcion: "La fórmula del polinomio de Lagrange es: L(x) = Σ yᵢ * lᵢ(x), donde lᵢ(x) = Π (x - xⱼ)/(xᵢ - xⱼ)",
-                inputs: []
-              },
-              {
-                titulo: "Paso 2: Calcular l₀(x)",
-                descripcion: "Para el punto (1, 2): l₀(x) = (x - 2)(x - 4)/((1 - 2)(1 - 4))",
-                formula: "l₀(x) = (x-2)(x-4)/((-1)(-3)) = (x² - 6x + 8)/3",
-                inputs: [
-                  { id: "l0", valor: "(x² - 6x + 8)/3" }
+                titulo: "Paso 1: l₀(x)",
+                descripcion: "Para (1,2), l₀(x) = (x-2)/(1-2) = ?",
+                opciones: [
+                  { valor: "-(x-2)", correcto: true },
+                  { valor: "x-2", correcto: false },
+                  { valor: "x-1", correcto: false }
                 ]
               },
               {
-                titulo: "Paso 3: Calcular l₁(x)",
-                descripcion: "Para el punto (2, 3): l₁(x) = (x - 1)(x - 4)/((2 - 1)(2 - 4))",
-                formula: "l₁(x) = (x-1)(x-4)/((1)(-2)) = (x² - 5x + 4)/(-2) = (-x² + 5x - 4)/2",
-                inputs: [
-                  { id: "l1", valor: "(-x² + 5x - 4)/2" }
+                titulo: "Paso 2: l₁(x)",
+                descripcion: "Para (2,3), l₁(x) = (x-1)/(2-1) = ?",
+                opciones: [
+                  { valor: "x-1", correcto: true },
+                  { valor: "x-2", correcto: false },
+                  { valor: "-(x-1)", correcto: false }
                 ]
               },
               {
-                titulo: "Paso 4: Calcular l₂(x)",
-                descripcion: "Para el punto (4, 0): l₂(x) = (x - 1)(x - 2)/((4 - 1)(4 - 2))",
-                formula: "l₂(x) = (x-1)(x-2)/((3)(2)) = (x² - 3x + 2)/6",
-                inputs: [
-                  { id: "l2", valor: "(x² - 3x + 2)/6" }
+                titulo: "Paso 3: Polinomio",
+                descripcion: "L(x) = 2·l₀(x) + 3·l₁(x) = ?",
+                opciones: [
+                  { valor: "x + 1", correcto: true },
+                  { valor: "2x - 1", correcto: false },
+                  { valor: "x + 2", correcto: false }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          nombre: "Splines Cúbicos",
+          ejercicio: {
+            titulo: "Splines Cúbicos",
+            enunciado: "En un spline cúbico natural, la condición en los extremos es:",
+            concepto: "Los splines cúbicos naturales tienen segunda derivada cero en los extremos.",
+            pasos: [
+              {
+                titulo: "Paso 1: Condición natural",
+                descripcion: "¿Cuál es la condición en x₀?",
+                opciones: [
+                  { valor: "S''(x₀) = 0", correcto: true },
+                  { valor: "S'(x₀) = 0", correcto: false },
+                  { valor: "S(x₀) = 0", correcto: false }
                 ]
               },
               {
-                titulo: "Paso 5: Polinomio final",
-                descripcion: "L(x) = 2*l₀(x) + 3*l₁(x) + 0*l₂(x)",
-                formula: "L(x) = 2[(x²-6x+8)/3] + 3[(-x²+5x-4)/2] = (2x²-12x+16)/3 + (-3x²+15x-12)/2",
-                inputs: [
-                  { id: "Lx", valor: "-0.8333x² + 3.5x - 0.6667" }
+                titulo: "Paso 2: Condición en xₙ",
+                descripcion: "¿Cuál es la condición en xₙ?",
+                opciones: [
+                  { valor: "S''(xₙ) = 0", correcto: true },
+                  { valor: "S'(xₙ) = 0", correcto: false },
+                  { valor: "S(xₙ) = 0", correcto: false }
+                ]
+              },
+              {
+                titulo: "Paso 3: Continuidad",
+                descripcion: "En los puntos interiores se exige continuidad hasta:",
+                opciones: [
+                  { valor: "Segunda derivada", correcto: true },
+                  { valor: "Primera derivada", correcto: false },
+                  { valor: "Solo la función", correcto: false }
                 ]
               }
             ]
@@ -1006,41 +1047,35 @@
         {
           nombre: "Regresión Lineal",
           ejercicio: {
-            titulo: "Regresión Lineal por Mínimos Cuadrados",
-            enunciado: "Calcula la recta de regresión y = mx + b para los puntos (1,1), (2,3), (3,3):",
+            titulo: "Regresión Lineal",
+            enunciado: "Para (1,2), (2,3), (3,4), encuentra la recta:",
+            concepto: "Mínimos cuadrados: m = (n·Σxy - Σx·Σy)/(n·Σx² - (Σx)²)",
             pasos: [
               {
-                titulo: "Paso 1: Calcular sumatorias",
-                descripcion: "Calcula n, Σx, Σy, Σxy, Σx²:",
-                inputs: [
-                  { id: "n", valor: "3", label: "n =" },
-                  { id: "sumx", valor: "6", label: "Σx = 1+2+3 =" },
-                  { id: "sumy", valor: "7", label: "Σy = 1+3+3 =" },
-                  { id: "sumxy", valor: "16", label: "Σxy = 1×1 + 2×3 + 3×3 =" },
-                  { id: "sumx2", valor: "14", label: "Σx² = 1² + 2² + 3² =" }
+                titulo: "Paso 1: Pendiente",
+                descripcion: "Con n=3, Σx=6, Σy=9, Σxy=20, Σx²=14, ¿cuál es m?",
+                opciones: [
+                  { valor: "1", correcto: true },
+                  { valor: "2", correcto: false },
+                  { valor: "0.5", correcto: false }
                 ]
               },
               {
-                titulo: "Paso 2: Calcular pendiente",
-                descripcion: "m = (n·Σxy - Σx·Σy) / (n·Σx² - (Σx)²)",
-                formula: "m = (3×16 - 6×7) / (3×14 - 6²) = (48 - 42) / (42 - 36) = 6/6",
-                inputs: [
-                  { id: "m", valor: "1", label: "m =" }
+                titulo: "Paso 2: Intercepto",
+                descripcion: "Con m=1, calcula b = (Σy - m·Σx)/n:",
+                opciones: [
+                  { valor: "1", correcto: true },
+                  { valor: "2", correcto: false },
+                  { valor: "0", correcto: false }
                 ]
               },
               {
-                titulo: "Paso 3: Calcular intercepto",
-                descripcion: "b = (Σy - m·Σx) / n",
-                formula: "b = (7 - 1×6) / 3 = 1/3",
-                inputs: [
-                  { id: "b", valor: "0.3333", label: "b =" }
-                ]
-              },
-              {
-                titulo: "Paso 4: Recta de regresión",
-                descripcion: "Escribe la ecuación de la recta de regresión:",
-                inputs: [
-                  { id: "recta", valor: "y = x + 0.3333" }
+                titulo: "Paso 3: Recta",
+                descripcion: "La recta de regresión es:",
+                opciones: [
+                  { valor: "y = x + 1", correcto: true },
+                  { valor: "y = x + 2", correcto: false },
+                  { valor: "y = 2x - 1", correcto: false }
                 ]
               }
             ]
@@ -1048,102 +1083,154 @@
         }
       ]
     },
+
+    // ===== M3: RAÍCES DE ECUACIONES =====
     m3: {
       titulo: "Raíces de Ecuaciones",
       submetodos: [
         {
-          nombre: "Método de Bisección",
+          nombre: "Bisección",
           ejercicio: {
-            titulo: "Método de Bisección",
-            enunciado: "Encuentra la raíz de f(x) = x³ - x - 2 en el intervalo [1, 2] con una iteración del método de bisección:",
+            titulo: "Bisección",
+            enunciado: "Para f(x) = x² - 4 en [1,3]:",
+            concepto: "Bisección divide el intervalo y selecciona donde hay cambio de signo.",
             pasos: [
               {
-                titulo: "Paso 1: Evaluar la función en los extremos",
-                descripcion: "Calcula f(1) y f(2):",
-                inputs: [
-                  { id: "f1", valor: "-2", label: "f(1) = 1³ - 1 - 2 =" },
-                  { id: "f2", valor: "4", label: "f(2) = 2³ - 2 - 2 =" }
+                titulo: "Paso 1: f(1)",
+                descripcion: "f(1) = 1² - 4 = ?",
+                opciones: [
+                  { valor: "-3", correcto: true },
+                  { valor: "3", correcto: false },
+                  { valor: "-2", correcto: false }
                 ]
               },
               {
-                titulo: "Paso 2: Verificar cambio de signo",
-                descripcion: "f(1) = -2 < 0, f(2) = 4 > 0. Hay cambio de signo, existe raíz en [1,2].",
-                inputs: []
-              },
-              {
-                titulo: "Paso 3: Primera iteración",
-                descripcion: "c = (a + b)/2 = (1 + 2)/2 = 1.5",
-                inputs: [
-                  { id: "c1", valor: "1.5", label: "c₁ =" }
+                titulo: "Paso 2: f(3)",
+                descripcion: "f(3) = 9 - 4 = ?",
+                opciones: [
+                  { valor: "5", correcto: true },
+                  { valor: "4", correcto: false },
+                  { valor: "6", correcto: false }
                 ]
               },
               {
-                titulo: "Paso 4: Evaluar en el punto medio",
-                descripcion: "f(1.5) = 1.5³ - 1.5 - 2 = 3.375 - 3.5",
-                inputs: [
-                  { id: "fc1", valor: "-0.125", label: "f(1.5) =" }
-                ]
-              },
-              {
-                titulo: "Paso 5: Nuevo intervalo",
-                descripcion: "Como f(1.5) < 0, la raíz está en [1.5, 2]",
-                inputs: [
-                  { id: "a_new", valor: "1.5", label: "Nuevo a =" },
-                  { id: "b_new", valor: "2", label: "Nuevo b =" }
+                titulo: "Paso 3: Punto medio",
+                descripcion: "El punto medio c = (1+3)/2 = ?",
+                opciones: [
+                  { valor: "2", correcto: true },
+                  { valor: "1.5", correcto: false },
+                  { valor: "2.5", correcto: false }
                 ]
               }
             ]
           }
         },
         {
-          nombre: "Método de Newton-Raphson",
+          nombre: "Newton-Raphson",
           ejercicio: {
-            titulo: "Método de Newton-Raphson",
-            enunciado: "Aplica una iteración del método de Newton-Raphson para f(x) = x² - 4 con x₀ = 3:",
+            titulo: "Newton-Raphson",
+            enunciado: "Para f(x) = x² - 4, x₀ = 3:",
+            concepto: "Newton-Raphson: x₁ = x₀ - f(x₀)/f'(x₀)",
             pasos: [
               {
-                titulo: "Paso 1: Calcular la derivada",
-                descripcion: "f'(x) = 2x",
-                inputs: []
-              },
-              {
-                titulo: "Paso 2: Evaluar función y derivada en x₀",
-                descripcion: "f(3) = 9 - 4 = 5, f'(3) = 6",
-                inputs: [
-                  { id: "fx0", valor: "5", label: "f(3) =" },
-                  { id: "dfx0", valor: "6", label: "f'(3) =" }
+                titulo: "Paso 1: f(3)",
+                descripcion: "f(3) = 9 - 4 = ?",
+                opciones: [
+                  { valor: "5", correcto: true },
+                  { valor: "4", correcto: false },
+                  { valor: "3", correcto: false }
                 ]
               },
               {
-                titulo: "Paso 3: Fórmula de Newton-Raphson",
-                descripcion: "x₁ = x₀ - f(x₀)/f'(x₀) = 3 - 5/6",
-                inputs: [
-                  { id: "x1", valor: "2.1667", label: "x₁ =" }
+                titulo: "Paso 2: f'(3)",
+                descripcion: "f'(x) = 2x, f'(3) = ?",
+                opciones: [
+                  { valor: "6", correcto: true },
+                  { valor: "3", correcto: false },
+                  { valor: "2", correcto: false }
+                ]
+              },
+              {
+                titulo: "Paso 3: x₁",
+                descripcion: "x₁ = 3 - 5/6 = ?",
+                opciones: [
+                  { valor: "2.1667", correcto: true },
+                  { valor: "2.5", correcto: false },
+                  { valor: "2", correcto: false }
                 ]
               }
             ]
           }
         },
         {
-          nombre: "Método de la Secante",
+          nombre: "Secante",
           ejercicio: {
             titulo: "Método de la Secante",
-            enunciado: "Aplica una iteración del método de la secante para f(x) = x² - 4 con x₀ = 3, x₁ = 2:",
+            enunciado: "Para f(x) = x² - 4, x₀ = 3, x₁ = 2:",
+            concepto: "Secante: x₂ = x₁ - f(x₁)*(x₁ - x₀)/(f(x₁) - f(x₀))",
             pasos: [
               {
-                titulo: "Paso 1: Evaluar la función en los puntos",
-                descripcion: "f(3) = 5, f(2) = 0",
-                inputs: [
-                  { id: "fx0", valor: "5", label: "f(3) =" },
-                  { id: "fx1", valor: "0", label: "f(2) =" }
+                titulo: "Paso 1: f(3)",
+                descripcion: "f(3) = ?",
+                opciones: [
+                  { valor: "5", correcto: true },
+                  { valor: "4", correcto: false },
+                  { valor: "0", correcto: false }
                 ]
               },
               {
-                titulo: "Paso 2: Fórmula de la secante",
-                descripcion: "x₂ = x₁ - f(x₁)*(x₁ - x₀)/(f(x₁) - f(x₀))",
-                formula: "x₂ = 2 - 0*(2-3)/(0-5) = 2",
-                inputs: [
-                  { id: "x2", valor: "2", label: "x₂ =" }
+                titulo: "Paso 2: f(2)",
+                descripcion: "f(2) = ?",
+                opciones: [
+                  { valor: "0", correcto: true },
+                  { valor: "4", correcto: false },
+                  { valor: "-4", correcto: false }
+                ]
+              },
+              {
+                titulo: "Paso 3: x₂",
+                descripcion: "x₂ = 2 - 0*(2-3)/(0-5) = ?",
+                opciones: [
+                  { valor: "2", correcto: true },
+                  { valor: "2.5", correcto: false },
+                  { valor: "1.5", correcto: false }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          nombre: "Punto Fijo",
+          ejercicio: {
+            titulo: "Método de Punto Fijo",
+            enunciado: "Para x = g(x) con g(x) = cos(x), x₀ = 1:",
+            concepto: "Punto fijo: x₁ = g(x₀)",
+            pasos: [
+              {
+                titulo: "Paso 1: Evaluación",
+                descripcion: "cos(1) ≈ ?",
+                opciones: [
+                  { valor: "0.5403", correcto: true },
+                  { valor: "0.8576", correcto: false },
+                  { valor: "0.5", correcto: false }
+                ]
+              },
+              {
+                titulo: "Paso 2: Convergencia",
+                descripcion: "Para convergencia, se necesita |g'(x)| < 1. g'(x) = ?",
+                opciones: [
+                  { valor: "-sen(x)", correcto: true },
+                  { valor: "cos(x)", correcto: false },
+                  { valor: "sen(x)", correcto: false }
+                ]
+              },
+              {
+                titulo: "Paso 3: Interpretación",
+                descripcion: "¿Qué representa la solución?",
+                opciones: [
+                  { valor: "Punto donde x = cos(x)", correcto: true },
+                  { valor: "Raíz de x² - 4", correcto: false },
+                  { valor: "Máximo de cos(x)", correcto: false }
                 ]
               }
             ]
@@ -1151,118 +1238,154 @@
         }
       ]
     },
+
+    // ===== M4: DIFERENCIACIÓN =====
     m4: {
       titulo: "Diferenciación Numérica",
       submetodos: [
         {
-          nombre: "Diferencias Progresivas",
+          nombre: "Progresivas",
           ejercicio: {
-            titulo: "Diferenciación Numérica - Diferencias Progresivas",
-            enunciado: "Calcula la derivada de f(x) = x² en x = 2 usando diferencias finitas progresivas con h = 0.1:",
+            titulo: "Diferencias Progresivas",
+            enunciado: "f(x) = x², x = 2, h = 0.1",
+            concepto: "f'(x) ≈ [f(x+h) - f(x)]/h",
             pasos: [
               {
-                titulo: "Paso 1: Fórmula de diferencias progresivas",
-                descripcion: "La fórmula para la primera derivada usando diferencias progresivas es:",
-                formula: "f'(x) ≈ [f(x + h) - f(x)] / h",
-                inputs: []
-              },
-              {
-                titulo: "Paso 2: Calcular f(x) y f(x + h)",
-                descripcion: "Calcula los valores de la función en los puntos necesarios:",
-                inputs: [
-                  { id: "f2", valor: "4", label: "f(2) = 2² =" },
-                  { id: "f21", valor: "4.41", label: "f(2.1) = 2.1² =" }
+                titulo: "Paso 1: f(2)",
+                descripcion: "f(2) = 2² = ?",
+                opciones: [
+                  { valor: "4", correcto: true },
+                  { valor: "2", correcto: false },
+                  { valor: "4.41", correcto: false }
                 ]
               },
               {
-                titulo: "Paso 3: Aplicar la fórmula",
-                descripcion: "Sustituye los valores en la fórmula de diferencias progresivas:",
-                inputs: [
-                  { id: "derivada", valor: "4.1", label: "f'(2) ≈ (4.41 - 4) / 0.1 =" }
+                titulo: "Paso 2: f(2.1)",
+                descripcion: "f(2.1) = 2.1² = ?",
+                opciones: [
+                  { valor: "4.41", correcto: true },
+                  { valor: "4.2", correcto: false },
+                  { valor: "4.04", correcto: false }
                 ]
               },
               {
-                titulo: "Paso 4: Comparar con valor exacto",
-                descripcion: "Compara el resultado con el valor exacto de la derivada:",
-                inputs: [
-                  { id: "exacto", valor: "4", label: "Valor exacto: f'(x) = 2x, f'(2) =" },
-                  { id: "error", valor: "0.1", label: "Error absoluto = |4.1 - 4| =" }
+                titulo: "Paso 3: Aproximación",
+                descripcion: "(4.41 - 4)/0.1 = ?",
+                opciones: [
+                  { valor: "4.1", correcto: true },
+                  { valor: "4", correcto: false },
+                  { valor: "4.2", correcto: false }
                 ]
               }
             ]
           }
         },
         {
-          nombre: "Diferencias Regresivas",
+          nombre: "Regresivas",
           ejercicio: {
-            titulo: "Diferenciación Numérica - Diferencias Regresivas",
-            enunciado: "Calcula la derivada de f(x) = x² en x = 2 usando diferencias finitas regresivas con h = 0.1:",
+            titulo: "Diferencias Regresivas",
+            enunciado: "f(x) = x², x = 2, h = 0.1",
+            concepto: "f'(x) ≈ [f(x) - f(x-h)]/h",
             pasos: [
               {
-                titulo: "Paso 1: Fórmula de diferencias regresivas",
-                descripcion: "La fórmula para la primera derivada usando diferencias regresivas es:",
-                formula: "f'(x) ≈ [f(x) - f(x - h)] / h",
-                inputs: []
-              },
-              {
-                titulo: "Paso 2: Calcular f(x) y f(x - h)",
-                descripcion: "Calcula los valores de la función en los puntos necesarios:",
-                inputs: [
-                  { id: "f2", valor: "4", label: "f(2) = 2² =" },
-                  { id: "f19", valor: "3.61", label: "f(1.9) = 1.9² =" }
+                titulo: "Paso 1: f(2)",
+                descripcion: "f(2) = ?",
+                opciones: [
+                  { valor: "4", correcto: true },
+                  { valor: "4.41", correcto: false },
+                  { valor: "3.61", correcto: false }
                 ]
               },
               {
-                titulo: "Paso 3: Aplicar la fórmula",
-                descripcion: "Sustituye los valores en la fórmula de diferencias regresivas:",
-                inputs: [
-                  { id: "derivada", valor: "3.9", label: "f'(2) ≈ (4 - 3.61) / 0.1 =" }
+                titulo: "Paso 2: f(1.9)",
+                descripcion: "f(1.9) = 1.9² = ?",
+                opciones: [
+                  { valor: "3.61", correcto: true },
+                  { valor: "3.8", correcto: false },
+                  { valor: "3.96", correcto: false }
                 ]
               },
               {
-                titulo: "Paso 4: Comparar con valor exacto",
-                descripcion: "Compara el resultado con el valor exacto de la derivada:",
-                inputs: [
-                  { id: "exacto", valor: "4", label: "Valor exacto: f'(x) = 2x, f'(2) =" },
-                  { id: "error", valor: "0.1", label: "Error absoluto = |3.9 - 4| =" }
+                titulo: "Paso 3: Aproximación",
+                descripcion: "(4 - 3.61)/0.1 = ?",
+                opciones: [
+                  { valor: "3.9", correcto: true },
+                  { valor: "4", correcto: false },
+                  { valor: "4.1", correcto: false }
                 ]
               }
             ]
           }
         },
         {
-          nombre: "Diferencias Centrales",
+          nombre: "Centrales",
           ejercicio: {
-            titulo: "Diferenciación Numérica - Diferencias Centrales",
-            enunciado: "Calcula la derivada de f(x) = x² en x = 2 usando diferencias finitas centrales con h = 0.1:",
+            titulo: "Diferencias Centrales",
+            enunciado: "f(x) = x², x = 2, h = 0.1",
+            concepto: "f'(x) ≈ [f(x+h) - f(x-h)]/(2h)",
             pasos: [
               {
-                titulo: "Paso 1: Fórmula de diferencias centrales",
-                descripcion: "La fórmula para la primera derivada usando diferencias centrales es:",
-                formula: "f'(x) ≈ [f(x + h) - f(x - h)] / (2h)",
-                inputs: []
-              },
-              {
-                titulo: "Paso 2: Calcular f(x + h) y f(x - h)",
-                descripcion: "Calcula los valores de la función en los puntos necesarios:",
-                inputs: [
-                  { id: "f21", valor: "4.41", label: "f(2.1) = 2.1² =" },
-                  { id: "f19", valor: "3.61", label: "f(1.9) = 1.9² =" }
+                titulo: "Paso 1: f(2.1)",
+                descripcion: "f(2.1) = ?",
+                opciones: [
+                  { valor: "4.41", correcto: true },
+                  { valor: "4", correcto: false },
+                  { valor: "3.61", correcto: false }
                 ]
               },
               {
-                titulo: "Paso 3: Aplicar la fórmula",
-                descripcion: "Sustituye los valores en la fórmula de diferencias centrales:",
-                inputs: [
-                  { id: "derivada", valor: "4", label: "f'(2) ≈ (4.41 - 3.61) / (2×0.1) =" }
+                titulo: "Paso 2: f(1.9)",
+                descripcion: "f(1.9) = ?",
+                opciones: [
+                  { valor: "3.61", correcto: true },
+                  { valor: "4", correcto: false },
+                  { valor: "4.41", correcto: false }
                 ]
               },
               {
-                titulo: "Paso 4: Comparar con valor exacto",
-                descripcion: "Compara el resultado con el valor exacto de la derivada:",
-                inputs: [
-                  { id: "exacto", valor: "4", label: "Valor exacto: f'(x) = 2x, f'(2) =" },
-                  { id: "error", valor: "0", label: "Error absoluto = |4 - 4| =" }
+                titulo: "Paso 3: Aproximación",
+                descripcion: "(4.41 - 3.61)/(0.2) = ?",
+                opciones: [
+                  { valor: "4", correcto: true },
+                  { valor: "4.1", correcto: false },
+                  { valor: "3.9", correcto: false }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          nombre: "Segunda Derivada",
+          ejercicio: {
+            titulo: "Segunda Derivada",
+            enunciado: "f(x) = x³, x = 2, h = 0.1",
+            concepto: "f''(x) ≈ [f(x+h) - 2f(x) + f(x-h)]/h²",
+            pasos: [
+              {
+                titulo: "Paso 1: f(2.1)",
+                descripcion: "2.1³ = ?",
+                opciones: [
+                  { valor: "9.261", correcto: true },
+                  { valor: "8", correcto: false },
+                  { valor: "6.859", correcto: false }
+                ]
+              },
+              {
+                titulo: "Paso 2: f(1.9)",
+                descripcion: "1.9³ = ?",
+                opciones: [
+                  { valor: "6.859", correcto: true },
+                  { valor: "8", correcto: false },
+                  { valor: "9.261", correcto: false }
+                ]
+              },
+              {
+                titulo: "Paso 3: Aproximación",
+                descripcion: "[9.261 - 2×8 + 6.859]/0.01 = ?",
+                opciones: [
+                  { valor: "12", correcto: true },
+                  { valor: "10", correcto: false },
+                  { valor: "14", correcto: false }
                 ]
               }
             ]
@@ -1270,128 +1393,154 @@
         }
       ]
     },
+
+    // ===== M5: INTEGRACIÓN =====
     m5: {
       titulo: "Integración Numérica",
       submetodos: [
         {
-          nombre: "Regla del Trapecio",
+          nombre: "Trapecio",
           ejercicio: {
-            titulo: "Integración Numérica - Regla del Trapecio",
-            enunciado: "Aproxima ∫₀² x² dx usando la regla del trapecio con n = 4 subintervalos:",
+            titulo: "Regla del Trapecio",
+            enunciado: "∫₀² x² dx con n=4",
+            concepto: "Trapecio compuesto: (h/2)[f₀ + 2∑f(xᵢ) + fₙ]",
             pasos: [
               {
-                titulo: "Paso 1: Calcular h",
-                descripcion: "h = (b - a)/n = (2 - 0)/4",
-                inputs: [
-                  { id: "h", valor: "0.5", label: "h =" }
+                titulo: "Paso 1: h",
+                descripcion: "h = (2-0)/4 = ?",
+                opciones: [
+                  { valor: "0.5", correcto: true },
+                  { valor: "0.25", correcto: false },
+                  { valor: "1", correcto: false }
                 ]
               },
               {
-                titulo: "Paso 2: Puntos de evaluación",
-                descripcion: "x₀ = 0, x₁ = 0.5, x₂ = 1, x₃ = 1.5, x₄ = 2",
-                inputs: []
-              },
-              {
-                titulo: "Paso 3: Calcular f(xᵢ)",
-                descripcion: "f(x) = x², calcula los valores:",
-                inputs: [
-                  { id: "f0", valor: "0", label: "f(0) =" },
-                  { id: "f1", valor: "0.25", label: "f(0.5) =" },
-                  { id: "f2", valor: "1", label: "f(1) =" },
-                  { id: "f3", valor: "2.25", label: "f(1.5) =" },
-                  { id: "f4", valor: "4", label: "f(2) =" }
+                titulo: "Paso 2: f(1)",
+                descripcion: "f(1) = 1² = ?",
+                opciones: [
+                  { valor: "1", correcto: true },
+                  { valor: "0.5", correcto: false },
+                  { valor: "2", correcto: false }
                 ]
               },
               {
-                titulo: "Paso 4: Aplicar fórmula del trapecio compuesta",
-                descripcion: "∫f(x)dx ≈ h/2 × [f(x₀) + 2(f(x₁)+f(x₂)+f(x₃)) + f(x₄)]",
-                formula: "∫f(x)dx ≈ 0.5/2 × [0 + 2(0.25 + 1 + 2.25) + 4] = 0.25 × [2×3.5 + 4]",
-                inputs: [
-                  { id: "integral", valor: "2.75", label: "Aproximación =" }
-                ]
-              },
-              {
-                titulo: "Paso 5: Comparar con valor exacto",
-                descripcion: "La integral exacta de x² de 0 a 2 es [x³/3]₀² = 8/3 ≈ 2.6667",
-                inputs: [
-                  { id: "error", valor: "0.0833", label: "Error absoluto = |2.75 - 2.6667| =" }
+                titulo: "Paso 3: Aproximación",
+                descripcion: "0.25[0 + 2(0.25+1+2.25) + 4] = ?",
+                opciones: [
+                  { valor: "2.75", correcto: true },
+                  { valor: "2.5", correcto: false },
+                  { valor: "3", correcto: false }
                 ]
               }
             ]
           }
         },
         {
-          nombre: "Regla de Simpson 1/3",
+          nombre: "Simpson 1/3",
           ejercicio: {
-            titulo: "Integración Numérica - Regla de Simpson 1/3",
-            enunciado: "Aproxima ∫₀² x² dx usando la regla de Simpson 1/3 con n = 4 subintervalos:",
+            titulo: "Simpson 1/3",
+            enunciado: "∫₀² x² dx con n=4",
+            concepto: "Simpson 1/3: (h/3)[f₀ + 4∑fᵢ + 2∑fⱼ + fₙ]",
             pasos: [
               {
-                titulo: "Paso 1: Verificar n",
-                descripcion: "n = 4 es par, se puede aplicar Simpson 1/3.",
-                inputs: []
-              },
-              {
-                titulo: "Paso 2: Calcular h",
-                descripcion: "h = (b - a)/n = (2 - 0)/4 = 0.5",
-                inputs: [
-                  { id: "h", valor: "0.5", label: "h =" }
+                titulo: "Paso 1: Condición",
+                descripcion: "¿Se puede aplicar con n=4?",
+                opciones: [
+                  { valor: "Sí, n es par", correcto: true },
+                  { valor: "No, n debe ser impar", correcto: false },
+                  { valor: "No, n debe ser múltiplo de 3", correcto: false }
                 ]
               },
               {
-                titulo: "Paso 3: Aplicar fórmula de Simpson 1/3",
-                descripcion: "∫f(x)dx ≈ h/3 × [f(x₀) + 4(f(x₁)+f(x₃)) + 2f(x₂) + f(x₄)]",
-                formula: "∫f(x)dx ≈ 0.5/3 × [0 + 4(0.25 + 2.25) + 2×1 + 4] = 0.16667 × [4×2.5 + 2 + 4] = 0.16667 × [10 + 6]",
-                inputs: [
-                  { id: "integral", valor: "2.6667", label: "Aproximación =" }
+                titulo: "Paso 2: f(0.5)",
+                descripcion: "f(0.5) = 0.5² = ?",
+                opciones: [
+                  { valor: "0.25", correcto: true },
+                  { valor: "0.5", correcto: false },
+                  { valor: "1", correcto: false }
                 ]
               },
               {
-                titulo: "Paso 4: Comparar con valor exacto",
-                descripcion: "La integral exacta es 8/3 ≈ 2.6667",
-                inputs: [
-                  { id: "error", valor: "0", label: "Error absoluto =" }
+                titulo: "Paso 3: Aproximación",
+                descripcion: "(0.5/3)[0 + 4(0.25+2.25) + 2×1 + 4] = ?",
+                opciones: [
+                  { valor: "2.6667", correcto: true },
+                  { valor: "2.75", correcto: false },
+                  { valor: "2.5", correcto: false }
                 ]
               }
             ]
           }
         },
         {
-          nombre: "Regla de Simpson 3/8",
+          nombre: "Simpson 3/8",
           ejercicio: {
-            titulo: "Integración Numérica - Regla de Simpson 3/8",
-            enunciado: "Aproxima ∫₀³ x² dx usando la regla de Simpson 3/8 con n = 3 subintervalos:",
+            titulo: "Simpson 3/8",
+            enunciado: "∫₀³ x² dx con n=3",
+            concepto: "Simpson 3/8: (3h/8)[f₀ + 3f₁ + 3f₂ + f₃]",
             pasos: [
               {
-                titulo: "Paso 1: Calcular h",
-                descripcion: "h = (b - a)/n = (3 - 0)/3 = 1",
-                inputs: [
-                  { id: "h", valor: "1", label: "h =" }
+                titulo: "Paso 1: h",
+                descripcion: "h = (3-0)/3 = ?",
+                opciones: [
+                  { valor: "1", correcto: true },
+                  { valor: "0.5", correcto: false },
+                  { valor: "1.5", correcto: false }
                 ]
               },
               {
-                titulo: "Paso 2: Puntos de evaluación",
-                descripcion: "x₀ = 0, x₁ = 1, x₂ = 2, x₃ = 3",
-                inputs: []
-              },
-              {
-                titulo: "Paso 3: Calcular f(xᵢ)",
-                descripcion: "f(0)=0, f(1)=1, f(2)=4, f(3)=9",
-                inputs: []
-              },
-              {
-                titulo: "Paso 4: Aplicar fórmula de Simpson 3/8",
-                descripcion: "∫f(x)dx ≈ (3h/8) × [f(x₀) + 3f(x₁) + 3f(x₂) + f(x₃)]",
-                formula: "∫f(x)dx ≈ (3×1/8) × [0 + 3×1 + 3×4 + 9] = (3/8) × [3 + 12 + 9] = (3/8) × 24 = 9",
-                inputs: [
-                  { id: "integral", valor: "9", label: "Aproximación =" }
+                titulo: "Paso 2: f(1)",
+                descripcion: "f(1) = 1² = ?",
+                opciones: [
+                  { valor: "1", correcto: true },
+                  { valor: "4", correcto: false },
+                  { valor: "9", correcto: false }
                 ]
               },
               {
-                titulo: "Paso 5: Comparar con valor exacto",
-                descripcion: "La integral exacta de x² de 0 a 3 es [x³/3]₀³ = 27/3 = 9",
-                inputs: [
-                  { id: "error", valor: "0", label: "Error absoluto =" }
+                titulo: "Paso 3: Aproximación",
+                descripcion: "(3/8)[0 + 3×1 + 3×4 + 9] = ?",
+                opciones: [
+                  { valor: "9", correcto: true },
+                  { valor: "8", correcto: false },
+                  { valor: "10", correcto: false }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          nombre: "Cuadratura Gaussiana",
+          ejercicio: {
+            titulo: "Cuadratura Gaussiana",
+            enunciado: "Para n=2 en [-1,1], los puntos son:",
+            concepto: "La cuadratura gaussiana usa puntos óptimos (raíces de polinomios de Legendre)",
+            pasos: [
+              {
+                titulo: "Paso 1: Puntos",
+                descripcion: "¿Cuáles son los puntos para n=2?",
+                opciones: [
+                  { valor: "±1/√3 ≈ ±0.577", correcto: true },
+                  { valor: "±0.5", correcto: false },
+                  { valor: "±1", correcto: false }
+                ]
+              },
+              {
+                titulo: "Paso 2: Pesos",
+                descripcion: "Los pesos para n=2 son:",
+                opciones: [
+                  { valor: "1 para ambos", correcto: true },
+                  { valor: "0.5 para ambos", correcto: false },
+                  { valor: "2 y 2", correcto: false }
+                ]
+              },
+              {
+                titulo: "Paso 3: Exactitud",
+                descripcion: "Con 2 puntos, integra exactamente polinomios de grado:",
+                opciones: [
+                  { valor: "3", correcto: true },
+                  { valor: "1", correcto: false },
+                  { valor: "2", correcto: false }
                 ]
               }
             ]
@@ -1399,87 +1548,154 @@
         }
       ]
     },
+
+    // ===== M6: ECUACIONES DIFERENCIALES =====
     m6: {
       titulo: "Ecuaciones Diferenciales Ordinarias",
       submetodos: [
         {
-          nombre: "Método de Euler",
+          nombre: "Euler",
           ejercicio: {
-            titulo: "Ecuaciones Diferenciales - Método de Euler",
-            enunciado: "Resuelve y' = x + y, y(0) = 1 en el intervalo [0, 0.2] usando el método de Euler con h = 0.1:",
+            titulo: "Método de Euler",
+            enunciado: "y' = x + y, y(0)=1, h=0.1",
+            concepto: "Euler: y₁ = y₀ + h·f(x₀, y₀)",
             pasos: [
               {
-                titulo: "Paso 1: Fórmula de Euler",
-                descripcion: "yᵢ₊₁ = yᵢ + h × f(xᵢ, yᵢ)",
-                inputs: []
-              },
-              {
-                titulo: "Paso 2: Primera iteración (i=0)",
-                descripcion: "x₀ = 0, y₀ = 1, f(x₀, y₀) = 0 + 1 = 1",
-                formula: "y₁ = 1 + 0.1 × 1 = 1.1",
-                inputs: [
-                  { id: "y1", valor: "1.1", label: "y(0.1) ≈" }
+                titulo: "Paso 1: f(0,1)",
+                descripcion: "f(0,1) = 0 + 1 = ?",
+                opciones: [
+                  { valor: "1", correcto: true },
+                  { valor: "0", correcto: false },
+                  { valor: "2", correcto: false }
                 ]
               },
               {
-                titulo: "Paso 3: Segunda iteración (i=1)",
-                descripcion: "x₁ = 0.1, y₁ = 1.1, f(x₁, y₁) = 0.1 + 1.1 = 1.2",
-                formula: "y₂ = 1.1 + 0.1 × 1.2 = 1.22",
-                inputs: [
-                  { id: "y2", valor: "1.22", label: "y(0.2) ≈" }
+                titulo: "Paso 2: y₁",
+                descripcion: "y₁ = 1 + 0.1×1 = ?",
+                opciones: [
+                  { valor: "1.1", correcto: true },
+                  { valor: "1.2", correcto: false },
+                  { valor: "1.01", correcto: false }
+                ]
+              },
+              {
+                titulo: "Paso 3: f(0.1,1.1)",
+                descripcion: "Para siguiente paso, f(0.1,1.1) = ?",
+                opciones: [
+                  { valor: "1.2", correcto: true },
+                  { valor: "1.1", correcto: false },
+                  { valor: "1.3", correcto: false }
                 ]
               }
             ]
           }
         },
         {
-          nombre: "Runge-Kutta 4º orden",
+          nombre: "RK2",
           ejercicio: {
-            titulo: "Ecuaciones Diferenciales - Runge-Kutta 4",
-            enunciado: "Aplica una iteración del método de Runge-Kutta 4 para y' = x + y, y(0) = 1 con h = 0.2:",
+            titulo: "Runge-Kutta 2 (Heun)",
+            enunciado: "y' = x + y, y(0)=1, h=0.2",
+            concepto: "RK2: k₁ = h·f(x₀,y₀), k₂ = h·f(x₀+h, y₀+k₁), y₁ = y₀ + (k₁+k₂)/2",
             pasos: [
               {
-                titulo: "Paso 1: Fórmulas RK4",
-                descripcion: "k₁ = h·f(xᵢ, yᵢ)\nk₂ = h·f(xᵢ + h/2, yᵢ + k₁/2)\nk₃ = h·f(xᵢ + h/2, yᵢ + k₂/2)\nk₄ = h·f(xᵢ + h, yᵢ + k₃)\nyᵢ₊₁ = yᵢ + (k₁ + 2k₂ + 2k₃ + k₄)/6",
-                inputs: []
-              },
-              {
-                titulo: "Paso 2: Calcular k₁",
-                descripcion: "k₁ = 0.2 × f(0, 1) = 0.2 × 1",
-                inputs: [
-                  { id: "k1", valor: "0.2", label: "k₁ =" }
+                titulo: "Paso 1: k₁",
+                descripcion: "k₁ = 0.2 × f(0,1) = 0.2 × 1 = ?",
+                opciones: [
+                  { valor: "0.2", correcto: true },
+                  { valor: "0.24", correcto: false },
+                  { valor: "0.22", correcto: false }
                 ]
               },
               {
-                titulo: "Paso 3: Calcular k₂",
-                descripcion: "k₂ = 0.2 × f(0.1, 1 + 0.2/2) = 0.2 × f(0.1, 1.1)",
-                formula: "f(0.1, 1.1) = 0.1 + 1.1 = 1.2, k₂ = 0.2 × 1.2",
-                inputs: [
-                  { id: "k2", valor: "0.24", label: "k₂ =" }
+                titulo: "Paso 2: k₂",
+                descripcion: "k₂ = 0.2 × f(0.2, 1.2) = 0.2 × 1.4 = ?",
+                opciones: [
+                  { valor: "0.28", correcto: true },
+                  { valor: "0.24", correcto: false },
+                  { valor: "0.26", correcto: false }
                 ]
               },
               {
-                titulo: "Paso 4: Calcular k₃",
-                descripcion: "k₃ = 0.2 × f(0.1, 1 + 0.24/2) = 0.2 × f(0.1, 1.12)",
-                formula: "f(0.1, 1.12) = 0.1 + 1.12 = 1.22, k₃ = 0.2 × 1.22",
-                inputs: [
-                  { id: "k3", valor: "0.244", label: "k₃ =" }
+                titulo: "Paso 3: y₁",
+                descripcion: "y₁ = 1 + (0.2 + 0.28)/2 = ?",
+                opciones: [
+                  { valor: "1.24", correcto: true },
+                  { valor: "1.2", correcto: false },
+                  { valor: "1.28", correcto: false }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          nombre: "RK4",
+          ejercicio: {
+            titulo: "Runge-Kutta 4",
+            enunciado: "y' = x + y, y(0)=1, h=0.2",
+            concepto: "RK4 usa k₁, k₂, k₃, k₄",
+            pasos: [
+              {
+                titulo: "Paso 1: k₁",
+                descripcion: "k₁ = h·f(0,1) = 0.2 × 1 = ?",
+                opciones: [
+                  { valor: "0.2", correcto: true },
+                  { valor: "0.24", correcto: false },
+                  { valor: "0.22", correcto: false }
                 ]
               },
               {
-                titulo: "Paso 5: Calcular k₄",
-                descripcion: "k₄ = 0.2 × f(0.2, 1 + 0.244) = 0.2 × f(0.2, 1.244)",
-                formula: "f(0.2, 1.244) = 0.2 + 1.244 = 1.444, k₄ = 0.2 × 1.444",
-                inputs: [
-                  { id: "k4", valor: "0.2888", label: "k₄ =" }
+                titulo: "Paso 2: k₂",
+                descripcion: "k₂ = h·f(0.1, 1.1) = 0.2 × 1.2 = ?",
+                opciones: [
+                  { valor: "0.24", correcto: true },
+                  { valor: "0.2", correcto: false },
+                  { valor: "0.28", correcto: false }
                 ]
               },
               {
-                titulo: "Paso 6: Calcular y₁",
-                descripcion: "y₁ = 1 + (0.2 + 2×0.24 + 2×0.244 + 0.2888)/6",
-                formula: "y₁ = 1 + (0.2 + 0.48 + 0.488 + 0.2888)/6 = 1 + 1.4568/6",
-                inputs: [
-                  { id: "y1", valor: "1.2428", label: "y(0.2) ≈" }
+                titulo: "Paso 3: k₃",
+                descripcion: "k₃ = h·f(0.1, 1.12) = 0.2 × 1.22 = ?",
+                opciones: [
+                  { valor: "0.244", correcto: true },
+                  { valor: "0.24", correcto: false },
+                  { valor: "0.248", correcto: false }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          nombre: "Predictor-Corrector",
+          ejercicio: {
+            titulo: "Predictor-Corrector",
+            enunciado: "Adams-Bashforth-Moulton de 2 pasos:",
+            concepto: "Usa un predictor explícito y un corrector implícito",
+            pasos: [
+              {
+                titulo: "Paso 1: Predictor",
+                descripcion: "El predictor de Adams-Bashforth de 2 pasos es:",
+                opciones: [
+                  { valor: "y* = y_n + (h/2)[3f_n - f_{n-1}]", correcto: true },
+                  { valor: "y* = y_n + h·f_n", correcto: false },
+                  { valor: "y* = y_n + (h/2)[f_n + f_{n-1}]", correcto: false }
+                ]
+              },
+              {
+                titulo: "Paso 2: Corrector",
+                descripcion: "El corrector de Adams-Moulton de 2 pasos es:",
+                opciones: [
+                  { valor: "y_{n+1} = y_n + (h/2)[f(x_n,y_n) + f(x_{n+1},y*)]", correcto: true },
+                  { valor: "y_{n+1} = y_n + h·f(x_{n+1},y*)", correcto: false },
+                  { valor: "y_{n+1} = y_n + (h/2)[3f_n - f_{n-1}]", correcto: false }
+                ]
+              },
+              {
+                titulo: "Paso 3: Iteración",
+                descripcion: "El proceso se puede repetir porque:",
+                opciones: [
+                  { valor: "Es un método predictor-corrector", correcto: true },
+                  { valor: "Es un método de un paso", correcto: false },
+                  { valor: "Es un método explícito", correcto: false }
                 ]
               }
             ]
@@ -1487,145 +1703,235 @@
         }
       ]
     },
+
+    // ===== M7: OPTIMIZACIÓN =====
     m7: {
       titulo: "Optimización Numérica",
       submetodos: [
         {
-          nombre: "Método de Newton para Optimización",
+          nombre: "Descenso Gradiente",
           ejercicio: {
-            titulo: "Optimización - Método de Newton",
-            enunciado: "Encuentra el mínimo de f(x) = x² - 4x + 5 usando el método de Newton con x₀ = 0:",
+            titulo: "Descenso del Gradiente",
+            enunciado: "f(x) = x², x₀ = 2, α = 0.1",
+            concepto: "Descenso del gradiente: x₁ = x₀ - α·f'(x₀)",
             pasos: [
               {
-                titulo: "Paso 1: Calcular derivadas",
-                descripcion: "f'(x) = 2x - 4, f''(x) = 2",
-                inputs: []
-              },
-              {
-                titulo: "Paso 2: Evaluar en x₀",
-                descripcion: "f'(0) = -4, f''(0) = 2",
-                inputs: []
-              },
-              {
-                titulo: "Paso 3: Fórmula de Newton para optimización",
-                descripcion: "x₁ = x₀ - f'(x₀)/f''(x₀) = 0 - (-4)/2",
-                inputs: [
-                  { id: "x1", valor: "2", label: "x₁ =" }
+                titulo: "Paso 1: Gradiente",
+                descripcion: "f'(x) = ?",
+                opciones: [
+                  { valor: "2x", correcto: true },
+                  { valor: "x²", correcto: false },
+                  { valor: "2", correcto: false }
                 ]
               },
               {
-                titulo: "Paso 4: Verificar",
-                descripcion: "El mínimo exacto está en x = 2, f(2) = 4 - 8 + 5 = 1",
-                inputs: [
-                  { id: "fmin", valor: "1", label: "f(2) =" }
+                titulo: "Paso 2: f'(2)",
+                descripcion: "f'(2) = 2×2 = ?",
+                opciones: [
+                  { valor: "4", correcto: true },
+                  { valor: "2", correcto: false },
+                  { valor: "8", correcto: false }
+                ]
+              },
+              {
+                titulo: "Paso 3: x₁",
+                descripcion: "x₁ = 2 - 0.1×4 = ?",
+                opciones: [
+                  { valor: "1.6", correcto: true },
+                  { valor: "1.8", correcto: false },
+                  { valor: "1.9", correcto: false }
                 ]
               }
             ]
           }
         },
         {
-          nombre: "Búsqueda de la Sección Dorada",
+          nombre: "Método de Newton",
           ejercicio: {
-            titulo: "Optimización - Sección Dorada",
-            enunciado: "Encuentra el máximo de f(x) = -(x-2)² + 4 en [0, 4] con una iteración del método de la sección dorada (φ = 0.618):",
+            titulo: "Método de Newton para optimización",
+            enunciado: "f(x) = x² - 4x + 5, x₀ = 0",
+            concepto: "Newton: x₁ = x₀ - f'(x₀)/f''(x₀)",
             pasos: [
               {
-                titulo: "Paso 1: Puntos iniciales",
-                descripcion: "a = 0, b = 4, d = φ(b-a) = 0.618×4",
-                inputs: [
-                  { id: "d", valor: "2.472", label: "d =" }
+                titulo: "Paso 1: f'(x)",
+                descripcion: "f'(x) = ?",
+                opciones: [
+                  { valor: "2x - 4", correcto: true },
+                  { valor: "2x + 4", correcto: false },
+                  { valor: "x - 4", correcto: false }
                 ]
               },
               {
-                titulo: "Paso 2: Puntos de evaluación",
-                descripcion: "x₁ = a + d = 2.472, x₂ = b - d = 1.528",
-                inputs: [
-                  { id: "x1", valor: "2.472", label: "x₁ =" },
-                  { id: "x2", valor: "1.528", label: "x₂ =" }
+                titulo: "Paso 2: f''(x)",
+                descripcion: "f''(x) = ?",
+                opciones: [
+                  { valor: "2", correcto: true },
+                  { valor: "2x", correcto: false },
+                  { valor: "0", correcto: false }
                 ]
               },
               {
-                titulo: "Paso 3: Evaluar función",
-                descripcion: "f(x₁) = -(0.472)² + 4 = -0.2228 + 4, f(x₂) = -(-0.472)² + 4",
-                inputs: [
-                  { id: "fx1", valor: "3.7772", label: "f(x₁) =" },
-                  { id: "fx2", valor: "3.7772", label: "f(x₂) =" }
+                titulo: "Paso 3: x₁",
+                descripcion: "x₁ = 0 - (-4)/2 = ?",
+                opciones: [
+                  { valor: "2", correcto: true },
+                  { valor: "1", correcto: false },
+                  { valor: "3", correcto: false }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          nombre: "Sección Dorada",
+          ejercicio: {
+            titulo: "Búsqueda de la Sección Dorada",
+            enunciado: "La razón áurea φ ≈ ?",
+            concepto: "Se usa para reducir intervalos de búsqueda de manera óptima",
+            pasos: [
+              {
+                titulo: "Paso 1: φ",
+                descripcion: "φ = (√5 - 1)/2 ≈ ?",
+                opciones: [
+                  { valor: "0.618", correcto: true },
+                  { valor: "0.5", correcto: false },
+                  { valor: "0.333", correcto: false }
                 ]
               },
               {
-                titulo: "Paso 4: Nuevo intervalo",
-                descripcion: "Como f(x₁) = f(x₂), se puede tomar cualquier subintervalo",
-                inputs: []
+                titulo: "Paso 2: Propiedad",
+                descripcion: "La sección dorada mantiene la proporción:",
+                opciones: [
+                  { valor: "L₁/L₂ = L₂/(L₁+L₂)", correcto: true },
+                  { valor: "L₁ = L₂", correcto: false },
+                  { valor: "L₁/L₂ = 2", correcto: false }
+                ]
+              },
+              {
+                titulo: "Paso 3: Ventaja",
+                descripcion: "¿Por qué es eficiente?",
+                opciones: [
+                  { valor: "Solo una evaluación por iteración", correcto: true },
+                  { valor: "Converge más rápido que Newton", correcto: false },
+                  { valor: "No requiere derivadas", correcto: true } // Ambas son correctas, pero la primera es la clave
+                ]
               }
             ]
           }
         }
       ]
     },
+
+    // ===== M8: SERIES Y TRANSFORMADAS =====
     m8: {
       titulo: "Transformadas y Series",
       submetodos: [
         {
-          nombre: "Series de Fourier",
+          nombre: "Fourier",
           ejercicio: {
             titulo: "Series de Fourier",
-            enunciado: "Encuentra los coeficientes de Fourier para f(x) = x en el intervalo [-π, π]:",
+            enunciado: "Para f(x) = x en [-π,π], a₀ = ?",
+            concepto: "a₀ = (1/π) ∫₋π^π f(x) dx",
             pasos: [
               {
-                titulo: "Paso 1: Coeficiente a₀",
-                descripcion: "a₀ = (1/π) ∫₋π^π f(x) dx = (1/π) ∫₋π^π x dx",
-                formula: "∫ x dx es una función impar en [-π, π] → integral = 0",
-                inputs: [
-                  { id: "a0", valor: "0", label: "a₀ =" }
+                titulo: "Paso 1: a₀",
+                descripcion: "∫₋π^π x dx = ?",
+                opciones: [
+                  { valor: "0", correcto: true },
+                  { valor: "2π", correcto: false },
+                  { valor: "π²", correcto: false }
                 ]
               },
               {
-                titulo: "Paso 2: Coeficientes aₙ",
-                descripcion: "aₙ = (1/π) ∫₋π^π x cos(nx) dx",
-                formula: "x cos(nx) es impar × par = impar → integral = 0",
-                inputs: [
-                  { id: "an", valor: "0", label: "aₙ =" }
+                titulo: "Paso 2: Simetría",
+                descripcion: "x es una función:",
+                opciones: [
+                  { valor: "Impar", correcto: true },
+                  { valor: "Par", correcto: false },
+                  { valor: "Ni par ni impar", correcto: false }
                 ]
               },
               {
-                titulo: "Paso 3: Coeficientes bₙ",
-                descripcion: "bₙ = (1/π) ∫₋π^π x sin(nx) dx",
-                formula: "Integrando por partes: ∫ x sin(nx) dx = [-x cos(nx)/n + sin(nx)/n²]₋π^π",
-                inputs: [
-                  { id: "bn", valor: "2(-1)ⁿ⁺¹/n", label: "bₙ =" }
-                ]
-              },
-              {
-                titulo: "Paso 4: Serie de Fourier",
-                descripcion: "f(x) = Σ 2(-1)ⁿ⁺¹/n sin(nx)",
-                inputs: [
-                  { id: "serie", valor: "2[sin(x) - sin(2x)/2 + sin(3x)/3 - ...]" }
+                titulo: "Paso 3: Consecuencia",
+                descripcion: "Por ser impar, los coeficientes aₙ son:",
+                opciones: [
+                  { valor: "0", correcto: true },
+                  { valor: "2(-1)ⁿ⁺¹/n", correcto: false },
+                  { valor: "2/n", correcto: false }
                 ]
               }
             ]
           }
         },
         {
-          nombre: "Serie de Taylor",
+          nombre: "Taylor",
           ejercicio: {
             titulo: "Serie de Taylor",
-            enunciado: "Encuentra la serie de Taylor de f(x) = e^x alrededor de x = 0 hasta el término x²:",
+            enunciado: "Serie de e^x alrededor de x=0:",
+            concepto: "Taylor: f(x) = Σ f⁽ⁿ⁾(a)(x-a)ⁿ/n!",
             pasos: [
               {
-                titulo: "Paso 1: Derivadas",
-                descripcion: "f(x) = e^x, f'(x) = e^x, f''(x) = e^x",
-                inputs: []
+                titulo: "Paso 1: f(0)",
+                descripcion: "e^0 = ?",
+                opciones: [
+                  { valor: "1", correcto: true },
+                  { valor: "0", correcto: false },
+                  { valor: "e", correcto: false }
+                ]
               },
               {
-                titulo: "Paso 2: Evaluar en x = 0",
-                descripcion: "f(0) = 1, f'(0) = 1, f''(0) = 1",
-                inputs: []
+                titulo: "Paso 2: f'(0)",
+                descripcion: "f'(x) = e^x, f'(0) = ?",
+                opciones: [
+                  { valor: "1", correcto: true },
+                  { valor: "0", correcto: false },
+                  { valor: "e", correcto: false }
+                ]
               },
               {
-                titulo: "Paso 3: Fórmula de Taylor",
-                descripcion: "f(x) ≈ f(0) + f'(0)x + f''(0)x²/2!",
-                inputs: [
-                  { id: "taylor", valor: "1 + x + x²/2" }
+                titulo: "Paso 3: Serie hasta x²",
+                descripcion: "1 + x + x²/2! + ... = ?",
+                opciones: [
+                  { valor: "1 + x + x²/2", correcto: true },
+                  { valor: "1 + x + x²", correcto: false },
+                  { valor: "x + x²/2", correcto: false }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          nombre: "Laplace",
+          ejercicio: {
+            titulo: "Transformada de Laplace",
+            enunciado: "L{1} = ?",
+            concepto: "L{f(t)} = ∫₀^∞ f(t)e^{-st} dt",
+            pasos: [
+              {
+                titulo: "Paso 1: Integral",
+                descripcion: "∫₀^∞ e^{-st} dt = ?",
+                opciones: [
+                  { valor: "1/s para s>0", correcto: true },
+                  { valor: "1/s²", correcto: false },
+                  { valor: "1", correcto: false }
+                ]
+              },
+              {
+                titulo: "Paso 2: L{t}",
+                descripcion: "L{t} = ?",
+                opciones: [
+                  { valor: "1/s²", correcto: true },
+                  { valor: "1/s", correcto: false },
+                  { valor: "2/s³", correcto: false }
+                ]
+              },
+              {
+                titulo: "Paso 3: Linealidad",
+                descripcion: "L{af(t) + bg(t)} = ?",
+                opciones: [
+                  { valor: "aL{f(t)} + bL{g(t)}", correcto: true },
+                  { valor: "abL{f(t)g(t)}", correcto: false },
+                  { valor: "L{f(t)} + L{g(t)}", correcto: false }
                 ]
               }
             ]
@@ -1635,36 +1941,33 @@
     }
   };
 
-  // Variables globales para ejercicios
-  let ejercicioActual = null;
+  // Variables globales
   let pasoActual = 0;
   let respuestasCorrectas = 0;
 
   // Inicialización
   document.addEventListener('DOMContentLoaded', function() {
-    // Menú móvil
     const menuToggle = document.getElementById('menu-toggle');
     const menu = document.getElementById('menu');
-    menuToggle.addEventListener('click', () => { menu.classList.toggle('show'); });
+    if (menuToggle) {
+      menuToggle.addEventListener('click', () => { menu.classList.toggle('show'); });
+    }
 
-    // Botones de practicar
     document.querySelectorAll('.practicar').forEach(btn => {
       btn.addEventListener('click', e => {
         const card = e.target.closest('.metodo-card');
         const id = card.getAttribute('data-id');
-        const titulo = card.getAttribute('data-title');
         
-        ejercicioActual = id;
         pasoActual = 0;
         respuestasCorrectas = 0;
         
-        cargarEjercicios(id, titulo);
+        cargarEjercicios(id);
       });
     });
   });
 
-  // Función para cargar ejercicios de un método
-  function cargarEjercicios(id, titulo) {
+  // Función para cargar ejercicios
+  function cargarEjercicios(id) {
     const metodo = ejercicios[id];
     const contenidoEjercicios = document.getElementById('contenido-ejercicios');
     
@@ -1675,7 +1978,6 @@
           <div class="tabs-header">
     `;
     
-    // Crear botones de pestañas
     metodo.submetodos.forEach((submetodo, index) => {
       html += `<button class="tab-btn ${index === 0 ? 'active' : ''}" data-tab="tab-${id}-${index}">${submetodo.nombre}</button>`;
     });
@@ -1685,8 +1987,8 @@
           <div class="tabs-content">
     `;
     
-    // Crear contenido de pestañas
     metodo.submetodos.forEach((submetodo, index) => {
+      const pasos = submetodo.ejercicio.pasos;
       html += `
         <div class="tab-pane ${index === 0 ? 'active' : ''}" id="tab-${id}-${index}">
           <div class="ejercicio-container">
@@ -1694,25 +1996,31 @@
             <div class="ejercicio-enunciado">
               <p><strong>${submetodo.ejercicio.enunciado}</strong></p>
               ${submetodo.ejercicio.sistema ? `<pre>${submetodo.ejercicio.sistema}</pre>` : ''}
-              ${submetodo.ejercicio.puntos ? `<p>${submetodo.ejercicio.puntos}</p>` : ''}
+            </div>
+            
+            <div class="concepto-ayuda">
+              <i class="fa-solid fa-lightbulb"></i>
+              <strong>Concepto:</strong> ${submetodo.ejercicio.concepto}
             </div>
             
             <div class="progreso-ejercicio">
-              <p>Progreso: <span id="progreso-texto-${id}-${index}">Paso 1 de ${submetodo.ejercicio.pasos.length}</span></p>
+              <p>Progreso: <span id="progreso-texto-${id}-${index}">Paso 1 de ${pasos.length}</span></p>
               <div class="barra-progreso">
-                <div class="progreso" id="progreso-barra-${id}-${index}" style="width: ${(1/submetodo.ejercicio.pasos.length)*100}%"></div>
+                <div class="progreso" id="progreso-barra-${id}-${index}" style="width: ${(1/pasos.length)*100}%"></div>
               </div>
             </div>
             
             <div id="pasos-container-${id}-${index}">
-              ${generarPasoHTML(submetodo.ejercicio.pasos[0], id, index, 0)}
+              ${generarPasoHTML(pasos[0], id, index, 0)}
             </div>
             
             <div id="resultado-container-${id}-${index}"></div>
             
-            <button class="btn-verificar" data-metodo="${id}" data-ejercicio="${index}">Verificar Respuestas</button>
-            <button class="btn-siguiente" data-metodo="${id}" data-ejercicio="${index}">Siguiente Paso</button>
-            <button class="btn-reiniciar" data-metodo="${id}" data-ejercicio="${index}">Reiniciar Ejercicio</button>
+            <div class="footer-buttons">
+              <button class="btn-verificar" data-metodo="${id}" data-ejercicio="${index}">Verificar Respuesta</button>
+              <button class="btn-siguiente" data-metodo="${id}" data-ejercicio="${index}">Siguiente Paso</button>
+              <button class="btn-reiniciar" data-metodo="${id}" data-ejercicio="${index}">Reiniciar Ejercicio</button>
+            </div>
           </div>
         </div>
       `;
@@ -1726,75 +2034,66 @@
     
     contenidoEjercicios.innerHTML = html;
     
-    // Inicializar funcionalidad de pestañas
     inicializarTabs();
     inicializarEjercicios(id);
     
-    // Desplazar hacia la sección de ejercicios
     contenidoEjercicios.scrollIntoView({ behavior: 'smooth' });
   }
 
-  // Función para generar el HTML de un paso
+  // Función para generar HTML de paso
   function generarPasoHTML(paso, metodoId, ejercicioIndex, pasoIndex) {
-    let inputsHTML = '';
+    let opcionesHTML = '';
     
-    if (paso.inputs && paso.inputs.length > 0) {
-      inputsHTML = '<div class="input-container">';
-      paso.inputs.forEach(input => {
-        const label = input.label || `${input.id} =`;
-        inputsHTML += `
-          <span>${label}</span>
-          <input type="text" class="input-ejercicio" id="${input.id}-${metodoId}-${ejercicioIndex}" placeholder="?">
+    if (paso.opciones && paso.opciones.length > 0) {
+      opcionesHTML = '<div class="input-container">';
+      paso.opciones.forEach((opcion, i) => {
+        const opcionId = `${metodoId}-${ejercicioIndex}-${pasoIndex}-op-${i}`;
+        opcionesHTML += `
+          <div class="opcion-item">
+            <input type="radio" name="pregunta-${metodoId}-${ejercicioIndex}-${pasoIndex}" id="${opcionId}" value="${opcion.valor}" data-correcto="${opcion.correcto}">
+            <label for="${opcionId}">${opcion.valor}</label>
+          </div>
         `;
       });
-      inputsHTML += '</div>';
-    }
-    
-    let formulaHTML = '';
-    if (paso.formula) {
-      formulaHTML = `<div class="formula">${paso.formula}</div>`;
+      opcionesHTML += '</div>';
     }
     
     return `
       <div class="ejercicio-paso" data-paso="${pasoIndex}">
         <h6>${paso.titulo}</h6>
         <p>${paso.descripcion}</p>
-        ${formulaHTML}
-        ${inputsHTML}
+        ${opcionesHTML}
       </div>
     `;
   }
 
-  // Función para inicializar las pestañas
+  // Función para inicializar pestañas
   function inicializarTabs() {
     const tabBtns = document.querySelectorAll('.tab-btn');
     const tabPanes = document.querySelectorAll('.tab-pane');
     
     tabBtns.forEach(btn => {
       btn.addEventListener('click', () => {
-        // Remover clase active de todos los botones y paneles
         tabBtns.forEach(b => b.classList.remove('active'));
         tabPanes.forEach(p => p.classList.remove('active'));
         
-        // Agregar clase active al botón y panel seleccionado
         btn.classList.add('active');
         const tabId = btn.getAttribute('data-tab');
         document.getElementById(tabId).classList.add('active');
         
-        // Reiniciar variables al cambiar de pestaña
         pasoActual = 0;
         respuestasCorrectas = 0;
       });
     });
   }
 
-  // Función para inicializar los ejercicios
+  // Función para inicializar ejercicios
   function inicializarEjercicios(idMetodo) {
     const metodo = ejercicios[idMetodo];
     
-    // Event listeners para botones de verificar
+    // Event listeners para verificar
     document.querySelectorAll('.btn-verificar').forEach(btn => {
-      btn.addEventListener('click', e => {
+      btn.addEventListener('click', function verificarHandler(e) {
         const metodoId = e.target.getAttribute('data-metodo');
         const ejercicioIndex = e.target.getAttribute('data-ejercicio');
         const resultadoContainer = document.getElementById(`resultado-container-${metodoId}-${ejercicioIndex}`);
@@ -1802,62 +2101,53 @@
         const btnSiguiente = document.querySelector(`.btn-siguiente[data-metodo="${metodoId}"][data-ejercicio="${ejercicioIndex}"]`);
         
         const ejercicio = metodo.submetodos[ejercicioIndex].ejercicio;
-        const paso = ejercicio.pasos[pasoActual];
         
-        let todasCorrectas = true;
+        const opciones = document.getElementsByName(`pregunta-${metodoId}-${ejercicioIndex}-${pasoActual}`);
+        let opcionSeleccionada = null;
+        let respuestaCorrecta = false;
+        
+        // Remover clases anteriores SOLO del paso actual
+        const opcionesItems = document.querySelectorAll(`#pasos-container-${metodoId}-${ejercicioIndex} .ejercicio-paso[data-paso="${pasoActual}"] .opcion-item`);
+        opcionesItems.forEach(item => {
+          item.classList.remove('correcta', 'incorrecta');
+        });
+        
+        for (let i = 0; i < opciones.length; i++) {
+          if (opciones[i].checked) {
+            opcionSeleccionada = opciones[i];
+            respuestaCorrecta = opciones[i].getAttribute('data-correcto') === 'true';
+            break;
+          }
+        }
+        
         let resultadoHTML = '<div class="resultado">';
         
-        if (paso.inputs && paso.inputs.length > 0) {
-          paso.inputs.forEach(input => {
-            const elemento = document.getElementById(`${input.id}-${metodoId}-${ejercicioIndex}`);
-            if (!elemento) return;
+        if (opcionSeleccionada) {
+          if (respuestaCorrecta) {
+            // Marcar solo la opción correcta seleccionada
+            opcionSeleccionada.closest('.opcion-item').classList.add('correcta');
             
-            const respuestaUsuario = elemento.value.trim();
-            const respuestaCorrecta = input.valor;
-            
-            // Permitir tolerancia para números decimales
-            if (esNumero(respuestaCorrecta) && esNumero(respuestaUsuario)) {
-              const numUsuario = parseFloat(respuestaUsuario);
-              const numCorrecto = parseFloat(respuestaCorrecta);
-              
-              if (Math.abs(numUsuario - numCorrecto) < 0.01) {
-                elemento.style.borderColor = '#10b981';
-                elemento.style.backgroundColor = '#d1fae5';
-              } else {
-                elemento.style.borderColor = '#ef4444';
-                elemento.style.backgroundColor = '#fee2e2';
-                todasCorrectas = false;
-              }
-            } else if (respuestaUsuario === respuestaCorrecta) {
-              elemento.style.borderColor = '#10b981';
-              elemento.style.backgroundColor = '#d1fae5';
-            } else {
-              // Comparación aproximada para expresiones matemáticas
-              if (respuestaUsuario.replace(/\s+/g, '') === respuestaCorrecta.replace(/\s+/g, '')) {
-                elemento.style.borderColor = '#10b981';
-                elemento.style.backgroundColor = '#d1fae5';
-              } else {
-                elemento.style.borderColor = '#ef4444';
-                elemento.style.backgroundColor = '#fee2e2';
-                todasCorrectas = false;
-              }
-            }
-          });
-          
-          if (todasCorrectas) {
-            resultadoHTML += '<div class="correcto">✓ ¡Todas las respuestas son correctas!</div>';
+            resultadoHTML += '<div class="correcto">✓ ¡Respuesta correcta!</div>';
             respuestasCorrectas++;
+            
+            // Deshabilitar opciones y botón verificar
+            for (let i = 0; i < opciones.length; i++) {
+              opciones[i].disabled = true;
+              opciones[i].nextElementSibling.classList.add('disabled');
+            }
             btnVerificar.disabled = true;
             btnSiguiente.classList.add('mostrar');
+            btnSiguiente.style.display = 'inline-block';
           } else {
-            resultadoHTML += '<div class="incorrecto">✗ Algunas respuestas son incorrectas. Revisa e intenta de nuevo.</div>';
+            // Marcar solo la opción incorrecta seleccionada
+            opcionSeleccionada.closest('.opcion-item').classList.add('incorrecta');
+            
+            resultadoHTML += '<div class="incorrecto">✗ Respuesta incorrecta. Intenta de nuevo.</div>';
+            // NO mostrar botón siguiente
+            // NO deshabilitar verificar
           }
         } else {
-          // Si no hay inputs, simplemente avanzamos
-          resultadoHTML += '<div class="correcto">Paso completado. Puedes continuar.</div>';
-          respuestasCorrectas++;
-          btnVerificar.disabled = true;
-          btnSiguiente.classList.add('mostrar');
+          resultadoHTML += '<div class="incorrecto">✗ Selecciona una opción.</div>';
         }
         
         resultadoHTML += '</div>';
@@ -1865,9 +2155,9 @@
       });
     });
     
-    // Event listeners para botones de siguiente
+    // Event listeners para siguiente
     document.querySelectorAll('.btn-siguiente').forEach(btn => {
-      btn.addEventListener('click', e => {
+      btn.addEventListener('click', function siguienteHandler(e) {
         const metodoId = e.target.getAttribute('data-metodo');
         const ejercicioIndex = e.target.getAttribute('data-ejercicio');
         const ejercicio = metodo.submetodos[ejercicioIndex].ejercicio;
@@ -1881,35 +2171,25 @@
         pasoActual++;
         
         if (pasoActual < ejercicio.pasos.length) {
-          // Agregar el nuevo paso
           const pasoHTML = generarPasoHTML(ejercicio.pasos[pasoActual], metodoId, ejercicioIndex, pasoActual);
           pasosContainer.innerHTML += pasoHTML;
           
-          // Actualizar progreso
           progresoTexto.textContent = `Paso ${pasoActual + 1} de ${ejercicio.pasos.length}`;
           progresoBarra.style.width = `${((pasoActual + 1)/ejercicio.pasos.length)*100}%`;
           
-          // Restablecer botones
           btnVerificar.disabled = false;
           btnSiguiente.classList.remove('mostrar');
+          btnSiguiente.style.display = 'none';
           resultadoContainer.innerHTML = '';
-          
-          // Desplazar hacia el nuevo paso
-          const ultimoPaso = document.querySelectorAll(`#pasos-container-${metodoId}-${ejercicioIndex} .ejercicio-paso`);
-          if (ultimoPaso.length > 0) {
-            ultimoPaso[ultimoPaso.length - 1].scrollIntoView({ behavior: 'smooth' });
-          }
         } else {
-          // Ejercicio completado
           resultadoContainer.innerHTML = `
             <div class="resultado correcto">
               <h4>🎉 ¡Ejercicio Completado!</h4>
-              <p>Has completado correctamente ${respuestasCorrectas} de ${ejercicio.pasos.length} pasos.</p>
+              <p>Has completado ${respuestasCorrectas} de ${ejercicio.pasos.length} pasos correctamente.</p>
             </div>
           `;
           
-          // Actualizar progreso final
-          progresoTexto.textContent = `Completado: ${respuestasCorrectas}/${ejercicio.pasos.length} correctos`;
+          progresoTexto.textContent = `Completado`;
           progresoBarra.style.width = '100%';
           
           btnSiguiente.style.display = 'none';
@@ -1918,9 +2198,9 @@
       });
     });
     
-    // Event listeners para botones de reiniciar
+    // Event listeners para reiniciar
     document.querySelectorAll('.btn-reiniciar').forEach(btn => {
-      btn.addEventListener('click', e => {
+      btn.addEventListener('click', function reiniciarHandler(e) {
         const metodoId = e.target.getAttribute('data-metodo');
         const ejercicioIndex = e.target.getAttribute('data-ejercicio');
         const ejercicio = metodo.submetodos[ejercicioIndex].ejercicio;
@@ -1931,44 +2211,35 @@
         const progresoTexto = document.getElementById(`progreso-texto-${metodoId}-${ejercicioIndex}`);
         const progresoBarra = document.getElementById(`progreso-barra-${metodoId}-${ejercicioIndex}`);
         
-        // Reiniciar variables
         pasoActual = 0;
         respuestasCorrectas = 0;
         
-        // Restablecer contenido
         pasosContainer.innerHTML = generarPasoHTML(ejercicio.pasos[0], metodoId, ejercicioIndex, 0);
         resultadoContainer.innerHTML = '';
         
-        // Limpiar estilos de inputs anteriores
-        ejercicio.pasos.forEach(paso => {
-          if (paso.inputs) {
-            paso.inputs.forEach(input => {
-              const elemento = document.getElementById(`${input.id}-${metodoId}-${ejercicioIndex}`);
-              if (elemento) {
-                elemento.style.borderColor = '#cbd5e1';
-                elemento.style.backgroundColor = '#fff';
-                elemento.value = '';
-              }
-            });
+        const opcionesItems = document.querySelectorAll(`#pasos-container-${metodoId}-${ejercicioIndex} .opcion-item`);
+        opcionesItems.forEach(item => {
+          item.classList.remove('correcta', 'incorrecta');
+          const radio = item.querySelector('input[type="radio"]');
+          if (radio) {
+            radio.disabled = false;
+            radio.checked = false;
+          }
+          const label = item.querySelector('label');
+          if (label) {
+            label.classList.remove('disabled');
           }
         });
         
-        // Restablecer progreso
         progresoTexto.textContent = `Paso 1 de ${ejercicio.pasos.length}`;
         progresoBarra.style.width = `${(1/ejercicio.pasos.length)*100}%`;
         
-        // Restablecer botones
         btnVerificar.disabled = false;
         btnVerificar.style.display = 'inline-block';
         btnSiguiente.classList.remove('mostrar');
-        btnSiguiente.style.display = 'inline-block';
+        btnSiguiente.style.display = 'none';
       });
     });
-  }
-
-  // Función auxiliar para verificar si un valor es numérico
-  function esNumero(valor) {
-    return !isNaN(parseFloat(valor)) && isFinite(valor);
   }
 </script>
 </body>
