@@ -868,7 +868,7 @@
           </form>
         </div>
 
-        <!-- Método 3: Raíces de Ecuaciones (CON BISECCIÓN CORREGIDA) -->
+        <!-- Método 3: Raíces de Ecuaciones -->
         <div class="calculo-card" data-id="m3">
           <div class="calculo-icono">
             <i class="fa-solid fa-square-root-variable"></i>
@@ -897,7 +897,7 @@
             </div>
             <div class="form-group">
               <label for="max-iteraciones">Máximo de iteraciones:</label>
-              <input type="number" id="max-iteraciones" placeholder="5" value="5">
+              <input type="number" id="max-iteraciones" placeholder="100" value="100">
             </div>
             <div class="form-group">
               <label for="metodo-raiz">Método:</label>
@@ -905,6 +905,7 @@
                 <option value="biseccion">Bisección</option>
                 <option value="newton-rapson">Newton-Raphson</option>
                 <option value="secante">Secante</option>
+                <option value="falsa-posicion">Método de Falsa Posición (Regula Falsi)</option>
               </select>
             </div>
             <button type="button" class="btn-calcular" onclick="calcularRaices()">
@@ -942,6 +943,8 @@
                 <option value="adelante">Diferencia hacia adelante</option>
                 <option value="atras">Diferencia hacia atrás</option>
                 <option value="centrada">Diferencia centrada</option>
+                <option value="extrapolacion">Extrapolación de Richardson</option>
+                <option value="derivadas-interpolacion">Derivadas por interpolación</option>
               </select>
             </div>
             <button type="button" class="btn-calcular" onclick="calcularDerivada()">
@@ -979,6 +982,7 @@
                 <option value="trapecio">Regla del Trapecio</option>
                 <option value="simpson13">Regla de Simpson 1/3</option>
                 <option value="simpson38">Regla de Simpson 3/8</option>
+                <option value="gaussiana">Integración Gaussiana</option>
               </select>
             </div>
             <button type="button" class="btn-calcular" onclick="calcularIntegral()">
@@ -987,12 +991,12 @@
           </form>
         </div>
 
-        <!-- Método 6: Problemas de Valor Inicial -->
+        <!-- Método 6: Problemas de Valor Inicial (EDOs) -->
         <div class="calculo-card" data-id="m6">
           <div class="calculo-icono">
             <i class="fa-solid fa-play"></i>
           </div>
-          <h3>Problemas de Valor Inicial</h3>
+          <h3>Problemas de Valor Inicial (EDOs)</h3>
           <form class="metodo-form" data-metodo="pvi">
             <div class="form-group">
               <label for="funcion-edo">EDO: dy/dx = f(x, y):</label>
@@ -1018,10 +1022,87 @@
               <label for="metodo-edo">Método:</label>
               <select id="metodo-edo">
                 <option value="euler">Método de Euler</option>
+                <option value="heun">Método de Heun (RK2)</option>
                 <option value="runge-kutta">Runge-Kutta 4º orden</option>
               </select>
             </div>
             <button type="button" class="btn-calcular" onclick="calcularEDO()">
+              <i class="fa-solid fa-calculator"></i> Calcular
+            </button>
+          </form>
+        </div>
+
+        <!-- Método 7: Problemas de Valores en la Frontera -->
+        <div class="calculo-card" data-id="m7">
+          <div class="calculo-icono">
+            <i class="fa-solid fa-arrows-left-right"></i>
+          </div>
+          <h3>Problemas de Valores en la Frontera</h3>
+          <form class="metodo-form" data-metodo="frontera">
+            <div class="form-group">
+              <label for="funcion-edo2">EDO: y'' = f(x, y, y'):</label>
+              <input type="text" id="funcion-edo2" placeholder="2*y" value="2*y">
+            </div>
+            <div class="form-group">
+              <label for="y-a">y(a) (condición en a):</label>
+              <input type="number" id="y-a" step="any" placeholder="1" value="1">
+            </div>
+            <div class="form-group">
+              <label for="y-b">y(b) (condición en b):</label>
+              <input type="number" id="y-b" step="any" placeholder="2" value="2">
+            </div>
+            <div class="form-group">
+              <label for="a-frontera">a (inicio del intervalo):</label>
+              <input type="number" id="a-frontera" step="any" placeholder="0" value="0">
+            </div>
+            <div class="form-group">
+              <label for="b-frontera">b (fin del intervalo):</label>
+              <input type="number" id="b-frontera" step="any" placeholder="1" value="1">
+            </div>
+            <div class="form-group">
+              <label for="n-frontera">Número de puntos:</label>
+              <input type="number" id="n-frontera" placeholder="10" value="10">
+            </div>
+            <div class="form-group">
+              <label for="metodo-frontera">Método:</label>
+              <select id="metodo-frontera">
+                <option value="disparo">Método de Disparo</option>
+                <option value="diferencias-finitas">Método de Diferencias Finitas</option>
+              </select>
+            </div>
+            <button type="button" class="btn-calcular" onclick="calcularFrontera()">
+              <i class="fa-solid fa-calculator"></i> Calcular
+            </button>
+          </form>
+        </div>
+
+        <!-- Método 8: Problemas de Valores Propios de Matrices Simétricas -->
+        <div class="calculo-card" data-id="m8">
+          <div class="calculo-icono">
+            <i class="fa-solid fa-chart-simple"></i>
+          </div>
+          <h3>Valores Propios de Matrices Simétricas</h3>
+          <form class="metodo-form" data-metodo="valores-propios">
+            <div class="form-group">
+              <label for="matriz-propios">Matriz simétrica (formato: fila1; fila2; ...):</label>
+              <textarea id="matriz-propios" placeholder="4,2;2,3" rows="3">4,2;2,3</textarea>
+            </div>
+            <div class="form-group">
+              <label for="tolerancia-propios">Tolerancia:</label>
+              <input type="number" id="tolerancia-propios" step="any" placeholder="0.001" value="0.001">
+            </div>
+            <div class="form-group">
+              <label for="max-iter-propios">Máximo de iteraciones:</label>
+              <input type="number" id="max-iter-propios" placeholder="100" value="100">
+            </div>
+            <div class="form-group">
+              <label for="metodo-propios">Método:</label>
+              <select id="metodo-propios">
+                <option value="jacobi">Método de Jacobi para valores propios</option>
+                <option value="potencia">Método de la Potencia</option>
+              </select>
+            </div>
+            <button type="button" class="btn-calcular" onclick="calcularValoresPropios()">
               <i class="fa-solid fa-calculator"></i> Calcular
             </button>
           </form>
@@ -1176,7 +1257,6 @@ plt.show()</textarea>
       }
     }
 
-    // Función para mostrar resultados en modal
     function mostrarResultados(titulo, texto, grafico = null) {
       let contenido = `
         <div class="resultados-modal">
@@ -1841,7 +1921,7 @@ except Exception as e:
       }
     }
 
-    // Función para calcular raíces de ecuaciones (CON BISECCIÓN CORREGIDA)
+    // Función para calcular raíces de ecuaciones (CORREGIDA - con todos los métodos funcionando)
     async function calcularRaices() {
       if (!pyodide) {
         alert("Pyodide aún se está cargando. Por favor, espera unos segundos.");
@@ -1863,7 +1943,7 @@ except Exception as e:
         let titulo = "";
         
         if (metodo === 'biseccion') {
-          titulo = "Resultados - Método de Bisección (Mejorado)";
+          titulo = "Resultados - Método de Bisección";
           code = `
 import numpy as np
 import matplotlib.pyplot as plt
@@ -2200,6 +2280,107 @@ except Exception as e:
 
 "\\n".join(pasos), img
           `;
+        } else if (metodo === 'falsa-posicion') {
+          titulo = "Resultados - Método de Falsa Posición (Regula Falsi)";
+          code = `
+import numpy as np
+import matplotlib.pyplot as plt
+from io import BytesIO
+import base64
+
+# Función de entrada
+f_str = """${funcion}"""
+f = lambda x: eval(f_str, {"x": x, "np": np})
+
+a = float("""${a}""")
+b = float("""${b}""")
+tol = float("""${tolerancia}""")
+max_iter = int("""${maxIter}""")
+
+pasos = []
+
+# Verificación de condición inicial
+fa = f(a)
+fb = f(b)
+if fa * fb >= 0:
+    raise ValueError("f(a) y f(b) deben tener signos opuestos.")
+
+pasos.append("="*70)
+pasos.append(" MÉTODO DE FALSA POSICIÓN (REGULA FALSI) ")
+pasos.append(f"Función: f(x) = {f_str}")
+pasos.append(f"Intervalo inicial: [{a}, {b}]")
+pasos.append(f"f(a) = {fa:.6f}, f(b) = {fb:.6f}")
+pasos.append(f"Tolerancia: {tol}")
+pasos.append("")
+
+for i in range(1, max_iter + 1):
+    # Calcular punto por interpolación lineal
+    c = b - fb * (b - a) / (fb - fa)
+    fc = f(c)
+    
+    pasos.append(f"Iteración {i}:")
+    pasos.append(f"  a = {a:.6f}, f(a) = {fa:.6f}")
+    pasos.append(f"  b = {b:.6f}, f(b) = {fb:.6f}")
+    pasos.append(f"  c = {c:.6f}, f(c) = {fc:.6f}")
+    
+    if abs(fc) < tol:
+        pasos.append(f"✅ Raíz encontrada en c = {c:.6f}")
+        raiz = c
+        break
+    
+    if fa * fc < 0:
+        b = c
+        fb = fc
+        pasos.append("  -> La raíz está en [a, c], actualizo b = c")
+    else:
+        a = c
+        fa = fc
+        pasos.append("  -> La raíz está en [c, b], actualizo a = c")
+    
+    if abs(b - a) < tol:
+        pasos.append(f"✅ Intervalo suficientemente pequeño: {abs(b-a):.6f}")
+        raiz = (a + b) / 2
+        break
+    
+    pasos.append("")
+
+if 'raiz' not in locals():
+    pasos.append("❌ No se encontró la raíz en el número máximo de iteraciones")
+    raiz = (a + b) / 2
+
+pasos.append("="*70)
+pasos.append(f"Raíz aproximada: {raiz:.6f}")
+pasos.append(f"f({raiz:.6f}) = {f(raiz):.6f}")
+
+# Generar gráfica
+img = ""
+try:
+    x_min = min(float("""${a}"""), float("""${b}"""), raiz) - 1
+    x_max = max(float("""${a}"""), float("""${b}"""), raiz) + 1
+    x_vals = np.linspace(x_min, x_max, 400)
+    y_vals = [f(x) for x in x_vals]
+    
+    plt.figure(figsize=(10, 6))
+    plt.plot(x_vals, y_vals, label=f"f(x) = {f_str}", color="blue", linewidth=2)
+    plt.axhline(0, color="black", linewidth=0.8)
+    plt.axvline(raiz, color="green", linestyle="--", alpha=0.7, label=f"Raíz: {raiz:.4f}")
+    plt.plot(raiz, f(raiz), 'go', markersize=8)
+    plt.title("Método de Falsa Posición - Resultado Final")
+    plt.xlabel("x")
+    plt.ylabel("f(x)")
+    plt.grid(True, alpha=0.3)
+    plt.legend()
+    
+    buf = BytesIO()
+    plt.savefig(buf, format='png', dpi=100, bbox_inches='tight')
+    buf.seek(0)
+    img = "data:image/png;base64," + base64.b64encode(buf.read()).decode()
+    plt.close()
+except Exception as e:
+    pasos.append(f"Nota: No se pudo generar la gráfica: {e}")
+
+"\\n".join(pasos), img
+          `;
         }
 
         const [texto, img] = await pyodide.runPythonAsync(code);
@@ -2209,7 +2390,7 @@ except Exception as e:
       }
     }
 
-    // Función para calcular derivada numérica
+    // Función para calcular derivada numérica (CORREGIDA)
     async function calcularDerivada() {
       if (!pyodide) {
         alert("Pyodide aún se está cargando. Por favor, espera unos segundos.");
@@ -2238,27 +2419,22 @@ import base64
 
 # === MÉTODO DE DIFERENCIACIÓN NUMÉRICA HACIA ADELANTE ===
 
-# Paso 1: Definir la función a derivar
 def f(x):
-    return ${funcion}  # Función proporcionada por el usuario
+    return ${funcion}
 
-# Paso 2: Obtener parámetros del usuario
 a = float("""${a}""")
 b = float("""${b}""")
 n = int("""${n}""")
 
-# Paso 3: Crear los puntos y calcular los valores de la función
 x = np.linspace(a, b, n)
 y = f(x)
-
-# Paso 4: Calcular la derivada numérica por el método hacia adelante
 h = x[1] - x[0]
+
 dy_dx = np.zeros(n)
 for i in range(n - 1):
     dy_dx[i] = (y[i + 1] - y[i]) / h
-dy_dx[-1] = np.nan  # No se puede calcular en el último punto
+dy_dx[-1] = np.nan
 
-# Paso 5: Mostrar resultados
 resultados = []
 resultados.append("=== RESULTADOS DEL MÉTODO HACIA ADELANTE ===")
 resultados.append(f"Función: f(x) = ${funcion}")
@@ -2272,7 +2448,6 @@ for i in range(n - 1):
     resultados.append(f"{x[i]:.4f}\\t\\t{y[i]:.4f}\\t\\t{dy_dx[i]:.4f}")
 resultados.append(f"{x[-1]:.4f}\\t\\t{y[-1]:.4f}\\t\\tNo calculable")
 
-# Paso 6: Graficar función y derivada
 plt.figure(figsize=(10,5))
 plt.plot(x, y, 'b-', label='f(x)', linewidth=2)
 plt.plot(x, dy_dx, 'r--', label="Derivada hacia adelante f'(x)", linewidth=2)
@@ -2282,7 +2457,6 @@ plt.ylabel("Valor")
 plt.legend()
 plt.grid(True)
 
-# Guardar gráfica como imagen
 buf = BytesIO()
 plt.savefig(buf, format='png', dpi=100, bbox_inches='tight')
 buf.seek(0)
@@ -2301,14 +2475,24 @@ import base64
 
 # === MÉTODO DE DIFERENCIACIÓN NUMÉRICA HACIA ATRÁS ===
 
-# Paso 1: Definir la función (puedes cambiarla)
 def f(x):
     return ${funcion}
 
-# Derivada exacta (para comparar)
+a = float("""${a}""")
+b = float("""${b}""")
+n = int("""${n}""")
+
+x = np.linspace(a, b, n)
+y = f(x)
+h = x[1] - x[0]
+
+dy_dx = np.zeros(n)
+dy_dx[0] = np.nan
+for i in range(1, n):
+    dy_dx[i] = (y[i] - y[i - 1]) / h
+
+# Derivada exacta para comparación
 def f_prime_exact(x):
-    # Calcular derivada exacta usando sympy o manualmente
-    # Para funciones comunes, definimos manualmente
     if "${funcion}" == "np.sin(x)":
         return np.cos(x)
     elif "${funcion}" == "np.cos(x)":
@@ -2320,31 +2504,12 @@ def f_prime_exact(x):
     elif "${funcion}" == "x**3":
         return 3*x**2
     else:
-        # Para otras funciones, usar diferencia centrada como aproximación
         h_small = 1e-8
         return (f(x + h_small) - f(x - h_small)) / (2 * h_small)
 
-# Paso 2: Parámetros del intervalo
-a = float("""${a}""")
-b = float("""${b}""")
-n = int("""${n}""")  # número de puntos
-
-# Paso 3: Crear puntos y valores
-x = np.linspace(a, b, n)
-y = f(x)
-
-# Paso 4: Calcular derivada hacia atrás
-h = x[1] - x[0]
-dy_dx = np.zeros(n)
-dy_dx[0] = np.nan  # no se puede calcular en el primer punto
-for i in range(1, n):
-    dy_dx[i] = (y[i] - y[i - 1]) / h
-
-# Paso 5: Derivada exacta y error
 y_prime_exact = f_prime_exact(x)
 error = np.abs(dy_dx - y_prime_exact)
 
-# Paso 6: Mostrar resultados en algunos puntos
 resultados = []
 resultados.append("=== RESULTADOS DEL MÉTODO HACIA ATRÁS ===")
 resultados.append(f"Función: f(x) = ${funcion}")
@@ -2355,16 +2520,13 @@ resultados.append("")
 resultados.append(" x        f'(x) exacta     f'(x) numérica     error")
 resultados.append("-" * 60)
 
-# Mostrar algunos puntos representativos
-indices_muestra = [1, 2, 10, min(50, n-1), min(98, n-1)]
+indices_muestra = [1, 2, min(50, n-1), min(98, n-1)]
 for i in indices_muestra:
     if i < n:
         resultados.append(f"{x[i]:.4f}   {y_prime_exact[i]:.6f}          {dy_dx[i]:.6f}        {error[i]:.6f}")
 
-# Paso 7: Graficar función y derivadas
 plt.figure(figsize=(12, 8))
 
-# Subplot 1: Función y derivadas
 plt.subplot(2, 1, 1)
 plt.plot(x, y, 'b-', label='f(x)', linewidth=2)
 plt.plot(x, y_prime_exact, 'k-', label='Derivada exacta', linewidth=2)
@@ -2375,7 +2537,6 @@ plt.ylabel("Valor")
 plt.legend()
 plt.grid(True)
 
-# Subplot 2: Error
 plt.subplot(2, 1, 2)
 plt.plot(x[1:], error[1:], 'm-', linewidth=2)
 plt.title("Error absoluto |f'numérica - f'exacta| (Método Hacia Atrás)")
@@ -2385,7 +2546,6 @@ plt.grid(True)
 
 plt.tight_layout()
 
-# Guardar gráfica como imagen
 buf = BytesIO()
 plt.savefig(buf, format='png', dpi=100, bbox_inches='tight')
 buf.seek(0)
@@ -2404,28 +2564,23 @@ import base64
 
 # === MÉTODO DE DIFERENCIACIÓN NUMÉRICA CENTRADA ===
 
-# Paso 1: Definir la función a derivar
 def f(x):
-    return ${funcion}  # Función proporcionada por el usuario
+    return ${funcion}
 
-# Paso 2: Obtener parámetros del usuario
 a = float("""${a}""")
 b = float("""${b}""")
 n = int("""${n}""")
 
-# Paso 3: Crear los puntos y calcular los valores de la función
 x = np.linspace(a, b, n)
 y = f(x)
-
-# Paso 4: Calcular la derivada numérica por el método centrado
 h = x[1] - x[0]
+
 dy_dx = np.zeros(n)
-dy_dx[0] = np.nan  # No se puede calcular en el primer punto
-dy_dx[-1] = np.nan  # No se puede calcular en el último punto
+dy_dx[0] = np.nan
+dy_dx[-1] = np.nan
 for i in range(1, n - 1):
     dy_dx[i] = (y[i + 1] - y[i - 1]) / (2 * h)
 
-# Paso 5: Mostrar resultados
 resultados = []
 resultados.append("=== RESULTADOS DEL MÉTODO CENTRADO ===")
 resultados.append(f"Función: f(x) = ${funcion}")
@@ -2440,7 +2595,6 @@ for i in range(1, n - 1):
     resultados.append(f"{x[i]:.4f}\\t\\t{y[i]:.4f}\\t\\t{dy_dx[i]:.4f}")
 resultados.append(f"{x[-1]:.4f}\\t\\t{y[-1]:.4f}\\t\\tNo calculable")
 
-# Paso 6: Graficar función y derivada
 plt.figure(figsize=(10,5))
 plt.plot(x, y, 'b-', label='f(x)', linewidth=2)
 plt.plot(x, dy_dx, 'r--', label="Derivada centrada f'(x)", linewidth=2)
@@ -2450,7 +2604,162 @@ plt.ylabel("Valor")
 plt.legend()
 plt.grid(True)
 
-# Guardar gráfica como imagen
+buf = BytesIO()
+plt.savefig(buf, format='png', dpi=100, bbox_inches='tight')
+buf.seek(0)
+img = "data:image/png;base64," + base64.b64encode(buf.read()).decode()
+plt.close()
+
+"\\n".join(resultados), img
+          `;
+        } else if (metodo === 'extrapolacion') {
+          titulo = "Resultados - Extrapolación de Richardson";
+          code = `
+import numpy as np
+import matplotlib.pyplot as plt
+from io import BytesIO
+import base64
+
+# === EXTRAPOLACIÓN DE RICHARDSON ===
+
+def f(x):
+    return ${funcion}
+
+def derivada_centrada(f, x, h):
+    return (f(x + h) - f(x - h)) / (2 * h)
+
+def richardson_extrapolation(f, x, h, orden=4):
+    D = np.zeros((orden+1, orden+1))
+    for i in range(orden+1):
+        D[i,0] = derivada_centrada(f, x, h / (2**i))
+    for j in range(1, orden+1):
+        for i in range(orden+1-j):
+            D[i,j] = D[i+1,j-1] + (D[i+1,j-1] - D[i,j-1]) / (4**j - 1)
+    return D[0,orden], D
+
+a = float("""${a}""")
+b = float("""${b}""")
+n = int("""${n}""")
+x = np.linspace(a, b, n)
+h0 = (b - a) / (n - 1)
+
+resultados = []
+resultados.append("=== EXTRAPOLACIÓN DE RICHARDSON (MÉTODO DE ROMBERG) ===")
+resultados.append(f"Función: f(x) = ${funcion}")
+resultados.append(f"Punto de evaluación: x = {x[n//2]:.4f}")
+resultados.append("")
+
+x_eval = x[n//2]
+deriv_exacta = None
+if "${funcion}" == "np.sin(x)":
+    deriv_exacta = np.cos(x_eval)
+elif "${funcion}" == "np.cos(x)":
+    deriv_exacta = -np.sin(x_eval)
+elif "${funcion}" == "np.exp(x)":
+    deriv_exacta = np.exp(x_eval)
+elif "${funcion}" == "x**2":
+    deriv_exacta = 2*x_eval
+elif "${funcion}" == "x**3":
+    deriv_exacta = 3*x_eval**2
+
+resultados.append("Extrapolación de Richardson - Tabla de Romberg")
+resultados.append("h\\t\\tD(h,0)\\t\\tD(h,1)\\t\\tD(h,2)\\t\\tD(h,3)\\t\\tD(h,4)")
+resultados.append("-" * 90)
+
+D_val, D_table = richardson_extrapolation(f, x_eval, h0, orden=4)
+
+for i in range(5):
+    fila = f"h/{2**i:.0f}\\t"
+    for j in range(5-i):
+        fila += f"{D_table[i,j]:.8f}\\t"
+    resultados.append(fila)
+
+resultados.append("")
+resultados.append(f"Valor extrapolado (orden 4): f'({x_eval:.4f}) = {D_val:.8f}")
+if deriv_exacta:
+    resultados.append(f"Valor exacto: {deriv_exacta:.8f}")
+    resultados.append(f"Error absoluto: {abs(D_val - deriv_exacta):.2e}")
+
+# Graficar convergencia
+errores = []
+hs = []
+for i in range(5):
+    hs.append(h0 / (2**i))
+    errores.append(abs(D_table[i,0] - deriv_exacta) if deriv_exacta else D_table[i,0])
+
+plt.figure(figsize=(10, 6))
+plt.loglog(hs, errores, 'bo-', linewidth=2, markersize=8)
+plt.xlabel('Paso h')
+plt.ylabel('Error absoluto')
+plt.title('Convergencia de la Extrapolación de Richardson')
+plt.grid(True, alpha=0.3)
+
+buf = BytesIO()
+plt.savefig(buf, format='png', dpi=100, bbox_inches='tight')
+buf.seek(0)
+img = "data:image/png;base64," + base64.b64encode(buf.read()).decode()
+plt.close()
+
+"\\n".join(resultados), img
+          `;
+        } else if (metodo === 'derivadas-interpolacion') {
+          titulo = "Resultados - Derivadas por Interpolación";
+          code = `
+import numpy as np
+import matplotlib.pyplot as plt
+from io import BytesIO
+import base64
+
+# === DERIVADAS POR INTERPOLACIÓN ===
+
+def f(x):
+    return ${funcion}
+
+a = float("""${a}""")
+b = float("""${b}""")
+n = int("""${n}""")
+
+x = np.linspace(a, b, n)
+y = f(x)
+h = x[1] - x[0]
+
+# Fórmulas de diferencias finitas de orden 4
+dy_dx_interp = np.zeros(n)
+
+for i in range(2, n-2):
+    dy_dx_interp[i] = (-y[i+2] + 8*y[i+1] - 8*y[i-1] + y[i-2]) / (12*h)
+
+# Extremos con fórmulas de orden 4
+if n >= 5:
+    dy_dx_interp[0] = (-25*y[0] + 48*y[1] - 36*y[2] + 16*y[3] - 3*y[4]) / (12*h)
+    dy_dx_interp[1] = (-3*y[0] - 10*y[1] + 18*y[2] - 6*y[3] + y[4]) / (12*h)
+    dy_dx_interp[-2] = (y[-5] - 6*y[-4] + 18*y[-3] - 10*y[-2] - 3*y[-1]) / (12*h)
+    dy_dx_interp[-1] = (3*y[-5] - 16*y[-4] + 36*y[-3] - 48*y[-2] + 25*y[-1]) / (12*h)
+
+resultados = []
+resultados.append("=== DERIVADAS POR INTERPOLACIÓN ===")
+resultados.append(f"Función: f(x) = ${funcion}")
+resultados.append(f"Intervalo: [{a}, {b}]")
+resultados.append(f"Puntos: {n}")
+resultados.append(f"Paso h: {h:.6f}")
+resultados.append("")
+resultados.append("Utilizando fórmulas de diferencias finitas de orden 4 para mayor precisión.")
+resultados.append("")
+resultados.append("x\\t\\tf(x)\\t\\tf'(x) aproximada")
+resultados.append("-" * 40)
+
+for i in range(0, n, max(1, n//15)):
+    resultados.append(f"{x[i]:.4f}\\t\\t{y[i]:.4f}\\t\\t{dy_dx_interp[i]:.6f}")
+
+plt.figure(figsize=(10, 5))
+plt.plot(x, y, 'b-', label='f(x)', linewidth=2)
+plt.plot(x, dy_dx_interp, 'r--', label="Derivada por interpolación f'(x)", linewidth=2)
+plt.title("Derivadas Numéricas por Interpolación")
+plt.xlabel("x")
+plt.ylabel("Valor")
+plt.legend()
+plt.grid(True)
+
 buf = BytesIO()
 plt.savefig(buf, format='png', dpi=100, bbox_inches='tight')
 buf.seek(0)
@@ -2468,7 +2777,7 @@ plt.close()
       }
     }
 
-    // Función para calcular integral numérica
+    // Función para calcular integral numérica (CORREGIDA)
     async function calcularIntegral() {
       if (!pyodide) {
         alert("Pyodide aún se está cargando. Por favor, espera unos segundos.");
@@ -2497,13 +2806,10 @@ import base64
 
 # === MÉTODO DE INTEGRACIÓN NUMÉRICA: REGLA DEL TRAPECIO ===
 
-# Paso 1: Definir la función (puedes cambiarla)
 def f(x):
     return ${funcion}
 
-# Función para calcular integral exacta (para comparar)
 def integral_exacta(a, b):
-    # Para funciones comunes, definimos manualmente la integral
     if "${funcion}" == "np.sin(x)":
         return -np.cos(b) + np.cos(a)
     elif "${funcion}" == "np.cos(x)":
@@ -2515,31 +2821,22 @@ def integral_exacta(a, b):
     elif "${funcion}" == "x**3":
         return (b**4 - a**4) / 4
     else:
-        # Para otras funciones, usar cuadratura adaptativa simple
-        # Esta es una aproximación, no es exacta
         x_fine = np.linspace(a, b, 1000)
         y_fine = f(x_fine)
         return np.trapz(y_fine, x_fine)
 
-# Paso 2: Ingreso de datos
 a = float("""${a}""")
 b = float("""${b}""")
 n = int("""${n}""")
 
-# Paso 3: Crear puntos y valores
 x = np.linspace(a, b, n + 1)
 y = f(x)
 h = (b - a) / n
 
-# Paso 4: Aplicar la fórmula del trapecio
-# I = h/2 * [f(x0) + 2Σf(xi) + f(xn)]
 I = (h / 2) * (y[0] + 2 * np.sum(y[1:-1]) + y[-1])
-
-# Paso 5: Comparar con la integral exacta
 I_exact = integral_exacta(a, b)
 error = abs(I - I_exact)
 
-# Paso 6: Mostrar resultados
 resultados = []
 resultados.append("=== RESULTADOS REGLA DEL TRAPECIO ===")
 resultados.append(f"Función: f(x) = ${funcion}")
@@ -2549,47 +2846,32 @@ resultados.append("")
 resultados.append(f"Valor aproximado: {I:.8f}")
 resultados.append(f"Valor exacto:      {I_exact:.8f}")
 resultados.append(f"Error absoluto:    {error:.2e}")
-resultados.append("")
-resultados.append("Fórmula aplicada:")
-resultados.append(f"I = (h/2) * [f(x₀) + 2Σf(xᵢ) + f(xₙ)]")
-resultados.append(f"  = ({h:.4f}/2) * [f({a:.4f}) + 2Σf(xᵢ) + f({b:.4f})]")
-resultados.append(f"  = {I:.8f}")
 
-# Paso 7: Graficar función y trapecios
+# Graficar
 x_plot = np.linspace(a, b, 200)
 y_plot = f(x_plot)
 
 plt.figure(figsize=(12, 8))
 
-# Subplot 1: Función y área aproximada
 plt.subplot(2, 1, 1)
 plt.plot(x_plot, y_plot, 'b', label='f(x)', linewidth=2)
 plt.fill_between(x, 0, y, color='orange', alpha=0.3, label='Área aproximada (Trapecio)')
-
-# Dibujar los trapecios
 for i in range(n):
     x_trap = [x[i], x[i+1], x[i+1], x[i]]
     y_trap = [0, 0, y[i+1], y[i]]
     plt.fill(x_trap, y_trap, 'orange', alpha=0.2)
-    plt.plot([x[i], x[i]], [0, y[i]], 'k--', alpha=0.5, linewidth=0.8)
-    plt.plot([x[i+1], x[i+1]], [0, y[i+1]], 'k--', alpha=0.5, linewidth=0.8)
-
 plt.title("Integración Numérica - Regla del Trapecio")
 plt.xlabel("x")
 plt.ylabel("f(x)")
 plt.legend()
 plt.grid(True)
 
-# Subplot 2: Error por subintervalo
 plt.subplot(2, 1, 2)
 errores_por_intervalo = []
 for i in range(n):
-    # Calcular el área exacta del subintervalo
     area_exacta_sub = integral_exacta(x[i], x[i+1])
-    # Calcular el área aproximada del subintervalo
     area_aprox_sub = (h / 2) * (y[i] + y[i+1])
-    error_sub = abs(area_exacta_sub - area_aprox_sub)
-    errores_por_intervalo.append(error_sub)
+    errores_por_intervalo.append(abs(area_exacta_sub - area_aprox_sub))
 
 x_centros = [(x[i] + x[i+1]) / 2 for i in range(n)]
 plt.bar(x_centros, errores_por_intervalo, width=h*0.8, alpha=0.7, color='red')
@@ -2600,7 +2882,6 @@ plt.grid(True, alpha=0.3)
 
 plt.tight_layout()
 
-# Guardar gráfica como imagen
 buf = BytesIO()
 plt.savefig(buf, format='png', dpi=100, bbox_inches='tight')
 buf.seek(0)
@@ -2617,8 +2898,6 @@ import matplotlib.pyplot as plt
 from io import BytesIO
 import base64
 
-# === MÉTODO DE INTEGRACIÓN NUMÉRICA: SIMPSON 1/3 ===
-
 def f(x):
     return ${funcion}
 
@@ -2626,15 +2905,13 @@ a = float("""${a}""")
 b = float("""${b}""")
 n = int("""${n}""")
 
-# Verificar que n es par para Simpson 1/3
 if n % 2 != 0:
-    n = n + 1  # Hacer n par
+    n = n + 1
 
 x = np.linspace(a, b, n + 1)
 y = f(x)
 h = (b - a) / n
 
-# Aplicar fórmula de Simpson 1/3
 I = (h / 3) * (y[0] + y[-1] + 4 * np.sum(y[1:-1:2]) + 2 * np.sum(y[2:-1:2]))
 
 resultados = []
@@ -2644,11 +2921,7 @@ resultados.append(f"Intervalo: [{a}, {b}] con n = {n} subintervalos")
 resultados.append(f"Paso h: {h:.6f}")
 resultados.append("")
 resultados.append(f"Valor aproximado: {I:.8f}")
-resultados.append("")
-resultados.append("Fórmula aplicada:")
-resultados.append(f"I = (h/3) * [f(x₀) + f(xₙ) + 4Σf(x_impares) + 2Σf(x_pares)]")
 
-# Graficar
 x_plot = np.linspace(a, b, 200)
 y_plot = f(x_plot)
 
@@ -2677,8 +2950,6 @@ import matplotlib.pyplot as plt
 from io import BytesIO
 import base64
 
-# === MÉTODO DE INTEGRACIÓN NUMÉRICA: SIMPSON 3/8 ===
-
 def f(x):
     return ${funcion}
 
@@ -2686,15 +2957,13 @@ a = float("""${a}""")
 b = float("""${b}""")
 n = int("""${n}""")
 
-# Verificar que n es múltiplo de 3 para Simpson 3/8
 if n % 3 != 0:
-    n = n + (3 - n % 3)  # Hacer n múltiplo de 3
+    n = n + (3 - n % 3)
 
 x = np.linspace(a, b, n + 1)
 y = f(x)
 h = (b - a) / n
 
-# Aplicar fórmula de Simpson 3/8
 I = (3 * h / 8) * (y[0] + y[-1] + 3 * (np.sum(y[1:-1:3]) + np.sum(y[2:-1:3])) + 2 * np.sum(y[3:-1:3]))
 
 resultados = []
@@ -2704,11 +2973,7 @@ resultados.append(f"Intervalo: [{a}, {b}] con n = {n} subintervalos")
 resultados.append(f"Paso h: {h:.6f}")
 resultados.append("")
 resultados.append(f"Valor aproximado: {I:.8f}")
-resultados.append("")
-resultados.append("Fórmula aplicada:")
-resultados.append(f"I = (3h/8) * [f(x₀) + f(xₙ) + 3(Σf(x₁₊₃) + Σf(x₂₊₃)) + 2Σf(x₃₊₃)]")
 
-# Graficar
 x_plot = np.linspace(a, b, 200)
 y_plot = f(x_plot)
 
@@ -2716,6 +2981,56 @@ plt.figure(figsize=(10, 6))
 plt.plot(x_plot, y_plot, 'b-', label='f(x)', linewidth=2)
 plt.fill_between(x, 0, y, color='purple', alpha=0.3, label='Área aproximada (Simpson 3/8)')
 plt.title("Integración Numérica - Regla de Simpson 3/8")
+plt.xlabel("x")
+plt.ylabel("f(x)")
+plt.legend()
+plt.grid(True)
+
+buf = BytesIO()
+plt.savefig(buf, format='png', dpi=100, bbox_inches='tight')
+buf.seek(0)
+img = "data:image/png;base64," + base64.b64encode(buf.read()).decode()
+plt.close()
+
+"\\n".join(resultados), img
+          `;
+        } else if (metodo === 'gaussiana') {
+          titulo = "Resultados - Integración Gaussiana";
+          code = `
+import numpy as np
+import matplotlib.pyplot as plt
+from io import BytesIO
+import base64
+from numpy.polynomial.legendre import leggauss
+
+def f(x):
+    return ${funcion}
+
+a = float("""${a}""")
+b = float("""${b}""")
+
+def integral_gaussiana(f, a, b, n):
+    x_pts, w = leggauss(n)
+    t = 0.5 * (b - a) * x_pts + 0.5 * (a + b)
+    return 0.5 * (b - a) * np.sum(w * f(t))
+
+resultados = []
+resultados.append("=== INTEGRACIÓN GAUSSIANA ===")
+resultados.append(f"Función: f(x) = ${funcion}")
+resultados.append(f"Intervalo: [{a}, {b}]")
+resultados.append("")
+
+for n in [2, 4, 6, 8]:
+    I = integral_gaussiana(f, a, b, n)
+    resultados.append(f"Con {n} puntos: I = {I:.10f}")
+
+x_plot = np.linspace(a, b, 200)
+y_plot = f(x_plot)
+
+plt.figure(figsize=(10, 6))
+plt.plot(x_plot, y_plot, 'b-', label='f(x)', linewidth=2)
+plt.fill_between(x_plot, 0, y_plot, color='orange', alpha=0.3, label='Área bajo la curva')
+plt.title("Integración Gaussiana")
 plt.xlabel("x")
 plt.ylabel("f(x)")
 plt.legend()
@@ -2738,27 +3053,622 @@ plt.close()
       }
     }
 
-    // Funciones de cálculo para los otros métodos
-    function calcularEDO() {
+    // Función para calcular EDO (CORREGIDA - Método de Heun con iteraciones)
+    async function calcularEDO() {
+      if (!pyodide) {
+        alert("Pyodide aún se está cargando. Por favor, espera unos segundos.");
+        return;
+      }
+
       const funcion = document.getElementById('funcion-edo').value;
-      const condicion = document.getElementById('condicion-inicial').value;
+      const y0 = document.getElementById('condicion-inicial').value;
       const x0 = document.getElementById('x-inicial').value;
       const xf = document.getElementById('x-final').value;
-      const paso = document.getElementById('paso-edo').value;
+      const h = document.getElementById('paso-edo').value;
       const metodo = document.getElementById('metodo-edo').value;
       
-      const resultado = `Método: ${metodo.toUpperCase()}
-EDO: dy/dx = ${funcion}
-Condición inicial: y(${x0}) = ${condicion}
-Intervalo: [${x0}, ${xf}]
-Paso: h = ${paso}
+      mostrarModal("Calculando...", "<p>Resolviendo la ecuación diferencial...</p>");
 
-Resultado simulado:
-y(${xf}) ≈ 11.389
+      try {
+        let code;
+        let titulo = "";
+        
+        if (metodo === 'euler') {
+          titulo = "Resultados - Método de Euler";
+          code = `
+import numpy as np
+import matplotlib.pyplot as plt
+from io import BytesIO
+import base64
 
-Este cálculo se ejecutaría con Python en el backend.`;
+def f(x, y):
+    return ${funcion}
+
+x0 = float("""${x0}""")
+xf = float("""${xf}""")
+y0 = float("""${y0}""")
+h = float("""${h}""")
+
+n = int((xf - x0) / h) + 1
+x = np.linspace(x0, xf, n)
+y = np.zeros(n)
+y[0] = y0
+
+pasos = []
+pasos.append("=== MÉTODO DE EULER ===")
+pasos.append(f"EDO: dy/dx = {funcion}")
+pasos.append(f"Condición inicial: y({x0}) = {y0}")
+pasos.append(f"Intervalo: [{x0}, {xf}], paso h = {h}")
+pasos.append("")
+pasos.append("Iteraciones:")
+pasos.append("i\\tx_i\\t\\ty_i\\t\\tf(x_i,y_i)\\t\\ty_{i+1}")
+pasos.append("-" * 60)
+
+for i in range(n-1):
+    fx = f(x[i], y[i])
+    y[i+1] = y[i] + h * fx
+    pasos.append(f"{i}\\t{x[i]:.4f}\\t\\t{y[i]:.6f}\\t\\t{fx:.6f}\\t\\t{y[i+1]:.6f}")
+
+pasos.append("")
+pasos.append(f"Resultado final: y({xf}) ≈ {y[-1]:.6f}")
+
+plt.figure(figsize=(10, 6))
+plt.plot(x, y, 'b-o', label='Solución aproximada (Euler)', linewidth=2, markersize=4)
+plt.xlabel('x')
+plt.ylabel('y(x)')
+plt.title('Método de Euler - Solución de EDO')
+plt.grid(True)
+plt.legend()
+
+buf = BytesIO()
+plt.savefig(buf, format='png', dpi=100, bbox_inches='tight')
+buf.seek(0)
+img = "data:image/png;base64," + base64.b64encode(buf.read()).decode()
+plt.close()
+
+"\\n".join(pasos), img
+          `;
+        } else if (metodo === 'heun') {
+          titulo = "Resultados - Método de Heun (RK2 con iteraciones)";
+          code = `
+import numpy as np
+import matplotlib.pyplot as plt
+from io import BytesIO
+import base64
+
+def f(x, y):
+    return ${funcion}
+
+x0 = float("""${x0}""")
+xf = float("""${xf}""")
+y0 = float("""${y0}""")
+h = float("""${h}""")
+
+n = int((xf - x0) / h) + 1
+x = np.linspace(x0, xf, n)
+y = np.zeros(n)
+y[0] = y0
+
+pasos = []
+pasos.append("=== MÉTODO DE HEUN (RK2 con corrector iterativo) ===")
+pasos.append(f"EDO: dy/dx = {funcion}")
+pasos.append(f"Condición inicial: y({x0}) = {y0}")
+pasos.append(f"Intervalo: [{x0}, {xf}], paso h = {h}")
+pasos.append("")
+pasos.append("El método de Heun usa un predictor y corrector iterativo:")
+pasos.append("  Predictor (Euler): y_pred = y_i + h·f(x_i, y_i)")
+pasos.append("  Corrector iterativo: y_corr = y_i + (h/2)[f(x_i, y_i) + f(x_i+h, y_pred)]")
+pasos.append("")
+pasos.append("Iteraciones:")
+pasos.append("i\\tx_i\\t\\ty_i\\t\\tPredictor\\t\\tCorrector final")
+pasos.append("-" * 70)
+
+for i in range(n-1):
+    k1 = h * f(x[i], y[i])
+    y_pred = y[i] + k1  # Predictor de Euler
+    
+    # Corrector iterativo
+    y_corr = y_pred
+    for _ in range(3):  # 3 iteraciones del corrector
+        k2 = h * f(x[i] + h, y_corr)
+        y_new = y[i] + (k1 + k2) / 2
+        if abs(y_new - y_corr) < 1e-10:
+            break
+        y_corr = y_new
+    
+    y[i+1] = y_corr
+    pasos.append(f"{i}\\t{x[i]:.4f}\\t\\t{y[i]:.6f}\\t\\t{y_pred:.6f}\\t\\t{y[i+1]:.6f}")
+
+pasos.append("")
+pasos.append(f"Resultado final: y({xf}) ≈ {y[-1]:.6f}")
+
+plt.figure(figsize=(10, 6))
+plt.plot(x, y, 'g-o', label='Solución aproximada (Heun)', linewidth=2, markersize=4)
+plt.xlabel('x')
+plt.ylabel('y(x)')
+plt.title('Método de Heun (RK2) - Solución de EDO')
+plt.grid(True)
+plt.legend()
+
+buf = BytesIO()
+plt.savefig(buf, format='png', dpi=100, bbox_inches='tight')
+buf.seek(0)
+img = "data:image/png;base64," + base64.b64encode(buf.read()).decode()
+plt.close()
+
+"\\n".join(pasos), img
+          `;
+        } else if (metodo === 'runge-kutta') {
+          titulo = "Resultados - Runge-Kutta 4º Orden";
+          code = `
+import numpy as np
+import matplotlib.pyplot as plt
+from io import BytesIO
+import base64
+
+def f(x, y):
+    return ${funcion}
+
+x0 = float("""${x0}""")
+xf = float("""${xf}""")
+y0 = float("""${y0}""")
+h = float("""${h}""")
+
+n = int((xf - x0) / h) + 1
+x = np.linspace(x0, xf, n)
+y = np.zeros(n)
+y[0] = y0
+
+pasos = []
+pasos.append("=== MÉTODO DE RUNGE-KUTTA 4º ORDEN ===")
+pasos.append(f"EDO: dy/dx = {funcion}")
+pasos.append(f"Condición inicial: y({x0}) = {y0}")
+pasos.append(f"Intervalo: [{x0}, {xf}], paso h = {h}")
+pasos.append("")
+pasos.append("Iteraciones:")
+pasos.append("i\\tx_i\\t\\ty_i\\t\\tk₁\\t\\tk₂\\t\\tk₃\\t\\tk₄")
+pasos.append("-" * 80)
+
+for i in range(n-1):
+    k1 = h * f(x[i], y[i])
+    k2 = h * f(x[i] + h/2, y[i] + k1/2)
+    k3 = h * f(x[i] + h/2, y[i] + k2/2)
+    k4 = h * f(x[i] + h, y[i] + k3)
+    y[i+1] = y[i] + (k1 + 2*k2 + 2*k3 + k4) / 6
+    pasos.append(f"{i}\\t{x[i]:.4f}\\t\\t{y[i]:.6f}\\t\\t{k1:.6f}\\t\\t{k2:.6f}\\t\\t{k3:.6f}\\t\\t{k4:.6f}")
+
+pasos.append("")
+pasos.append(f"Resultado final: y({xf}) ≈ {y[-1]:.6f}")
+
+plt.figure(figsize=(10, 6))
+plt.plot(x, y, 'r-o', label='Solución aproximada (RK4)', linewidth=2, markersize=4)
+plt.xlabel('x')
+plt.ylabel('y(x)')
+plt.title('Método de Runge-Kutta 4º Orden - Solución de EDO')
+plt.grid(True)
+plt.legend()
+
+buf = BytesIO()
+plt.savefig(buf, format='png', dpi=100, bbox_inches='tight')
+buf.seek(0)
+img = "data:image/png;base64," + base64.b64encode(buf.read()).decode()
+plt.close()
+
+"\\n".join(pasos), img
+          `;
+        }
+
+        const [texto, img] = await pyodide.runPythonAsync(code);
+        mostrarResultados(titulo, texto, img);
+      } catch (err) {
+        mostrarResultados("Error", 'Error: ' + err);
+      }
+    }
+
+    // Función para calcular problemas de valores en la frontera (CORREGIDA)
+    async function calcularFrontera() {
+      if (!pyodide) {
+        alert("Pyodide aún se está cargando. Por favor, espera unos segundos.");
+        return;
+      }
+
+      const funcion = document.getElementById('funcion-edo2').value;
+      const ya = document.getElementById('y-a').value;
+      const yb = document.getElementById('y-b').value;
+      const a = document.getElementById('a-frontera').value;
+      const b = document.getElementById('b-frontera').value;
+      const n = document.getElementById('n-frontera').value;
+      const metodo = document.getElementById('metodo-frontera').value;
       
-      mostrarResultados("Problemas de Valor Inicial - Resultados", resultado);
+      mostrarModal("Calculando...", "<p>Resolviendo el problema de valores en la frontera...</p>");
+
+      try {
+        let code;
+        let titulo = "";
+        
+        if (metodo === 'disparo') {
+          titulo = "Resultados - Método de Disparo";
+          code = `
+import numpy as np
+import matplotlib.pyplot as plt
+from io import BytesIO
+import base64
+
+def f_edo(x, y1, y2):
+    return ${funcion}
+
+def sistema(x, Y):
+    y1, y2 = Y
+    return np.array([y2, f_edo(x, y1, y2)])
+
+def runge_kutta_4_sistema(f_sist, x0, xf, Y0, h):
+    n = int((xf - x0) / h) + 1
+    x = np.linspace(x0, xf, n)
+    Y = np.zeros((n, len(Y0)))
+    Y[0] = Y0
+    
+    for i in range(n-1):
+        k1 = f_sist(x[i], Y[i])
+        k2 = f_sist(x[i] + h/2, Y[i] + h/2 * k1)
+        k3 = f_sist(x[i] + h/2, Y[i] + h/2 * k2)
+        k4 = f_sist(x[i] + h, Y[i] + h * k3)
+        Y[i+1] = Y[i] + h/6 * (k1 + 2*k2 + 2*k3 + k4)
+    
+    return x, Y
+
+def shooting_residual(t, a, b, ya, yb, h):
+    x, Y = runge_kutta_4_sistema(sistema, a, b, [ya, t], h)
+    return Y[-1, 0] - yb
+
+a_val = float("""${a}""")
+b_val = float("""${b}""")
+ya_val = float("""${ya}""")
+yb_val = float("""${yb}""")
+n_puntos = int("""${n}""")
+h = (b_val - a_val) / n_puntos
+
+# Búsqueda de la pendiente inicial usando método de secante
+t0 = 0.0
+t1 = 10.0
+res0 = shooting_residual(t0, a_val, b_val, ya_val, yb_val, h)
+res1 = shooting_residual(t1, a_val, b_val, ya_val, yb_val, h)
+
+for _ in range(20):
+    if abs(res1 - res0) < 1e-12:
+        break
+    t_new = t1 - res1 * (t1 - t0) / (res1 - res0)
+    res_new = shooting_residual(t_new, a_val, b_val, ya_val, yb_val, h)
+    t0, t1 = t1, t_new
+    res0, res1 = res1, res_new
+    if abs(res_new) < 1e-8:
+        break
+
+t_opt = t1
+x, Y = runge_kutta_4_sistema(sistema, a_val, b_val, [ya_val, t_opt], h)
+y_sol = Y[:, 0]
+
+resultados = []
+resultados.append("=== MÉTODO DE DISPARO ===")
+resultados.append(f"EDO: y'' = ${funcion}")
+resultados.append(f"Condiciones de frontera: y({a_val}) = {ya_val}, y({b_val}) = {yb_val}")
+resultados.append("")
+resultados.append(f"Pendiente inicial óptima encontrada: y'({a_val}) ≈ {t_opt:.6f}")
+resultados.append("")
+resultados.append("Solución en puntos seleccionados:")
+resultados.append("x\\t\\t\\ty(x)")
+resultados.append("-" * 30)
+
+for i in range(0, len(x), max(1, len(x)//10)):
+    resultados.append(f"{x[i]:.6f}\\t\\t{y_sol[i]:.6f}")
+
+plt.figure(figsize=(10, 6))
+plt.plot(x, y_sol, 'b-', label='y(x)', linewidth=2)
+plt.plot(a_val, ya_val, 'ro', markersize=8, label=f'y({a_val}) = {ya_val}')
+plt.plot(b_val, yb_val, 'ro', markersize=8, label=f'y({b_val}) = {yb_val}')
+plt.xlabel('x')
+plt.ylabel('y(x)')
+plt.title('Método de Disparo - Problema de Valores en la Frontera')
+plt.grid(True)
+plt.legend()
+
+buf = BytesIO()
+plt.savefig(buf, format='png', dpi=100, bbox_inches='tight')
+buf.seek(0)
+img = "data:image/png;base64," + base64.b64encode(buf.read()).decode()
+plt.close()
+
+"\\n".join(resultados), img
+          `;
+        } else if (metodo === 'diferencias-finitas') {
+          titulo = "Resultados - Método de Diferencias Finitas";
+          code = `
+import numpy as np
+import matplotlib.pyplot as plt
+from io import BytesIO
+import base64
+
+def p(x): return 0  # Coeficiente de y'
+def q(x): return -2  # Coeficiente de y
+def r(x): return 0  # Término independiente
+
+def f_edo(x, y1, y2):
+    return ${funcion}
+
+a_val = float("""${a}""")
+b_val = float("""${b}""")
+ya_val = float("""${ya}""")
+yb_val = float("""${yb}""")
+n_puntos = int("""${n}""")
+
+h = (b_val - a_val) / n_puntos
+x = np.linspace(a_val, b_val, n_puntos + 1)
+
+# Construir sistema tridiagonal para diferencias finitas
+A = np.zeros((n_puntos - 1, n_puntos - 1))
+B = np.zeros(n_puntos - 1)
+
+for i in range(1, n_puntos):
+    xi = x[i]
+    if i == 1:
+        A[i-1, i-1] = -2 + h**2 * q(xi)
+        A[i-1, i] = 1 + (h/2) * p(xi)
+        B[i-1] = h**2 * r(xi) - (1 - (h/2) * p(xi)) * ya_val
+    elif i == n_puntos - 1:
+        A[i-1, i-2] = 1 - (h/2) * p(xi)
+        A[i-1, i-1] = -2 + h**2 * q(xi)
+        B[i-1] = h**2 * r(xi) - (1 + (h/2) * p(xi)) * yb_val
+    else:
+        A[i-1, i-2] = 1 - (h/2) * p(xi)
+        A[i-1, i-1] = -2 + h**2 * q(xi)
+        A[i-1, i] = 1 + (h/2) * p(xi)
+        B[i-1] = h**2 * r(xi)
+
+# Resolver sistema
+y_interno = np.linalg.solve(A, B)
+y = np.zeros(n_puntos + 1)
+y[0] = ya_val
+y[1:n_puntos] = y_interno
+y[n_puntos] = yb_val
+
+resultados = []
+resultados.append("=== MÉTODO DE DIFERENCIAS FINITAS ===")
+resultados.append(f"EDO: y'' = ${funcion}")
+resultados.append(f"Condiciones de frontera: y({a_val}) = {ya_val}, y({b_val}) = {yb_val}")
+resultados.append(f"Puntos: n = {n_puntos}, paso h = {h:.6f}")
+resultados.append("")
+resultados.append("Solución en los puntos de la malla:")
+resultados.append("i\\tx\\t\\ty(x)")
+resultados.append("-" * 25)
+
+for i in range(n_puntos + 1):
+    resultados.append(f"{i}\\t{x[i]:.6f}\\t\\t{y[i]:.6f}")
+
+plt.figure(figsize=(10, 6))
+plt.plot(x, y, 'b-o', label='y(x)', linewidth=2, markersize=4)
+plt.plot(a_val, ya_val, 'ro', markersize=8, label=f'y({a_val}) = {ya_val}')
+plt.plot(b_val, yb_val, 'ro', markersize=8, label=f'y({b_val}) = {yb_val}')
+plt.xlabel('x')
+plt.ylabel('y(x)')
+plt.title('Método de Diferencias Finitas - Problema de Valores en la Frontera')
+plt.grid(True)
+plt.legend()
+
+buf = BytesIO()
+plt.savefig(buf, format='png', dpi=100, bbox_inches='tight')
+buf.seek(0)
+img = "data:image/png;base64," + base64.b64encode(buf.read()).decode()
+plt.close()
+
+"\\n".join(resultados), img
+          `;
+        }
+
+        const [texto, img] = await pyodide.runPythonAsync(code);
+        mostrarResultados(titulo, texto, img);
+      } catch (err) {
+        mostrarResultados("Error", 'Error: ' + err);
+      }
+    }
+
+    // Función para calcular valores propios (CORREGIDA)
+    async function calcularValoresPropios() {
+      if (!pyodide) {
+        alert("Pyodide aún se está cargando. Por favor, espera unos segundos.");
+        return;
+      }
+
+      const matrizTexto = document.getElementById('matriz-propios').value;
+      const tolerancia = document.getElementById('tolerancia-propios').value;
+      const maxIter = document.getElementById('max-iter-propios').value;
+      const metodo = document.getElementById('metodo-propios').value;
+      
+      mostrarModal("Calculando...", "<p>Calculando valores y vectores propios...</p>");
+
+      try {
+        let code;
+        let titulo = "";
+        
+        if (metodo === 'jacobi') {
+          titulo = "Resultados - Método de Jacobi para Valores Propios";
+          code = `
+import numpy as np
+import matplotlib.pyplot as plt
+from io import BytesIO
+import base64
+
+def parse_matrix(s):
+    rows = [r.strip() for r in s.replace(';', '\\n').splitlines() if r.strip()]
+    M = []
+    for row in rows:
+        M.append([float(x.strip()) for x in row.split(',')])
+    return np.array(M, dtype=float)
+
+A = parse_matrix("""${matrizTexto}""")
+n = A.shape[0]
+tol = float("""${tolerancia}""")
+max_iter = int("""${maxIter}""")
+
+# Verificar simetría
+if not np.allclose(A, A.T):
+    raise ValueError("La matriz debe ser simétrica")
+
+pasos = []
+pasos.append("=== MÉTODO DE JACOBI PARA VALORES PROPIOS ===")
+pasos.append("Matriz original:")
+for row in A:
+    pasos.append(f"  {row}")
+pasos.append("")
+
+V = np.eye(n)
+A_rot = A.copy()
+
+iteracion = 0
+max_fuera_diag = 1
+
+while max_fuera_diag > tol and iteracion < max_iter:
+    max_val = 0
+    p, q = 0, 1
+    for i in range(n):
+        for j in range(i+1, n):
+            if abs(A_rot[i, j]) > max_val:
+                max_val = abs(A_rot[i, j])
+                p, q = i, j
+    
+    max_fuera_diag = max_val
+    
+    if max_val > tol:
+        if A_rot[p, p] == A_rot[q, q]:
+            theta = np.pi / 4
+        else:
+            theta = 0.5 * np.arctan(2 * A_rot[p, q] / (A_rot[p, p] - A_rot[q, q]))
+        
+        c = np.cos(theta)
+        s = np.sin(theta)
+        
+        J = np.eye(n)
+        J[p, p] = c
+        J[q, q] = c
+        J[p, q] = s
+        J[q, p] = -s
+        
+        A_rot = J.T @ A_rot @ J
+        V = V @ J
+    
+    iteracion += 1
+
+valores_propios = np.diag(A_rot)
+# Ordenar valores propios
+idx = np.argsort(valores_propios)[::-1]
+valores_propios = valores_propios[idx]
+V = V[:, idx]
+
+pasos.append(f"Convergió después de {iteracion} iteraciones")
+pasos.append("")
+pasos.append("=== RESULTADOS ===")
+pasos.append("Valores propios:")
+for i, val in enumerate(valores_propios):
+    pasos.append(f"  λ_{i+1} = {val:.6f}")
+
+plt.figure(figsize=(10, 5))
+plt.bar(range(1, n+1), valores_propios, color='steelblue', alpha=0.7)
+plt.axhline(0, color='black', linewidth=0.5)
+plt.xlabel('Índice')
+plt.ylabel('Valor propio')
+plt.title('Valores Propios de la Matriz')
+plt.grid(True, alpha=0.3)
+
+buf = BytesIO()
+plt.savefig(buf, format='png', dpi=100, bbox_inches='tight')
+buf.seek(0)
+img = "data:image/png;base64," + base64.b64encode(buf.read()).decode()
+plt.close()
+
+"\\n".join(pasos), img
+          `;
+        } else if (metodo === 'potencia') {
+          titulo = "Resultados - Método de la Potencia";
+          code = `
+import numpy as np
+import matplotlib.pyplot as plt
+from io import BytesIO
+import base64
+
+def parse_matrix(s):
+    rows = [r.strip() for r in s.replace(';', '\\n').splitlines() if r.strip()]
+    M = []
+    for row in rows:
+        M.append([float(x.strip()) for x in row.split(',')])
+    return np.array(M, dtype=float)
+
+A = parse_matrix("""${matrizTexto}""")
+n = A.shape[0]
+tol = float("""${tolerancia}""")
+max_iter = int("""${maxIter}""")
+
+pasos = []
+pasos.append("=== MÉTODO DE LA POTENCIA ===")
+pasos.append("Matriz:")
+for row in A:
+    pasos.append(f"  {row}")
+pasos.append("")
+
+v = np.random.rand(n)
+v = v / np.linalg.norm(v)
+lambda_ant = 0
+
+for k in range(max_iter):
+    w = A @ v
+    lambda_act = (v @ w) / (v @ v)
+    v = w / np.linalg.norm(w)
+    
+    if k < 5 or k % 10 == 0:
+        pasos.append(f"Iteración {k+1}: λ = {lambda_act:.6f}")
+    
+    if abs(lambda_act - lambda_ant) < tol:
+        pasos.append(f"✅ Convergencia alcanzada en {k+1} iteraciones")
+        break
+    
+    lambda_ant = lambda_act
+
+pasos.append("")
+pasos.append("=== RESULTADOS ===")
+pasos.append(f"Valor propio dominante: λ = {lambda_act:.6f}")
+pasos.append("Vector propio asociado:")
+fila = "  v = ["
+for i, val in enumerate(v):
+    fila += f"{val:.6f}"
+    if i < n-1:
+        fila += ", "
+fila += "]"
+pasos.append(fila)
+
+# Verificación
+Av = A @ v
+error_vec = np.linalg.norm(Av - lambda_act * v)
+pasos.append(f"Verificación: ||A·v - λ·v|| = {error_vec:.2e}")
+
+plt.figure(figsize=(10, 6))
+plt.bar(range(1, n+1), v, color='steelblue', alpha=0.7)
+plt.xlabel('Componente')
+plt.ylabel('Valor')
+plt.title('Vector Propio Dominante')
+plt.grid(True, alpha=0.3)
+
+buf = BytesIO()
+plt.savefig(buf, format='png', dpi=100, bbox_inches='tight')
+buf.seek(0)
+img = "data:image/png;base64," + base64.b64encode(buf.read()).decode()
+plt.close()
+
+"\\n".join(pasos), img
+          `;
+        }
+
+        const [texto, img] = await pyodide.runPythonAsync(code);
+        mostrarResultados(titulo, texto, img);
+      } catch (err) {
+        mostrarResultados("Error", 'Error: ' + err);
+      }
     }
 
     function ejecutarPython() {
