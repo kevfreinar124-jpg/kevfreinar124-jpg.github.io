@@ -608,6 +608,7 @@
     <li><a href="aprendizaje.html">Aprendizaje</a></li>
     <li><a href="calculos.html">Cálculos</a></li>
     <li><a href="ejercicios.html" class="activo">Ejercicios</a></li>
+    <li><a href="pavimentos.html">Pavimentos</a></li>
     <li><a href="nosotros.html">Nosotros</a></li>
   </ul>
 </nav>
@@ -692,7 +693,7 @@
 </main>
 
 <footer>
-  &copy; 2025 Aprendizaje Métodos Numéricos. Todos los derechos reservados.
+  &copy; 2026 Aprendizaje Métodos Numéricos. Todos los derechos reservados.
 </footer>
 
 <script>
@@ -974,34 +975,44 @@
           nombre: "Lagrange",
           ejercicio: {
             titulo: "Interpolación de Lagrange",
-            enunciado: "Para (1,2), (2,3), encuentra l₀(x):",
-            concepto: "lᵢ(x) = Π (x-xⱼ)/(xᵢ-xⱼ) para j≠i",
+            enunciado: "Encuentra el polinomio de interpolación de Lagrange para los puntos:",
+            sistema: "Puntos: (1, 2), (2, 3), (4, 0)",
+            concepto: "El polinomio de Lagrange se construye como L(x) = Σ yᵢ * lᵢ(x), donde lᵢ(x) = Π (x - xⱼ)/(xᵢ - xⱼ) para j≠i.",
             pasos: [
               {
-                titulo: "Paso 1: l₀(x)",
-                descripcion: "Para (1,2), l₀(x) = (x-2)/(1-2) = ?",
+                titulo: "Paso 1: Coeficiente l₀(x)",
+                descripcion: "Para el punto (1, 2), la función base es l₀(x) = (x-2)(x-4) / ((1-2)(1-4)). ¿Cuál es el denominador simplificado?",
                 opciones: [
-                  { valor: "-(x-2)", correcto: true },
-                  { valor: "x-2", correcto: false },
-                  { valor: "x-1", correcto: false }
+                  { valor: "3", correcto: true },
+                  { valor: "-3", correcto: false },
+                  { valor: "2", correcto: false }
                 ]
               },
               {
-                titulo: "Paso 2: l₁(x)",
-                descripcion: "Para (2,3), l₁(x) = (x-1)/(2-1) = ?",
+                titulo: "Paso 2: Coeficiente l₁(x)",
+                descripcion: "Para el punto (2, 3), la función base es l₁(x) = (x-1)(x-4) / ((2-1)(2-4)). ¿Cuál es el denominador?",
                 opciones: [
-                  { valor: "x-1", correcto: true },
-                  { valor: "x-2", correcto: false },
-                  { valor: "-(x-1)", correcto: false }
+                  { valor: "-2", correcto: true },
+                  { valor: "2", correcto: false },
+                  { valor: "-1", correcto: false }
                 ]
               },
               {
-                titulo: "Paso 3: Polinomio",
-                descripcion: "L(x) = 2·l₀(x) + 3·l₁(x) = ?",
+                titulo: "Paso 3: Coeficiente l₂(x)",
+                descripcion: "Para el punto (4, 0), la función base es l₂(x) = (x-1)(x-2) / ((4-1)(4-2)). ¿Cuál es el denominador?",
                 opciones: [
-                  { valor: "x + 1", correcto: true },
-                  { valor: "2x - 1", correcto: false },
-                  { valor: "x + 2", correcto: false }
+                  { valor: "6", correcto: true },
+                  { valor: "3", correcto: false },
+                  { valor: "2", correcto: false }
+                ]
+              },
+              {
+                titulo: "Paso 4: Polinomio final simplificado",
+                descripcion: "El polinomio es L(x) = 2*l₀(x) + 3*l₁(x) + 0*l₂(x). Al simplificar, ¿cuál es el coeficiente del término x²?",
+                opciones: [
+                  { valor: "-5/6 ≈ -0.8333", correcto: true },
+                  { valor: "5/6 ≈ 0.8333", correcto: false },
+                  { valor: "1/2 = 0.5", correcto: false }
                 ]
               }
             ]
@@ -1813,7 +1824,7 @@
                 opciones: [
                   { valor: "Solo una evaluación por iteración", correcto: true },
                   { valor: "Converge más rápido que Newton", correcto: false },
-                  { valor: "No requiere derivadas", correcto: true } // Ambas son correctas, pero la primera es la clave
+                  { valor: "No requiere derivadas", correcto: true }
                 ]
               }
             ]
