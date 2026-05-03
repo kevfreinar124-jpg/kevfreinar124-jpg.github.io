@@ -168,7 +168,6 @@
       box-shadow: 0 6px 15px rgba(37, 117, 252, 0.3);
     }
 
-    /* Botón Manual de Usuario - RESALTADO */
     .btn-manual {
       display: inline-block;
       padding: 0.8rem 2rem;
@@ -194,7 +193,6 @@
       margin-right: 0.5rem;
     }
 
-    /* Botón flotante para móviles */
     .btn-manual-flotante {
       position: fixed;
       bottom: 2rem;
@@ -220,7 +218,6 @@
       box-shadow: 0 15px 35px rgba(238, 90, 36, 0.5);
     }
 
-    /* ====== INTRO CARD ====== */
     .intro-card {
       background: linear-gradient(180deg, #ffffff, #fbfdff);
       border-radius: 18px;
@@ -245,7 +242,6 @@
       line-height: 1.7;
     }
 
-    /* ====== FOOTER ====== */
     footer {
       text-align: center;
       margin-top: 3rem;
@@ -255,7 +251,212 @@
       border-top: 1px solid #e0e9f3;
     }
 
-    /* ====== RESPONSIVE ====== */
+    /* ====== CHATBOT STYLES ====== */
+    .chatbot-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1001;
+    }
+
+    .chat-toggle {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .chat-toggle:hover {
+      transform: scale(1.05);
+    }
+
+    .chat-toggle i {
+      font-size: 28px;
+      color: white;
+    }
+
+    .chat-window {
+      position: fixed;
+      bottom: 90px;
+      right: 20px;
+      width: 350px;
+      height: 480px;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(37, 117, 252, 0.2);
+    }
+
+    .chat-window.hidden {
+      display: none;
+    }
+
+    .chat-header {
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      color: white;
+      padding: 12px 15px;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .chat-header span {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .chat-header i {
+      font-size: 18px;
+    }
+
+    .close-chat {
+      cursor: pointer;
+      font-size: 18px;
+      transition: opacity 0.3s;
+    }
+
+    .close-chat:hover {
+      opacity: 0.7;
+    }
+
+    .chat-messages {
+      flex: 1;
+      padding: 15px;
+      overflow-y: auto;
+      background: #f8fafc;
+    }
+
+    .message {
+      margin-bottom: 15px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .message.user {
+      align-items: flex-end;
+    }
+
+    .message.bot {
+      align-items: flex-start;
+    }
+
+    .message-bubble {
+      max-width: 85%;
+      padding: 10px 14px;
+      border-radius: 18px;
+      font-size: 14px;
+      line-height: 1.4;
+      word-wrap: break-word;
+    }
+
+    .message.user .message-bubble {
+      background: linear-gradient(135deg, #2575fc, #6a11cb);
+      color: white;
+      border-bottom-right-radius: 4px;
+    }
+
+    .message.bot .message-bubble {
+      background: white;
+      color: #08304b;
+      border: 1px solid #e0e9f3;
+      border-bottom-left-radius: 4px;
+    }
+
+    .typing-indicator {
+      padding: 10px 14px;
+      background: white;
+      border-radius: 18px;
+      border: 1px solid #e0e9f3;
+      display: inline-block;
+    }
+
+    .typing-indicator span {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #2575fc;
+      margin: 0 2px;
+      animation: typing 1.4s infinite;
+    }
+
+    .typing-indicator span:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .typing-indicator span:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    @keyframes typing {
+      0%, 60%, 100% {
+        transform: translateY(0);
+        opacity: 0.4;
+      }
+      30% {
+        transform: translateY(-5px);
+        opacity: 1;
+      }
+    }
+
+    .chat-input-area {
+      padding: 12px;
+      background: white;
+      border-top: 1px solid #e0e9f3;
+      display: flex;
+      gap: 10px;
+    }
+
+    .chat-input-area input {
+      flex: 1;
+      padding: 10px 14px;
+      border: 1px solid #e0e9f3;
+      border-radius: 25px;
+      font-family: inherit;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+
+    .chat-input-area input:focus {
+      border-color: #2575fc;
+    }
+
+    .chat-input-area button {
+      background: linear-gradient(135deg, #2575fc, #6a11cb);
+      border: none;
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .chat-input-area button:hover {
+      transform: scale(1.05);
+    }
+
+    @media (max-width: 480px) {
+      .chat-window {
+        width: 320px;
+        right: 10px;
+        bottom: 80px;
+      }
+    }
+
     @media (max-width: 968px) {
       .hero-content {
         grid-template-columns: 1fr;
@@ -328,18 +529,15 @@
       }
     }
 
-    /* Efectos de scroll suave */
     html {
       scroll-behavior: smooth;
     }
 
-    /* Selección de texto personalizada */
     ::selection {
       background: rgba(37, 117, 252, 0.2);
       color: #08304b;
     }
 
-    /* Scrollbar personalizado */
     ::-webkit-scrollbar {
       width: 10px;
     }
@@ -355,27 +553,24 @@
   </style>
 </head>
 <body>
-  <!-- HEADER -->
   <header>
     <span class="menu-toggle" id="menu-toggle">☰</span>
     <h1>📊 Métodos Numéricos</h1>
     <p>Aprendizaje, cálculos y recursos en un solo lugar</p>
   </header>
 
-  <!-- NAV -->
   <nav>
     <ul id="menu">
       <li><a href="index.html" class="activo">Inicio</a></li>
       <li><a href="aprendizaje.html">Aprendizaje</a></li>
       <li><a href="calculos.html">Cálculos</a></li>
       <li><a href="ejercicios.html">Ejercicios</a></li>
+      <li><a href="pavimentos.html">Pavimentos</a></li>
       <li><a href="nosotros.html">Nosotros</a></li>
     </ul>
   </nav>
 
-  <!-- MAIN -->
   <main>
-    <!-- Hero Section -->
     <section class="hero">
       <div class="hero-content">
         <img src="imagenes/f69afe88-78d8-437b-b743-f53d7600a364.png" alt="Métodos Numéricos" class="hero-img">
@@ -392,7 +587,6 @@
       </div>
     </section>
 
-    <!-- Intro Section -->
     <section class="intro-card">
       <h3>🌐 ¿Qué encontrarás aquí?</h3>
       <p>
@@ -402,15 +596,44 @@
     </section>
   </main>
 
-  <!-- FOOTER -->
   <footer>
-    <p>© 2025 Métodos Numéricos - Universidad Mariana</p>
+    <p>© 2026 Métodos Numéricos - Universidad Mariana</p>
   </footer>
 
-  <!-- Botón flotante para móviles -->
   <a href="manual_usuario.pdf" class="btn-manual-flotante" target="_blank">
     <i class="fas fa-file-pdf"></i>
   </a>
+
+  <!-- CHATBOT SIN API - FUNCIONA SIEMPRE -->
+  <div class="chatbot-container">
+    <div class="chat-toggle" id="chatToggle">
+      <i class="fas fa-robot"></i>
+    </div>
+    <div class="chat-window hidden" id="chatWindow">
+      <div class="chat-header">
+        <span><i class="fas fa-brain"></i> Asistente - Métodos Numéricos</span>
+        <i class="fas fa-times close-chat" id="closeChat"></i>
+      </div>
+      <div class="chat-messages" id="chatMessages">
+        <div class="message bot">
+          <div class="message-bubble">
+            👋 ¡Hola! Soy tu asistente virtual experto en métodos numéricos.<br><br>
+            Puedo ayudarte con:<br>
+            📌 • Método de Bisección<br>
+            📌 • Newton-Raphson<br>
+            📌 • Interpolación (Lagrange, Newton)<br>
+            📌 • Integración numérica (Trapecio, Simpson)<br>
+            📌 • Métodos para EDOs (Euler, Runge-Kutta)<br><br>
+            ¿En qué te puedo ayudar hoy?
+          </div>
+        </div>
+      </div>
+      <div class="chat-input-area">
+        <input type="text" id="chatInput" placeholder="Escribe tu pregunta..." autocomplete="off">
+        <button id="sendMessage"><i class="fas fa-paper-plane"></i></button>
+      </div>
+    </div>
+  </div>
 
   <script>
     // Toggle del menú móvil
@@ -419,13 +642,198 @@
       menu.classList.toggle('show');
     });
 
-    // Cerrar menú al hacer clic en un enlace
     document.querySelectorAll('nav a').forEach(link => {
       link.addEventListener('click', function() {
         const menu = document.getElementById('menu');
         menu.classList.remove('show');
       });
     });
+
+    // ========== CHATBOT INTELIGENTE SIN API (FUNCIONA SIEMPRE) ==========
+    
+    const chatToggle = document.getElementById('chatToggle');
+    const chatWindow = document.getElementById('chatWindow');
+    const closeChat = document.getElementById('closeChat');
+    const chatMessages = document.getElementById('chatMessages');
+    const chatInput = document.getElementById('chatInput');
+    const sendBtn = document.getElementById('sendMessage');
+    
+    let isWaitingResponse = false;
+
+    chatToggle.addEventListener('click', () => {
+      chatWindow.classList.remove('hidden');
+      chatToggle.style.display = 'none';
+    });
+    
+    closeChat.addEventListener('click', () => {
+      chatWindow.classList.add('hidden');
+      chatToggle.style.display = 'flex';
+    });
+    
+    function addMessage(text, isUser = false) {
+      const messageDiv = document.createElement('div');
+      messageDiv.className = `message ${isUser ? 'user' : 'bot'}`;
+      const bubble = document.createElement('div');
+      bubble.className = 'message-bubble';
+      bubble.innerHTML = text.replace(/\n/g, '<br>');
+      messageDiv.appendChild(bubble);
+      chatMessages.appendChild(messageDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+      return messageDiv;
+    }
+    
+    function showTypingIndicator() {
+      const typingDiv = document.createElement('div');
+      typingDiv.className = 'message bot';
+      typingDiv.id = 'typingIndicator';
+      typingDiv.innerHTML = `
+        <div class="typing-indicator">
+          <span></span><span></span><span></span>
+        </div>
+      `;
+      chatMessages.appendChild(typingDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+    
+    function removeTypingIndicator() {
+      const indicator = document.getElementById('typingIndicator');
+      if (indicator) indicator.remove();
+    }
+    
+    // Base de conocimiento de métodos numéricos
+    function getAIResponse(userMessage) {
+      const msg = userMessage.toLowerCase();
+      
+      // Bisección
+      if (msg.includes("bisección") || msg.includes("biseccion")) {
+        return "📐 **Método de Bisección**\n\n" +
+               "Es un método para encontrar raíces de funciones continuas.\n\n" +
+               "**Pasos:**\n" +
+               "1️⃣ Elegir un intervalo [a,b] donde f(a)·f(b) < 0 (cambio de signo)\n" +
+               "2️⃣ Calcular punto medio: c = (a+b)/2\n" +
+               "3️⃣ Evaluar f(c)\n" +
+               "4️⃣ Si f(c)=0 → raíz encontrada\n" +
+               "5️⃣ Si f(a)·f(c) < 0 → la raíz está en [a,c], si no en [c,b]\n" +
+               "6️⃣ Repetir hasta alcanzar tolerancia deseada\n\n" +
+               "**Ventaja:** Siempre converge si hay cambio de signo\n" +
+               "**Desventaja:** Converge lentamente";
+      }
+      
+      // Newton-Raphson
+      if (msg.includes("newton") || msg.includes("raphson")) {
+        return "📈 **Método de Newton-Raphson**\n\n" +
+               "Algoritmo eficiente para encontrar raíces usando derivadas.\n\n" +
+               "**Fórmula:** x₁ = x₀ - f(x₀)/f'(x₀)\n\n" +
+               "**Pasos:**\n" +
+               "1️⃣ Elegir aproximación inicial x₀\n" +
+               "2️⃣ Calcular f(x₀) y f'(x₀)\n" +
+               "3️⃣ Calcular x₁ = x₀ - f(x₀)/f'(x₀)\n" +
+               "4️⃣ Si |x₁ - x₀| < tolerancia → raíz encontrada\n" +
+               "5️⃣ Si no, repetir con x₀ = x₁\n\n" +
+               "**Ventajas:** Convergencia cuadrática (muy rápida)\n" +
+               "**Desventaja:** Requiere derivada y buena aproximación inicial";
+      }
+      
+      // Interpolación
+      if (msg.includes("interpolación") || msg.includes("interpolacion") || msg.includes("lagrange")) {
+        return "📊 **Interpolación**\n\n" +
+               "**Método de Lagrange:**\n" +
+               "P(x) = Σ yᵢ · Lᵢ(x) donde Lᵢ(x) = Π (x-xⱼ)/(xᵢ-xⱼ)\n\n" +
+               "**Método de Newton (diferencias divididas):**\n" +
+               "P(x) = f[x₀] + f[x₀,x₁](x-x₀) + f[x₀,x₁,x₂](x-x₀)(x-x₁) + ...\n\n" +
+               "**Diferencias divididas:**\n" +
+               "f[xᵢ,xⱼ] = (f(xⱼ)-f(xᵢ))/(xⱼ-xᵢ)\n\n" +
+               "Ambos polinomios son equivalentes, solo cambia la forma de escribirlos.";
+      }
+      
+      // Integración numérica
+      if (msg.includes("integración") || msg.includes("integral") || msg.includes("trapecio") || msg.includes("simpson")) {
+        return "🧮 **Integración Numérica**\n\n" +
+               "**Regla del Trapecio Simple:**\n" +
+               "∫ f(x)dx ≈ (b-a)·[f(a)+f(b)]/2\n\n" +
+               "**Regla del Trapecio Compuesta:**\n" +
+               "∫ f(x)dx ≈ h·[f(x₀)/2 + f(x₁)+...+f(xₙ₋₁) + f(xₙ)/2]\n" +
+               "donde h = (b-a)/n\n\n" +
+               "**Regla de Simpson 1/3:**\n" +
+               "∫ f(x)dx ≈ (h/3)·[f(x₀)+4f(x₁)+2f(x₂)+4f(x₃)+...+f(xₙ)]\n" +
+               "Requiere n par\n\n" +
+               "**Regla de Simpson 3/8:**\n" +
+               "∫ f(x)dx ≈ (3h/8)·[f(x₀)+3f(x₁)+3f(x₂)+f(x₃)]\n" +
+               "Usar para n múltiplo de 3";
+      }
+      
+      // Métodos para EDOs
+      if (msg.includes("edo") || msg.includes("euler") || msg.includes("runge") || msg.includes("kutta")) {
+        return "⏱️ **Métodos para Ecuaciones Diferenciales Ordinarias (EDOs)**\n\n" +
+               "**Método de Euler (explícito):**\n" +
+               "yₙ₊₁ = yₙ + h·f(xₙ, yₙ)\n\n" +
+               "**Método de Euler Mejorado (Heun):**\n" +
+               "yₙ₊₁ = yₙ + h·[f(xₙ,yₙ)+f(xₙ₊₁,yₙ+h·f(xₙ,yₙ))]/2\n\n" +
+               "**Método de Runge-Kutta 4to orden (RK4):**\n" +
+               "k₁ = h·f(xₙ, yₙ)\n" +
+               "k₂ = h·f(xₙ + h/2, yₙ + k₁/2)\n" +
+               "k₃ = h·f(xₙ + h/2, yₙ + k₂/2)\n" +
+               "k₄ = h·f(xₙ + h, yₙ + k₃)\n" +
+               "yₙ₊₁ = yₙ + (k₁ + 2k₂ + 2k₃ + k₄)/6\n\n" +
+               "RK4 es el más preciso y utilizado.";
+      }
+      
+      // Saludos
+      if (msg.includes("hola") || msg.includes("buenas") || msg.includes("saludo") || msg.includes("buenos días")) {
+        return "¡Hola! 😊 Soy tu asistente de Métodos Numéricos. Pregúntame sobre:\n" +
+               "• Bisección\n" +
+               "• Newton-Raphson\n" +
+               "• Interpolación (Lagrange, Newton)\n" +
+               "• Integración numérica (Trapecio, Simpson)\n" +
+               "• Métodos para EDOs (Euler, Runge-Kutta)\n\n" +
+               "¿Qué tema te gustaría repasar?";
+      }
+      
+      if (msg.includes("gracias")) {
+        return "¡De nada! 🎓 Sigue practicando con métodos numéricos. Recuerda que son fundamentales en ingeniería. ¿Tienes alguna otra duda?";
+      }
+      
+      // Respuesta por defecto
+      return "🤔 **Temas disponibles:**\n\n" +
+             "🔹 **Bisección** - Método para encontrar raíces\n" +
+             "🔹 **Newton-Raphson** - Convergencia rápida con derivada\n" +
+             "🔹 **Interpolación** - Lagrange y diferencias divididas\n" +
+             "🔹 **Integración numérica** - Trapecio y Simpson\n" +
+             "🔹 **EDOs** - Euler y Runge-Kutta\n\n" +
+             "Escribe algo como: *'Explica el método de bisección'* o *'Cómo funciona Newton-Raphson'*";
+    }
+    
+    function simulateTyping(callback) {
+      setTimeout(callback, 800 + Math.random() * 500);
+    }
+    
+    function processUserMessage() {
+      const userText = chatInput.value.trim();
+      if (!userText || isWaitingResponse) return;
+      
+      addMessage(userText, true);
+      chatInput.value = '';
+      
+      isWaitingResponse = true;
+      showTypingIndicator();
+      
+      const response = getAIResponse(userText);
+      
+      simulateTyping(() => {
+        removeTypingIndicator();
+        addMessage(response, false);
+        isWaitingResponse = false;
+      });
+    }
+    
+    sendBtn.addEventListener('click', processUserMessage);
+    chatInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') processUserMessage();
+    });
+    
+    setTimeout(() => {
+      addMessage("✅ **Chatbot activo** 🚀\n\nFunciona sin conexión a internet y sin límites. Puedes preguntarme todo sobre métodos numéricos. ¡Estoy aquí para ayudarte las 24/7! 📚", false);
+    }, 500);
   </script>
 </body>
 </html>
