@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pavimentos - Métodos Numéricos | Cálculo TPD y TA</title>
+  <link rel="shortcut icon" href="./imagenes/logo.png">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    /* ====== RESET & BASE ====== */
+    * { 
+      box-sizing: border-box; 
+      margin: 0; 
+      padding: 0; 
+    }
+
+    html, body { 
+      height: 100%; 
+    }
+
+    body {
+      font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: linear-gradient(180deg, #f6fbff 0%, #eef6ff 100%);
+      color: #08304b;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      line-height: 1.6;
+    }
+
+    /* ====== HEADER ====== */
+    header {
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      color: #fff;
+      padding: 1.6rem 1rem;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 6px 18px rgba(37, 17, 103, 0.12);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    header h1 { 
+      font-size: 2.2rem; 
+      letter-spacing: 0.4px; 
+      margin: 0;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    header p { 
+      font-size: 1rem; 
+      opacity: 0.92; 
+      margin-top: 0.5rem;
+      max-width: 600px;
+    }
+
+    /* ====== NAV ====== */
+    nav { 
+      background: linear-gradient(135deg, #00509d, #003f88);
+      padding: 0.8rem 0;
+      width: 100%;
+    }
+
+    nav ul {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+      padding: 0.6rem 1rem;
+      flex-wrap: wrap;
+      list-style: none;
+      margin: 0;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      padding: 0.7rem 1.2rem;
+      border-radius: 12px;
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(4px);
+      transition: all 0.3s ease;
+    }
+
+    nav a:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+    }
+
+    nav a.activo {
+      background: #a9d6e5;
+      color: #0b3b67;
+    }
+
+    .menu-toggle {
+      position: absolute;
+      right: 1rem;
+      top: 1rem;
+      font-size: 1.8rem;
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+      padding: 0.4rem 0.8rem;
+      border-radius: 8px;
+      display: none;
+      cursor: pointer;
+      z-index: 101;
+      border: none;
+    }
+
+    /* ====== MAIN LAYOUT ====== */
+    main { 
+      max-width: 1400px; 
+      margin: 2rem auto; 
+      padding: 0 1rem 3rem; 
+    }
+
+    /* ====== PAVIMENTOS SECTION ====== */
+    .pavimentos-card {
+      background: white;
+      border-radius: 24px;
+      padding: 2rem;
+      box-shadow: 0 10px 30px rgba(9, 30, 63, 0.08);
+      margin-bottom: 2rem;
+      border: 1px solid rgba(37, 117, 252, 0.1);
+    }
+
+    .pavimentos-title {
+      font-size: 1.8rem;
+      color: #0b3b67;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .pavimentos-title i {
+      color: #2575fc;
+    }
+
+    .pavimentos-subtitle {
+      color: #596b75;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid #e0e9f3;
+    }
+
+    /* Inputs grid */
+    .inputs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .input-group label {
+      font-weight: 600;
+      color: #0b3b67;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .input-group label i {
+      color: #2575fc;
+      width: 20px;
+    }
+
+    .input-group input {
+      padding: 12px 16px;
+      border: 2px solid #e0e9f3;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-family: inherit;
+      transition: all 0.3s ease;
+    }
+
+    .input-group input:focus {
+      outline: none;
+      border-color: #2575fc;
+      box-shadow: 0 0 0 3px rgba(37, 117, 252, 0.1);
+    }
+
+    .btn-calcular {
+      background: linear-gradient(135deg, #2575fc, #6a11cb);
+      color: white;
+      border: none;
+      padding: 14px 32px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin: 1rem 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-calcular:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(37, 117, 252, 0.3);
+    }
+
+    /* Tabla de resultados */
+    .tabla-container {
+      overflow-x: auto;
+      margin: 1.5rem 0;
+      border-radius: 16px;
+      border: 1px solid #e0e9f3;
+    }
+
+    .resultados-tabla {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+
+    .resultados-tabla th {
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      color: white;
+      padding: 12px 8px;
+      font-weight: 600;
+      text-align: center;
+      position: sticky;
+      top: 0;
+    }
+
+    .resultados-tabla td {
+      padding: 10px 8px;
+      text-align: center;
+      border-bottom: 1px solid #e0e9f3;
+    }
+
+    .resultados-tabla tr:hover {
+      background: #f8fafc;
+    }
+
+    .resultados-tabla .año-col {
+      background: #f0f4f9;
+      font-weight: 600;
+    }
+
+    /* Tarjetas de totales */
+    .totales-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .total-card {
+      background: linear-gradient(135deg, #f8fafc, #ffffff);
+      border-radius: 20px;
+      padding: 1.5rem;
+      border: 1px solid #e0e9f3;
+    }
+
+    .total-card h3 {
+      font-size: 1.3rem;
+      color: #0b3b67;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .total-card .total-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid #e0e9f3;
+    }
+
+    .total-card .total-item:last-child {
+      border-bottom: none;
+    }
+
+    .total-label {
+      font-weight: 600;
+      color: #596b75;
+    }
+
+    .total-value {
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: #2575fc;
+    }
+
+    .total-grande {
+      font-size: 1.4rem;
+      color: #6a11cb;
+    }
+
+    /* Nota técnica */
+    .nota-tecnica {
+      background: #fef8e7;
+      border-left: 4px solid #ff9800;
+      padding: 1rem;
+      margin-top: 1.5rem;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      color: #856404;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      color: #596b75;
+      font-size: 0.95rem;
+      padding: 2rem 0;
+      border-top: 1px solid #e0e9f3;
+    }
+
+    /* Botón flotante */
+    .btn-manual-flotante {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+      color: #fff;
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      box-shadow: 0 10px 25px rgba(238, 90, 36, 0.4);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 1000;
+      text-decoration: none;
+    }
+
+    .btn-manual-flotante:hover {
+      transform: scale(1.1);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: block;
+      }
+
+      nav ul {
+        display: none;
+        position: absolute;
+        right: 1rem;
+        top: 4.5rem;
+        width: 250px;
+        flex-direction: column;
+        gap: 0.5rem;
+        padding: 1rem;
+        border-radius: 12px;
+        background: rgba(14, 46, 83, 0.98);
+        backdrop-filter: blur(10px);
+        z-index: 100;
+      }
+
+      nav ul.show {
+        display: flex;
+      }
+
+      .pavimentos-card {
+        padding: 1.5rem;
+      }
+
+      .resultados-tabla {
+        font-size: 0.7rem;
+      }
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    ::selection {
+      background: rgba(37, 117, 252, 0.2);
+      color: #08304b;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <span class="menu-toggle" id="menu-toggle">☰</span>
+    <h1>📊 Métodos Numéricos</h1>
+    <p>Aprendizaje, cálculos y recursos en un solo lugar</p>
+  </header>
+
+  <nav>
+    <ul id="menu">
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="aprendizaje.html">Aprendizaje</a></li>
+      <li><a href="calculos.html">Cálculos</a></li>
+      <li><a href="ejercicios.html">Ejercicios</a></li>
+      <li><a href="pavimentos.html" class="activo">Pavimentos</a></li>
+      <li><a href="nosotros.html">Nosotros</a></li>
+      
+    </ul>
+  </nav>
+
+  <main>
+    <div class="pavimentos-card">
+      <div class="pavimentos-title">
+        <i class="fas fa-road"></i>
+        <h2>📐 Cálculo de Pavimentos</h2>
+      </div>
+      <div class="pavimentos-subtitle">
+        <p><i class="fas fa-chart-line"></i> Cálculo de TPD (Tránsito Promedio Diario) y TA (Tránsito Acumulado) con crecimiento geométrico para diseño de pavimentos</p>
+      </div>
+
+      <!-- Formulario de entrada -->
+      <div class="inputs-grid">
+        <div class="input-group">
+          <label><i class="fas fa-car"></i> TD de Autos</label>
+          <input type="number" id="autos" step="1" value="1000" placeholder="Ej: 1000">
+        </div>
+        <div class="input-group">
+          <label><i class="fas fa-bus"></i> TD de Buses</label>
+          <input type="number" id="buses" step="1" value="100" placeholder="Ej: 100">
+        </div>
+        <div class="input-group">
+          <label><i class="fas fa-truck"></i> TD de C2P (Camiones)</label>
+          <input type="number" id="c2p" step="1" value="50" placeholder="Ej: 50">
+        </div>
+        <div class="input-group">
+          <label><i class="fas fa-chart-line"></i> Tasa de crecimiento anual (%)</label>
+          <input type="number" id="crecimiento" step="0.1" value="5" placeholder="Ej: 5">
+        </div>
+      </div>
+
+      <button class="btn-calcular" id="btnCalcular">
+        <i class="fas fa-calculator"></i> Calcular TPD y TA
+      </button>
+
+      <!-- Tabla de resultados -->
+      <div id="tablaResultados" style="display: none;">
+        <div class="tabla-container">
+          <table class="resultados-tabla" id="resultadosTable">
+            <thead>
+              <tr>
+                <th>Año</th>
+                <th colspan="2">AUTOS</th>
+                <th colspan="2">BUSES</th>
+                <th colspan="2">C2P (Camiones)</th>
+              </tr>
+              <tr>
+                <th></th>
+                <th>TPD</th>
+                <th>TA</th>
+                <th>TPD</th>
+                <th>TA</th>
+                <th>TPD</th>
+                <th>TA</th>
+              </tr>
+            </thead>
+            <tbody id="tablaBody"></tbody>
+          </table>
+        </div>
+
+        <!-- Totales -->
+        <div class="totales-grid">
+          <div class="total-card">
+            <h3><i class="fas fa-chart-simple"></i> TOTAL 10 AÑOS</h3>
+            <div class="total-item">
+              <span class="total-label"><i class="fas fa-car"></i> Autos:</span>
+              <span class="total-value" id="totalAutos10">0</span>
+            </div>
+            <div class="total-item">
+              <span class="total-label"><i class="fas fa-bus"></i> Buses:</span>
+              <span class="total-value" id="totalBuses10">0</span>
+            </div>
+            <div class="total-item">
+              <span class="total-label"><i class="fas fa-truck"></i> C2P:</span>
+              <span class="total-value" id="totalC2P10">0</span>
+            </div>
+          </div>
+
+          <div class="total-card">
+            <h3><i class="fas fa-chart-line"></i> TOTAL 20 AÑOS</h3>
+            <div class="total-item">
+              <span class="total-label"><i class="fas fa-car"></i> Autos:</span>
+              <span class="total-value total-grande" id="totalAutos20">0</span>
+            </div>
+            <div class="total-item">
+              <span class="total-label"><i class="fas fa-bus"></i> Buses:</span>
+              <span class="total-value total-grande" id="totalBuses20">0</span>
+            </div>
+            <div class="total-item">
+              <span class="total-label"><i class="fas fa-truck"></i> C2P:</span>
+              <span class="total-value total-grande" id="totalC2P20">0</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="nota-tecnica">
+          <i class="fas fa-info-circle"></i> <strong>Nota técnica:</strong> 
+          TPD = Tránsito Promedio Diario (vehículos/día)<br>
+          TA = Tránsito Acumulado (vehículos acumulados en el período)<br>
+          Fórmula: TPDₙ = TD_inicial × (1 + i)ⁿ | TAₙ = TPDₙ × 365 días
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2026 Métodos Numéricos - Universidad Mariana</p>
+  </footer>
+
+  <a href="manual_usuario.pdf" class="btn-manual-flotante" target="_blank">
+    <i class="fas fa-file-pdf"></i>
+  </a>
+
+  <script>
+    // Toggle del menú móvil
+    document.getElementById('menu-toggle').addEventListener('click', function() {
+      const menu = document.getElementById('menu');
+      menu.classList.toggle('show');
+    });
+
+    document.querySelectorAll('nav a').forEach(link => {
+      link.addEventListener('click', function() {
+        const menu = document.getElementById('menu');
+        menu.classList.remove('show');
+      });
+    });
+
+    // Función principal de cálculo
+    function calcular() {
+      // Obtener valores
+      let autosInicial = parseFloat(document.getElementById('autos').value);
+      let busesInicial = parseFloat(document.getElementById('buses').value);
+      let c2pInicial = parseFloat(document.getElementById('c2p').value);
+      let crecimiento = parseFloat(document.getElementById('crecimiento').value) / 100;
+      
+      // Validaciones
+      if (isNaN(autosInicial)) autosInicial = 0;
+      if (isNaN(busesInicial)) busesInicial = 0;
+      if (isNaN(c2pInicial)) c2pInicial = 0;
+      if (isNaN(crecimiento)) crecimiento = 0;
+      
+      const años = 20;
+      
+      // Acumuladores
+      let totalAutos10 = 0;
+      let totalBuses10 = 0;
+      let totalC2P10 = 0;
+      let totalAutos20 = 0;
+      let totalBuses20 = 0;
+      let totalC2P20 = 0;
+      
+      // Array para almacenar filas de la tabla
+      let filas = [];
+      
+      // Cálculos año por año
+      for (let año = 0; año <= años; año++) {
+        // TPD proyectado (fórmula de crecimiento geométrico)
+        let tpdAutos = autosInicial * Math.pow((1 + crecimiento), año);
+        let tpdBuses = busesInicial * Math.pow((1 + crecimiento), año);
+        let tpdC2P = c2pInicial * Math.pow((1 + crecimiento), año);
+        
+        // TA (Tránsito Acumulado anual) = TPD * 365 días
+        let taAutos = tpdAutos * 365;
+        let taBuses = tpdBuses * 365;
+        let taC2P = tpdC2P * 365;
+        
+        // Acumular a 10 años (años 0 al 10)
+        if (año <= 10) {
+          totalAutos10 += taAutos;
+          totalBuses10 += taBuses;
+          totalC2P10 += taC2P;
+        }
+        
+        // Acumular a 20 años (todos los años)
+        totalAutos20 += taAutos;
+        totalBuses20 += taBuses;
+        totalC2P20 += taC2P;
+        
+        // Guardar fila para la tabla
+        filas.push({
+          año: año,
+          tpdAutos: tpdAutos,
+          taAutos: taAutos,
+          tpdBuses: tpdBuses,
+          taBuses: taBuses,
+          tpdC2P: tpdC2P,
+          taC2P: taC2P
+        });
+      }
+      
+      // Mostrar tabla
+      mostrarTabla(filas);
+      
+      // Mostrar totales
+      document.getElementById('totalAutos10').innerHTML = formatNumber(totalAutos10);
+      document.getElementById('totalBuses10').innerHTML = formatNumber(totalBuses10);
+      document.getElementById('totalC2P10').innerHTML = formatNumber(totalC2P10);
+      document.getElementById('totalAutos20').innerHTML = formatNumber(totalAutos20);
+      document.getElementById('totalBuses20').innerHTML = formatNumber(totalBuses20);
+      document.getElementById('totalC2P20').innerHTML = formatNumber(totalC2P20);
+      
+      // Mostrar contenedor de resultados
+      document.getElementById('tablaResultados').style.display = 'block';
+      
+      // Scroll suave a la tabla
+      document.getElementById('tablaResultados').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    
+    function mostrarTabla(filas) {
+      const tbody = document.getElementById('tablaBody');
+      tbody.innerHTML = '';
+      
+      filas.forEach(fila => {
+        const tr = document.createElement('tr');
+        
+        // Columna Año
+        const tdAño = document.createElement('td');
+        tdAño.className = 'año-col';
+        tdAño.textContent = fila.año;
+        tdAño.style.fontWeight = '600';
+        tr.appendChild(tdAño);
+        
+        // Autos TPD
+        const tdTpdAutos = document.createElement('td');
+        tdTpdAutos.textContent = formatNumber(fila.tpdAutos, 1);
+        tr.appendChild(tdTpdAutos);
+        
+        // Autos TA
+        const tdTaAutos = document.createElement('td');
+        tdTaAutos.textContent = formatNumber(fila.taAutos);
+        tr.appendChild(tdTaAutos);
+        
+        // Buses TPD
+        const tdTpdBuses = document.createElement('td');
+        tdTpdBuses.textContent = formatNumber(fila.tpdBuses, 1);
+        tr.appendChild(tdTpdBuses);
+        
+        // Buses TA
+        const tdTaBuses = document.createElement('td');
+        tdTaBuses.textContent = formatNumber(fila.taBuses);
+        tr.appendChild(tdTaBuses);
+        
+        // C2P TPD
+        const tdTpdC2P = document.createElement('td');
+        tdTpdC2P.textContent = formatNumber(fila.tpdC2P, 1);
+        tr.appendChild(tdTpdC2P);
+        
+        // C2P TA
+        const tdTaC2P = document.createElement('td');
+        tdTaC2P.textContent = formatNumber(fila.taC2P);
+        tr.appendChild(tdTaC2P);
+        
+        tbody.appendChild(tr);
+      });
+    }
+    
+    function formatNumber(num, decimales = 1) {
+      if (decimales === 1) {
+        return num.toLocaleString('es-ES', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+      }
+      return num.toLocaleString('es-ES', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+    }
+    
+    // Evento del botón
+    document.getElementById('btnCalcular').addEventListener('click', calcular);
+    
+    // Calcular al cargar la página con valores por defecto
+    window.addEventListener('load', calcular);
+  </script>
+</body>
+</html>
