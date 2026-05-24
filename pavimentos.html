@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pavimentos - Métodos Numéricos | Cálculo TPD y TA</title>
+  <title>Métodos Numéricos - Pavimentos y Tuberías</title>
   <link rel="shortcut icon" href="./imagenes/logo.png">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -57,7 +57,6 @@
       max-width: 600px;
     }
 
-    /* ====== NAV ====== */
     nav { 
       background: linear-gradient(135deg, #00509d, #003f88);
       padding: 0.8rem 0;
@@ -110,15 +109,95 @@
       border: none;
     }
 
-    /* ====== MAIN LAYOUT ====== */
+    /* ====== PESTAÑAS PRÁCTICA/CAMPO ====== */
+    .practica-tabs {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      border-bottom: 2px solid #e0e9f3;
+      padding-bottom: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .practica-tab-btn {
+      background: transparent;
+      border: none;
+      padding: 0.8rem 1.8rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      font-family: 'Poppins', sans-serif;
+      color: #596b75;
+      cursor: pointer;
+      border-radius: 30px;
+      transition: all 0.3s ease;
+    }
+
+    .practica-tab-btn i {
+      margin-right: 8px;
+    }
+
+    .practica-tab-btn:hover {
+      background: rgba(37, 117, 252, 0.1);
+      color: #2575fc;
+    }
+
+    .practica-tab-btn.activo {
+      background: linear-gradient(135deg, #2575fc, #6a11cb);
+      color: white;
+      box-shadow: 0 4px 12px rgba(37, 117, 252, 0.3);
+    }
+
+    .subtab-panel {
+      display: none;
+    }
+
+    .subtab-panel.activo {
+      display: block;
+    }
+
+    .sub-tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid #e0e9f3;
+      padding-bottom: 0.5rem;
+    }
+
+    .sub-tab-btn {
+      background: transparent;
+      border: none;
+      padding: 0.5rem 1.2rem;
+      font-size: 0.95rem;
+      font-weight: 500;
+      font-family: 'Poppins', sans-serif;
+      color: #596b75;
+      cursor: pointer;
+      border-radius: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .sub-tab-btn i {
+      margin-right: 6px;
+    }
+
+    .sub-tab-btn:hover {
+      background: rgba(37, 117, 252, 0.1);
+      color: #2575fc;
+    }
+
+    .sub-tab-btn.activo {
+      background: #2575fc;
+      color: white;
+    }
+
     main { 
       max-width: 1400px; 
       margin: 2rem auto; 
       padding: 0 1rem 3rem; 
     }
 
-    /* ====== PAVIMENTOS SECTION ====== */
-    .pavimentos-card {
+    /* Tarjetas de contenido */
+    .contenido-card {
       background: white;
       border-radius: 24px;
       padding: 2rem;
@@ -127,7 +206,7 @@
       border: 1px solid rgba(37, 117, 252, 0.1);
     }
 
-    .pavimentos-title {
+    .contenido-title {
       font-size: 1.8rem;
       color: #0b3b67;
       margin-bottom: 0.5rem;
@@ -136,18 +215,18 @@
       gap: 10px;
     }
 
-    .pavimentos-title i {
+    .contenido-title i {
       color: #2575fc;
     }
 
-    .pavimentos-subtitle {
+    .contenido-subtitle {
       color: #596b75;
       margin-bottom: 2rem;
       padding-bottom: 1rem;
       border-bottom: 2px solid #e0e9f3;
     }
 
-    /* Inputs grid */
+    /* Inputs y formularios */
     .inputs-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -174,16 +253,17 @@
       width: 20px;
     }
 
-    .input-group input {
+    .input-group input, .input-group select {
       padding: 12px 16px;
       border: 2px solid #e0e9f3;
       border-radius: 12px;
       font-size: 1rem;
       font-family: inherit;
       transition: all 0.3s ease;
+      background: white;
     }
 
-    .input-group input:focus {
+    .input-group input:focus, .input-group select:focus {
       outline: none;
       border-color: #2575fc;
       box-shadow: 0 0 0 3px rgba(37, 117, 252, 0.1);
@@ -210,7 +290,7 @@
       box-shadow: 0 6px 20px rgba(37, 117, 252, 0.3);
     }
 
-    /* Tabla de resultados */
+    /* Tablas */
     .tabla-container {
       overflow-x: auto;
       margin: 1.5rem 0;
@@ -300,7 +380,48 @@
       color: #6a11cb;
     }
 
-    /* Nota técnica */
+    /* Resultados tuberías */
+    .resultados-tuberia {
+      background: linear-gradient(135deg, #f8fafc, #ffffff);
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin-top: 1.5rem;
+      border: 1px solid #e0e9f3;
+    }
+
+    .resultado-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid #e0e9f3;
+    }
+
+    .resultado-item:last-child {
+      border-bottom: none;
+    }
+
+    .resultado-label {
+      font-weight: 600;
+      color: #0b3b67;
+    }
+
+    .resultado-valor {
+      font-weight: 700;
+      color: #6a11cb;
+      font-size: 1.1rem;
+    }
+
+    .iteracion-tabla {
+      width: 100%;
+      font-size: 0.8rem;
+      margin-top: 1rem;
+    }
+
+    .iteracion-tabla th, .iteracion-tabla td {
+      padding: 8px;
+      text-align: center;
+    }
+
     .nota-tecnica {
       background: #fef8e7;
       border-left: 4px solid #ff9800;
@@ -320,7 +441,6 @@
       border-top: 1px solid #e0e9f3;
     }
 
-    /* Botón flotante */
     .btn-manual-flotante {
       position: fixed;
       bottom: 2rem;
@@ -345,7 +465,6 @@
       transform: scale(1.1);
     }
 
-    /* Responsive */
     @media (max-width: 768px) {
       .menu-toggle {
         display: block;
@@ -370,7 +489,7 @@
         display: flex;
       }
 
-      .pavimentos-card {
+      .contenido-card {
         padding: 1.5rem;
       }
 
@@ -402,279 +521,298 @@
       <li><a href="aprendizaje.html">Aprendizaje</a></li>
       <li><a href="calculos.html">Cálculos</a></li>
       <li><a href="ejercicios.html">Ejercicios</a></li>
-      <li><a href="pavimentos.html" class="activo">Pavimentos</a></li>
+      <li><a href="practica.html" class="activo">Práctica/Campo</a></li>
       <li><a href="nosotros.html">Nosotros</a></li>
-      
     </ul>
   </nav>
 
   <main>
-    <div class="pavimentos-card">
-      <div class="pavimentos-title">
-        <i class="fas fa-road"></i>
-        <h2>📐 Cálculo de Pavimentos</h2>
-      </div>
-      <div class="pavimentos-subtitle">
-        <p><i class="fas fa-chart-line"></i> Cálculo de TPD (Tránsito Promedio Diario) y TA (Tránsito Acumulado) con crecimiento geométrico para diseño de pavimentos</p>
-      </div>
-
-      <!-- Formulario de entrada -->
-      <div class="inputs-grid">
-        <div class="input-group">
-          <label><i class="fas fa-car"></i> TD de Autos</label>
-          <input type="number" id="autos" step="1" value="1000" placeholder="Ej: 1000">
-        </div>
-        <div class="input-group">
-          <label><i class="fas fa-bus"></i> TD de Buses</label>
-          <input type="number" id="buses" step="1" value="100" placeholder="Ej: 100">
-        </div>
-        <div class="input-group">
-          <label><i class="fas fa-truck"></i> TD de C2P (Camiones)</label>
-          <input type="number" id="c2p" step="1" value="50" placeholder="Ej: 50">
-        </div>
-        <div class="input-group">
-          <label><i class="fas fa-chart-line"></i> Tasa de crecimiento anual (%)</label>
-          <input type="number" id="crecimiento" step="0.1" value="5" placeholder="Ej: 5">
-        </div>
-      </div>
-
-      <button class="btn-calcular" id="btnCalcular">
-        <i class="fas fa-calculator"></i> Calcular TPD y TA
+    <!-- Pestaña principal: Práctica/Campo -->
+    <div class="practica-tabs">
+      <button class="practica-tab-btn activo" data-tab="contenido-practica">
+        <i class="fas fa-hard-hat"></i> Práctica / Campo
       </button>
+    </div>
 
-      <!-- Tabla de resultados -->
-      <div id="tablaResultados" style="display: none;">
-        <div class="tabla-container">
-          <table class="resultados-tabla" id="resultadosTable">
-            <thead>
-              <tr>
-                <th>Año</th>
-                <th colspan="2">AUTOS</th>
-                <th colspan="2">BUSES</th>
-                <th colspan="2">C2P (Camiones)</th>
-              </tr>
-              <tr>
-                <th></th>
-                <th>TPD</th>
-                <th>TA</th>
-                <th>TPD</th>
-                <th>TA</th>
-                <th>TPD</th>
-                <th>TA</th>
-              </tr>
-            </thead>
-            <tbody id="tablaBody"></tbody>
-          </table>
-        </div>
+    <div id="contenido-practica" class="practica-tab-contenido">
+      <!-- Subpestañas: Pavimentos y Cálculo Tuberías Clase 2 -->
+      <div class="sub-tabs">
+        <button class="sub-tab-btn activo" data-subtab="pavimentos">
+          <i class="fas fa-road"></i> Pavimentos
+        </button>
+        <button class="sub-tab-btn" data-subtab="tuberias">
+          <i class="fas fa-water"></i> Cálculo Tuberías Clase 2
+        </button>
+      </div>
 
-        <!-- Totales -->
-        <div class="totales-grid">
-          <div class="total-card">
-            <h3><i class="fas fa-chart-simple"></i> TOTAL 10 AÑOS</h3>
-            <div class="total-item">
-              <span class="total-label"><i class="fas fa-car"></i> Autos:</span>
-              <span class="total-value" id="totalAutos10">0</span>
+      <!-- Panel de Pavimentos -->
+      <div id="subtab-pavimentos" class="subtab-panel activo">
+        <div class="contenido-card">
+          <div class="contenido-title">
+            <i class="fas fa-road"></i>
+            <h2>📐 Cálculo de Pavimentos</h2>
+          </div>
+          <div class="contenido-subtitle">
+            <p><i class="fas fa-chart-line"></i> Cálculo de TPD (Tránsito Promedio Diario) y TA (Tránsito Acumulado) con crecimiento geométrico para diseño de pavimentos</p>
+          </div>
+
+          <div class="inputs-grid">
+            <div class="input-group">
+              <label><i class="fas fa-car"></i> TD de Autos</label>
+              <input type="number" id="autos" step="1" value="1000" placeholder="Ej: 1000">
             </div>
-            <div class="total-item">
-              <span class="total-label"><i class="fas fa-bus"></i> Buses:</span>
-              <span class="total-value" id="totalBuses10">0</span>
+            <div class="input-group">
+              <label><i class="fas fa-bus"></i> TD de Buses</label>
+              <input type="number" id="buses" step="1" value="100" placeholder="Ej: 100">
             </div>
-            <div class="total-item">
-              <span class="total-label"><i class="fas fa-truck"></i> C2P:</span>
-              <span class="total-value" id="totalC2P10">0</span>
+            <div class="input-group">
+              <label><i class="fas fa-truck"></i> TD de C2P (Camiones)</label>
+              <input type="number" id="c2p" step="1" value="50" placeholder="Ej: 50">
+            </div>
+            <div class="input-group">
+              <label><i class="fas fa-chart-line"></i> Tasa de crecimiento anual (%)</label>
+              <input type="number" id="crecimiento" step="0.1" value="5" placeholder="Ej: 5">
             </div>
           </div>
 
-          <div class="total-card">
-            <h3><i class="fas fa-chart-line"></i> TOTAL 20 AÑOS</h3>
-            <div class="total-item">
-              <span class="total-label"><i class="fas fa-car"></i> Autos:</span>
-              <span class="total-value total-grande" id="totalAutos20">0</span>
+          <button class="btn-calcular" id="btnCalcularPavimentos">
+            <i class="fas fa-calculator"></i> Calcular TPD y TA
+          </button>
+
+          <div id="tablaResultados" style="display: none;">
+            <div class="tabla-container">
+              <table class="resultados-tabla" id="resultadosTable">
+                <thead>
+                  <tr><th>Año</th><th colspan="2">AUTOS</th><th colspan="2">BUSES</th><th colspan="2">C2P (Camiones)</th></tr>
+                  <tr><th></th><th>TPD</th><th>TA</th><th>TPD</th><th>TA</th><th>TPD</th><th>TA</th></tr>
+                </thead>
+                <tbody id="tablaBody"></tbody>
+              </table>
             </div>
-            <div class="total-item">
-              <span class="total-label"><i class="fas fa-bus"></i> Buses:</span>
-              <span class="total-value total-grande" id="totalBuses20">0</span>
+            <div class="totales-grid">
+              <div class="total-card"><h3><i class="fas fa-chart-simple"></i> TOTAL 10 AÑOS</h3>
+                <div class="total-item"><span class="total-label"><i class="fas fa-car"></i> Autos:</span><span class="total-value" id="totalAutos10">0</span></div>
+                <div class="total-item"><span class="total-label"><i class="fas fa-bus"></i> Buses:</span><span class="total-value" id="totalBuses10">0</span></div>
+                <div class="total-item"><span class="total-label"><i class="fas fa-truck"></i> C2P:</span><span class="total-value" id="totalC2P10">0</span></div>
+              </div>
+              <div class="total-card"><h3><i class="fas fa-chart-line"></i> TOTAL 20 AÑOS</h3>
+                <div class="total-item"><span class="total-label"><i class="fas fa-car"></i> Autos:</span><span class="total-value total-grande" id="totalAutos20">0</span></div>
+                <div class="total-item"><span class="total-label"><i class="fas fa-bus"></i> Buses:</span><span class="total-value total-grande" id="totalBuses20">0</span></div>
+                <div class="total-item"><span class="total-label"><i class="fas fa-truck"></i> C2P:</span><span class="total-value total-grande" id="totalC2P20">0</span></div>
+              </div>
             </div>
-            <div class="total-item">
-              <span class="total-label"><i class="fas fa-truck"></i> C2P:</span>
-              <span class="total-value total-grande" id="totalC2P20">0</span>
-            </div>
+            <div class="nota-tecnica"><i class="fas fa-info-circle"></i> <strong>Nota técnica:</strong> TPD = Tránsito Promedio Diario (vehículos/día)<br>TA = Tránsito Acumulado (vehículos acumulados en el período)<br>Fórmula: TPDₙ = TD_inicial × (1 + i)ⁿ | TAₙ = TPDₙ × 365 días</div>
           </div>
         </div>
+      </div>
 
-        <div class="nota-tecnica">
-          <i class="fas fa-info-circle"></i> <strong>Nota técnica:</strong> 
-          TPD = Tránsito Promedio Diario (vehículos/día)<br>
-          TA = Tránsito Acumulado (vehículos acumulados en el período)<br>
-          Fórmula: TPDₙ = TD_inicial × (1 + i)ⁿ | TAₙ = TPDₙ × 365 días
+      <!-- Panel de Tuberías Clase 2 -->
+      <div id="subtab-tuberias" class="subtab-panel">
+        <div class="contenido-card">
+          <div class="contenido-title">
+            <i class="fas fa-water"></i>
+            <h2>🔧 Cálculo Tuberías Clase 2</h2>
+          </div>
+          <div class="contenido-subtitle">
+            <p><i class="fas fa-chart-line"></i> Método iterativo Darcy-Weisbach + Colebrook-White. Velocidad desconocida → se itera sobre f</p>
+          </div>
+
+          <div class="inputs-grid">
+            <div class="input-group"><label><i class="fas fa-ruler"></i> Diámetro D (m)</label><input type="number" id="tuberia_D" step="0.001" value="0.15"></div>
+            <div class="input-group"><label><i class="fas fa-ruler-combined"></i> Longitud L (m)</label><input type="number" id="tuberia_L" step="1" value="500"></div>
+            <div class="input-group"><label><i class="fas fa-tachometer-alt"></i> Pérdida hL (m)</label><input type="number" id="tuberia_hL" step="0.1" value="10"></div>
+            <div class="input-group"><label><i class="fas fa-microchip"></i> Rugosidad ε (m)</label><input type="number" id="tuberia_epsilon" step="1e-6" value="0.000046"></div>
+            <div class="input-group"><label><i class="fas fa-tint"></i> Viscosidad ν (m²/s)</label><input type="number" id="tuberia_nu" step="1e-7" value="0.000001004"></div>
+            <div class="input-group"><label><i class="fas fa-plus-circle"></i> ΣK (pérdidas menores)</label><input type="number" id="tuberia_sumK" step="0.1" value="0"></div>
+          </div>
+
+          <button class="btn-calcular" id="btnCalcularTuberias">
+            <i class="fas fa-calculator"></i> Calcular Tubería Clase 2
+          </button>
+
+          <div id="tuberiaResultados" style="display: none;">
+            <div class="tabla-container">
+              <table class="resultados-tabla iteracion-tabla" id="iteracionTabla">
+                <thead><tr><th>Iter</th><th>f_prueba</th><th>v (m/s)</th><th>N_R</th><th>Régimen</th><th>f_nuevo</th><th>|Δf|</th></tr></thead>
+                <tbody id="iteracionBody"></tbody>
+              </table>
+            </div>
+            <div class="resultados-tuberia" id="resultadosFinales"></div>
+          </div>
+          <div class="nota-tecnica"><i class="fas fa-info-circle"></i> <strong>Método:</strong> Se itera sobre f usando Colebrook-White hasta convergencia (tol=0.0001). f inicial por Swamee-Jain.</div>
         </div>
       </div>
     </div>
   </main>
 
-  <footer>
-    <p>© 2026 Métodos Numéricos - Universidad Mariana</p>
-  </footer>
-
-  <a href="manual_usuario.pdf" class="btn-manual-flotante" target="_blank">
-    <i class="fas fa-file-pdf"></i>
-  </a>
+  <footer><p>© 2026 Métodos Numéricos - Universidad Mariana</p></footer>
+  <a href="manual_usuario.pdf" class="btn-manual-flotante" target="_blank"><i class="fas fa-file-pdf"></i></a>
 
   <script>
-    // Toggle del menú móvil
+    // Toggle menú móvil
     document.getElementById('menu-toggle').addEventListener('click', function() {
-      const menu = document.getElementById('menu');
-      menu.classList.toggle('show');
+      document.getElementById('menu').classList.toggle('show');
+    });
+    document.querySelectorAll('nav a').forEach(link => {
+      link.addEventListener('click', () => document.getElementById('menu').classList.remove('show'));
     });
 
-    document.querySelectorAll('nav a').forEach(link => {
-      link.addEventListener('click', function() {
-        const menu = document.getElementById('menu');
-        menu.classList.remove('show');
+    // Cambio entre subpestañas
+    document.querySelectorAll('.sub-tab-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const subtab = this.dataset.subtab;
+        document.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('activo'));
+        this.classList.add('activo');
+        document.querySelectorAll('.subtab-panel').forEach(panel => panel.classList.remove('activo'));
+        document.getElementById(`subtab-${subtab}`).classList.add('activo');
       });
     });
 
-    // Función principal de cálculo
-    function calcular() {
-      // Obtener valores
-      let autosInicial = parseFloat(document.getElementById('autos').value);
-      let busesInicial = parseFloat(document.getElementById('buses').value);
-      let c2pInicial = parseFloat(document.getElementById('c2p').value);
-      let crecimiento = parseFloat(document.getElementById('crecimiento').value) / 100;
-      
-      // Validaciones
-      if (isNaN(autosInicial)) autosInicial = 0;
-      if (isNaN(busesInicial)) busesInicial = 0;
-      if (isNaN(c2pInicial)) c2pInicial = 0;
-      if (isNaN(crecimiento)) crecimiento = 0;
+    // ===================== PAVIMENTOS (código original) =====================
+    function calcularPavimentos() {
+      let autosInicial = parseFloat(document.getElementById('autos').value) || 0;
+      let busesInicial = parseFloat(document.getElementById('buses').value) || 0;
+      let c2pInicial = parseFloat(document.getElementById('c2p').value) || 0;
+      let crecimiento = (parseFloat(document.getElementById('crecimiento').value) || 0) / 100;
       
       const años = 20;
-      
-      // Acumuladores
-      let totalAutos10 = 0;
-      let totalBuses10 = 0;
-      let totalC2P10 = 0;
-      let totalAutos20 = 0;
-      let totalBuses20 = 0;
-      let totalC2P20 = 0;
-      
-      // Array para almacenar filas de la tabla
+      let totalAutos10 = 0, totalBuses10 = 0, totalC2P10 = 0;
+      let totalAutos20 = 0, totalBuses20 = 0, totalC2P20 = 0;
       let filas = [];
       
-      // Cálculos año por año
       for (let año = 0; año <= años; año++) {
-        // TPD proyectado (fórmula de crecimiento geométrico)
-        let tpdAutos = autosInicial * Math.pow((1 + crecimiento), año);
-        let tpdBuses = busesInicial * Math.pow((1 + crecimiento), año);
-        let tpdC2P = c2pInicial * Math.pow((1 + crecimiento), año);
-        
-        // TA (Tránsito Acumulado anual) = TPD * 365 días
+        let tpdAutos = autosInicial * Math.pow(1 + crecimiento, año);
+        let tpdBuses = busesInicial * Math.pow(1 + crecimiento, año);
+        let tpdC2P = c2pInicial * Math.pow(1 + crecimiento, año);
         let taAutos = tpdAutos * 365;
         let taBuses = tpdBuses * 365;
         let taC2P = tpdC2P * 365;
         
-        // Acumular a 10 años (años 0 al 10)
         if (año <= 10) {
-          totalAutos10 += taAutos;
-          totalBuses10 += taBuses;
-          totalC2P10 += taC2P;
+          totalAutos10 += taAutos; totalBuses10 += taBuses; totalC2P10 += taC2P;
         }
-        
-        // Acumular a 20 años (todos los años)
-        totalAutos20 += taAutos;
-        totalBuses20 += taBuses;
-        totalC2P20 += taC2P;
-        
-        // Guardar fila para la tabla
-        filas.push({
-          año: año,
-          tpdAutos: tpdAutos,
-          taAutos: taAutos,
-          tpdBuses: tpdBuses,
-          taBuses: taBuses,
-          tpdC2P: tpdC2P,
-          taC2P: taC2P
-        });
+        totalAutos20 += taAutos; totalBuses20 += taBuses; totalC2P20 += taC2P;
+        filas.push({año, tpdAutos, taAutos, tpdBuses, taBuses, tpdC2P, taC2P});
       }
       
-      // Mostrar tabla
-      mostrarTabla(filas);
+      const tbody = document.getElementById('tablaBody');
+      tbody.innerHTML = '';
+      filas.forEach(f => {
+        let tr = document.createElement('tr');
+        tr.innerHTML = `<td class="año-col">${f.año}</td>
+                        <td>${f.tpdAutos.toLocaleString('es-ES', {minimumFractionDigits:1})}</td>
+                        <td>${Math.round(f.taAutos).toLocaleString('es-ES')}</td>
+                        <td>${f.tpdBuses.toLocaleString('es-ES', {minimumFractionDigits:1})}</td>
+                        <td>${Math.round(f.taBuses).toLocaleString('es-ES')}</td>
+                        <td>${f.tpdC2P.toLocaleString('es-ES', {minimumFractionDigits:1})}</td>
+                        <td>${Math.round(f.taC2P).toLocaleString('es-ES')}</td>`;
+        tbody.appendChild(tr);
+      });
       
-      // Mostrar totales
-      document.getElementById('totalAutos10').innerHTML = formatNumber(totalAutos10);
-      document.getElementById('totalBuses10').innerHTML = formatNumber(totalBuses10);
-      document.getElementById('totalC2P10').innerHTML = formatNumber(totalC2P10);
-      document.getElementById('totalAutos20').innerHTML = formatNumber(totalAutos20);
-      document.getElementById('totalBuses20').innerHTML = formatNumber(totalBuses20);
-      document.getElementById('totalC2P20').innerHTML = formatNumber(totalC2P20);
-      
-      // Mostrar contenedor de resultados
+      document.getElementById('totalAutos10').innerHTML = Math.round(totalAutos10).toLocaleString('es-ES');
+      document.getElementById('totalBuses10').innerHTML = Math.round(totalBuses10).toLocaleString('es-ES');
+      document.getElementById('totalC2P10').innerHTML = Math.round(totalC2P10).toLocaleString('es-ES');
+      document.getElementById('totalAutos20').innerHTML = Math.round(totalAutos20).toLocaleString('es-ES');
+      document.getElementById('totalBuses20').innerHTML = Math.round(totalBuses20).toLocaleString('es-ES');
+      document.getElementById('totalC2P20').innerHTML = Math.round(totalC2P20).toLocaleString('es-ES');
       document.getElementById('tablaResultados').style.display = 'block';
-      
-      // Scroll suave a la tabla
       document.getElementById('tablaResultados').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
     
-    function mostrarTabla(filas) {
-      const tbody = document.getElementById('tablaBody');
-      tbody.innerHTML = '';
-      
-      filas.forEach(fila => {
-        const tr = document.createElement('tr');
-        
-        // Columna Año
-        const tdAño = document.createElement('td');
-        tdAño.className = 'año-col';
-        tdAño.textContent = fila.año;
-        tdAño.style.fontWeight = '600';
-        tr.appendChild(tdAño);
-        
-        // Autos TPD
-        const tdTpdAutos = document.createElement('td');
-        tdTpdAutos.textContent = formatNumber(fila.tpdAutos, 1);
-        tr.appendChild(tdTpdAutos);
-        
-        // Autos TA
-        const tdTaAutos = document.createElement('td');
-        tdTaAutos.textContent = formatNumber(fila.taAutos);
-        tr.appendChild(tdTaAutos);
-        
-        // Buses TPD
-        const tdTpdBuses = document.createElement('td');
-        tdTpdBuses.textContent = formatNumber(fila.tpdBuses, 1);
-        tr.appendChild(tdTpdBuses);
-        
-        // Buses TA
-        const tdTaBuses = document.createElement('td');
-        tdTaBuses.textContent = formatNumber(fila.taBuses);
-        tr.appendChild(tdTaBuses);
-        
-        // C2P TPD
-        const tdTpdC2P = document.createElement('td');
-        tdTpdC2P.textContent = formatNumber(fila.tpdC2P, 1);
-        tr.appendChild(tdTpdC2P);
-        
-        // C2P TA
-        const tdTaC2P = document.createElement('td');
-        tdTaC2P.textContent = formatNumber(fila.taC2P);
-        tr.appendChild(tdTaC2P);
-        
-        tbody.appendChild(tr);
-      });
-    }
-    
-    function formatNumber(num, decimales = 1) {
-      if (decimales === 1) {
-        return num.toLocaleString('es-ES', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+    document.getElementById('btnCalcularPavimentos').addEventListener('click', calcularPavimentos);
+    window.addEventListener('load', () => { calcularPavimentos(); });
+
+    // ===================== TUBERÍAS CLASE 2 =====================
+    function colebrookWhite(f_prueba, NR, D, epsilon) {
+      if (NR < 2300) return 64.0 / NR;
+      let rug_rel = epsilon / D;
+      let f = 0.25 / Math.pow(Math.log10(rug_rel/3.7 + 5.74/Math.pow(NR,0.9)), 2);
+      for (let i = 0; i < 100; i++) {
+        let f_ant = f;
+        let RHS = -2.0 * Math.log10(rug_rel/3.7 + 2.51/(NR * Math.sqrt(f)));
+        f = 1.0 / (RHS * RHS);
+        if (Math.abs(f - f_ant) < 1e-10) break;
       }
-      return num.toLocaleString('es-ES', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+      return f;
     }
-    
-    // Evento del botón
-    document.getElementById('btnCalcular').addEventListener('click', calcular);
-    
-    // Calcular al cargar la página con valores por defecto
-    window.addEventListener('load', calcular);
+
+    function calcularTuberias() {
+      const D = parseFloat(document.getElementById('tuberia_D').value);
+      const L = parseFloat(document.getElementById('tuberia_L').value);
+      const hL = parseFloat(document.getElementById('tuberia_hL').value);
+      const epsilon = parseFloat(document.getElementById('tuberia_epsilon').value);
+      const nu = parseFloat(document.getElementById('tuberia_nu').value);
+      const sumaK = parseFloat(document.getElementById('tuberia_sumK').value);
+      const g = 9.81;
+      const tol = 0.0001;
+      const maxIter = 30;
+
+      // f inicial aproximado
+      let ep_D = epsilon / D;
+      let f_inicial = 1.0 / Math.pow(1.74 - 2.0 * Math.log10(2 * ep_D), 2);
+      if (isNaN(f_inicial) || f_inicial < 0.01) f_inicial = 0.02;
+
+      let f_actual = f_inicial;
+      let iteraciones = [];
+      let convergio = false;
+      let v_final = 0, NR_final = 0, f_final = 0;
+
+      for (let iter = 1; iter <= maxIter; iter++) {
+        let denom = f_actual * (L/D) + sumaK;
+        let v = Math.sqrt(2 * g * hL / denom);
+        let NR = v * D / nu;
+        let regimen = NR < 2300 ? "LAMINAR" : (NR < 4000 ? "TRANSICIÓN" : "TURBULENTO");
+        let f_nuevo = colebrookWhite(f_actual, NR, D, epsilon);
+        let delta_f = Math.abs(f_nuevo - f_actual);
+        
+        iteraciones.push({iter, f_actual, v, NR, regimen, f_nuevo, delta_f});
+        
+        if (delta_f < tol) {
+          convergio = true;
+          f_final = f_nuevo;
+          v_final = v;
+          NR_final = NR;
+          break;
+        }
+        f_actual = f_nuevo;
+      }
+
+      // Mostrar tabla de iteraciones
+      const tbody = document.getElementById('iteracionBody');
+      tbody.innerHTML = '';
+      iteraciones.forEach(it => {
+        let row = `<tr>
+          <td>${it.iter}</td>
+          <td>${it.f_actual.toFixed(6)}</td>
+          <td>${it.v.toFixed(4)}</td>
+          <td>${it.NR.toExponential(3)}</td>
+          <td>${it.regimen}</td>
+          <td>${it.f_nuevo.toFixed(6)}</td>
+          <td>${it.delta_f.toExponential(2)}</td>
+        </tr>`;
+        tbody.insertAdjacentHTML('beforeend', row);
+      });
+
+      if (convergio) {
+        const A = Math.PI * Math.pow(D, 2) / 4;
+        const Q = A * v_final;
+        document.getElementById('resultadosFinales').innerHTML = `
+          <h3><i class="fas fa-check-circle"></i> Resultados Finales</h3>
+          <div class="resultado-item"><span class="resultado-label">Factor de fricción f:</span><span class="resultado-valor">${f_final.toFixed(6)}</span></div>
+          <div class="resultado-item"><span class="resultado-label">Velocidad v:</span><span class="resultado-valor">${v_final.toFixed(4)} m/s</span></div>
+          <div class="resultado-item"><span class="resultado-label">Número de Reynolds N_R:</span><span class="resultado-valor">${NR_final.toExponential(4)}</span></div>
+          <div class="resultado-item"><span class="resultado-label">Caudal Q:</span><span class="resultado-valor">${Q.toFixed(5)} m³/s (${(Q*1000).toFixed(2)} L/s | ${(Q*3600).toFixed(2)} m³/h)</span></div>
+          <div class="resultado-item"><span class="resultado-label">Iteraciones:</span><span class="resultado-valor">${iteraciones.length}</span></div>
+          <div class="nota-tecnica" style="margin-top:1rem;"><i class="fas fa-check-circle"></i> Convergencia alcanzada con tolerancia ${tol}</div>
+        `;
+      } else {
+        document.getElementById('resultadosFinales').innerHTML = `<div class="nota-tecnica" style="background:#ffe0e0;border-left-color:red;"><i class="fas fa-exclamation-triangle"></i> No convergió en ${maxIter} iteraciones. Revise los datos.</div>`;
+      }
+      document.getElementById('tuberiaResultados').style.display = 'block';
+      document.getElementById('tuberiaResultados').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    document.getElementById('btnCalcularTuberias').addEventListener('click', calcularTuberias);
   </script>
 </body>
 </html>
