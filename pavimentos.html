@@ -8,27 +8,14 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
-    /* ====== RESET & BASE ====== */
-    * { 
-      box-sizing: border-box; 
-      margin: 0; 
-      padding: 0; 
-    }
-
-    html, body { 
-      height: 100%; 
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
     body {
       font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
       background: linear-gradient(180deg, #f6fbff 0%, #eef6ff 100%);
       color: #08304b;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
       line-height: 1.6;
     }
-
-    /* ====== HEADER ====== */
     header {
       background: linear-gradient(135deg, #6a11cb, #2575fc);
       color: #fff;
@@ -38,31 +25,10 @@
       top: 0;
       z-index: 100;
       box-shadow: 0 6px 18px rgba(37, 17, 103, 0.12);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
     }
-
-    header h1 { 
-      font-size: 2.2rem; 
-      letter-spacing: 0.4px; 
-      margin: 0;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    }
-
-    header p { 
-      font-size: 1rem; 
-      opacity: 0.92; 
-      margin-top: 0.5rem;
-      max-width: 600px;
-    }
-
-    nav { 
-      background: linear-gradient(135deg, #00509d, #003f88);
-      padding: 0.8rem 0;
-      width: 100%;
-    }
-
+    header h1 { font-size: 2.2rem; margin: 0; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); }
+    header p { font-size: 1rem; opacity: 0.92; margin-top: 0.5rem; }
+    nav { background: linear-gradient(135deg, #00509d, #003f88); padding: 0.8rem 0; width: 100%; }
     nav ul {
       display: flex;
       gap: 0.5rem;
@@ -72,7 +38,6 @@
       list-style: none;
       margin: 0;
     }
-
     nav a {
       color: #fff;
       text-decoration: none;
@@ -80,20 +45,10 @@
       border-radius: 12px;
       font-weight: 600;
       background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(4px);
       transition: all 0.3s ease;
     }
-
-    nav a:hover {
-      background: rgba(255, 255, 255, 0.25);
-      transform: translateY(-2px);
-    }
-
-    nav a.activo {
-      background: #a9d6e5;
-      color: #0b3b67;
-    }
-
+    nav a:hover { background: rgba(255, 255, 255, 0.25); transform: translateY(-2px); }
+    nav a.activo { background: #a9d6e5; color: #0b3b67; }
     .menu-toggle {
       position: absolute;
       right: 1rem;
@@ -108,8 +63,6 @@
       z-index: 101;
       border: none;
     }
-
-    /* ====== PESTAÑAS PRÁCTICA/CAMPO ====== */
     .practica-tabs {
       display: flex;
       gap: 1rem;
@@ -118,7 +71,6 @@
       padding-bottom: 0.5rem;
       flex-wrap: wrap;
     }
-
     .practica-tab-btn {
       background: transparent;
       border: none;
@@ -131,38 +83,19 @@
       border-radius: 30px;
       transition: all 0.3s ease;
     }
-
-    .practica-tab-btn i {
-      margin-right: 8px;
-    }
-
-    .practica-tab-btn:hover {
-      background: rgba(37, 117, 252, 0.1);
-      color: #2575fc;
-    }
-
-    .practica-tab-btn.activo {
-      background: linear-gradient(135deg, #2575fc, #6a11cb);
-      color: white;
-      box-shadow: 0 4px 12px rgba(37, 117, 252, 0.3);
-    }
-
-    .subtab-panel {
-      display: none;
-    }
-
-    .subtab-panel.activo {
-      display: block;
-    }
-
+    .practica-tab-btn i { margin-right: 8px; }
+    .practica-tab-btn:hover { background: rgba(37, 117, 252, 0.1); color: #2575fc; }
+    .practica-tab-btn.activo { background: linear-gradient(135deg, #2575fc, #6a11cb); color: white; box-shadow: 0 4px 12px rgba(37, 117, 252, 0.3); }
+    .subtab-panel { display: none; }
+    .subtab-panel.activo { display: block; }
     .sub-tabs {
       display: flex;
       gap: 0.5rem;
       margin-bottom: 1.5rem;
       border-bottom: 1px solid #e0e9f3;
       padding-bottom: 0.5rem;
+      flex-wrap: wrap;
     }
-
     .sub-tab-btn {
       background: transparent;
       border: none;
@@ -175,28 +108,10 @@
       border-radius: 20px;
       transition: all 0.3s ease;
     }
-
-    .sub-tab-btn i {
-      margin-right: 6px;
-    }
-
-    .sub-tab-btn:hover {
-      background: rgba(37, 117, 252, 0.1);
-      color: #2575fc;
-    }
-
-    .sub-tab-btn.activo {
-      background: #2575fc;
-      color: white;
-    }
-
-    main { 
-      max-width: 1400px; 
-      margin: 2rem auto; 
-      padding: 0 1rem 3rem; 
-    }
-
-    /* Tarjetas de contenido */
+    .sub-tab-btn i { margin-right: 6px; }
+    .sub-tab-btn:hover { background: rgba(37, 117, 252, 0.1); color: #2575fc; }
+    .sub-tab-btn.activo { background: #2575fc; color: white; }
+    main { max-width: 1400px; margin: 2rem auto; padding: 0 1rem 3rem; }
     .contenido-card {
       background: white;
       border-radius: 24px;
@@ -205,7 +120,6 @@
       margin-bottom: 2rem;
       border: 1px solid rgba(37, 117, 252, 0.1);
     }
-
     .contenido-title {
       font-size: 1.8rem;
       color: #0b3b67;
@@ -214,32 +128,24 @@
       align-items: center;
       gap: 10px;
     }
-
-    .contenido-title i {
-      color: #2575fc;
-    }
-
+    .contenido-title i { color: #2575fc; }
     .contenido-subtitle {
       color: #596b75;
       margin-bottom: 2rem;
       padding-bottom: 1rem;
       border-bottom: 2px solid #e0e9f3;
     }
-
-    /* Inputs y formularios */
     .inputs-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 1.5rem;
       margin-bottom: 2rem;
     }
-
     .input-group {
       display: flex;
       flex-direction: column;
       gap: 0.5rem;
     }
-
     .input-group label {
       font-weight: 600;
       color: #0b3b67;
@@ -247,13 +153,8 @@
       align-items: center;
       gap: 8px;
     }
-
-    .input-group label i {
-      color: #2575fc;
-      width: 20px;
-    }
-
-    .input-group input, .input-group select {
+    .input-group label i { color: #2575fc; width: 20px; }
+    .input-group input {
       padding: 12px 16px;
       border: 2px solid #e0e9f3;
       border-radius: 12px;
@@ -262,13 +163,11 @@
       transition: all 0.3s ease;
       background: white;
     }
-
-    .input-group input:focus, .input-group select:focus {
+    .input-group input:focus {
       outline: none;
       border-color: #2575fc;
       box-shadow: 0 0 0 3px rgba(37, 117, 252, 0.1);
     }
-
     .btn-calcular {
       background: linear-gradient(135deg, #2575fc, #6a11cb);
       color: white;
@@ -284,66 +183,44 @@
       align-items: center;
       gap: 10px;
     }
-
-    .btn-calcular:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(37, 117, 252, 0.3);
-    }
-
-    /* Tablas */
+    .btn-calcular:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37, 117, 252, 0.3); }
     .tabla-container {
       overflow-x: auto;
       margin: 1.5rem 0;
       border-radius: 16px;
       border: 1px solid #e0e9f3;
     }
-
     .resultados-tabla {
       width: 100%;
       border-collapse: collapse;
       font-size: 0.85rem;
     }
-
     .resultados-tabla th {
       background: linear-gradient(135deg, #6a11cb, #2575fc);
       color: white;
       padding: 12px 8px;
       font-weight: 600;
       text-align: center;
-      position: sticky;
-      top: 0;
     }
-
     .resultados-tabla td {
       padding: 10px 8px;
       text-align: center;
       border-bottom: 1px solid #e0e9f3;
     }
-
-    .resultados-tabla tr:hover {
-      background: #f8fafc;
-    }
-
-    .resultados-tabla .año-col {
-      background: #f0f4f9;
-      font-weight: 600;
-    }
-
-    /* Tarjetas de totales */
+    .resultados-tabla tr:hover { background: #f8fafc; }
+    .resultados-tabla .año-col { background: #f0f4f9; font-weight: 600; }
     .totales-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 1.5rem;
       margin-top: 1.5rem;
     }
-
     .total-card {
       background: linear-gradient(135deg, #f8fafc, #ffffff);
       border-radius: 20px;
       padding: 1.5rem;
       border: 1px solid #e0e9f3;
     }
-
     .total-card h3 {
       font-size: 1.3rem;
       color: #0b3b67;
@@ -352,35 +229,16 @@
       align-items: center;
       gap: 8px;
     }
-
     .total-card .total-item {
       display: flex;
       justify-content: space-between;
       padding: 10px 0;
       border-bottom: 1px solid #e0e9f3;
     }
-
-    .total-card .total-item:last-child {
-      border-bottom: none;
-    }
-
-    .total-label {
-      font-weight: 600;
-      color: #596b75;
-    }
-
-    .total-value {
-      font-weight: 700;
-      font-size: 1.2rem;
-      color: #2575fc;
-    }
-
-    .total-grande {
-      font-size: 1.4rem;
-      color: #6a11cb;
-    }
-
-    /* Resultados tuberías */
+    .total-card .total-item:last-child { border-bottom: none; }
+    .total-label { font-weight: 600; color: #596b75; }
+    .total-value { font-weight: 700; font-size: 1.2rem; color: #2575fc; }
+    .total-grande { font-size: 1.4rem; color: #6a11cb; }
     .resultados-tuberia {
       background: linear-gradient(135deg, #f8fafc, #ffffff);
       border-radius: 20px;
@@ -388,40 +246,22 @@
       margin-top: 1.5rem;
       border: 1px solid #e0e9f3;
     }
-
     .resultado-item {
       display: flex;
       justify-content: space-between;
       padding: 12px 0;
       border-bottom: 1px solid #e0e9f3;
+      flex-wrap: wrap;
     }
-
-    .resultado-item:last-child {
-      border-bottom: none;
-    }
-
-    .resultado-label {
-      font-weight: 600;
-      color: #0b3b67;
-    }
-
-    .resultado-valor {
-      font-weight: 700;
-      color: #6a11cb;
-      font-size: 1.1rem;
-    }
-
+    .resultado-item:last-child { border-bottom: none; }
+    .resultado-label { font-weight: 600; color: #0b3b67; }
+    .resultado-valor { font-weight: 700; color: #6a11cb; font-size: 1.1rem; }
     .iteracion-tabla {
       width: 100%;
       font-size: 0.8rem;
       margin-top: 1rem;
     }
-
-    .iteracion-tabla th, .iteracion-tabla td {
-      padding: 8px;
-      text-align: center;
-    }
-
+    .iteracion-tabla th, .iteracion-tabla td { padding: 8px; text-align: center; }
     .nota-tecnica {
       background: #fef8e7;
       border-left: 4px solid #ff9800;
@@ -431,7 +271,6 @@
       font-size: 0.85rem;
       color: #856404;
     }
-
     footer {
       text-align: center;
       margin-top: 3rem;
@@ -440,7 +279,6 @@
       padding: 2rem 0;
       border-top: 1px solid #e0e9f3;
     }
-
     .btn-manual-flotante {
       position: fixed;
       bottom: 2rem;
@@ -460,16 +298,9 @@
       z-index: 1000;
       text-decoration: none;
     }
-
-    .btn-manual-flotante:hover {
-      transform: scale(1.1);
-    }
-
+    .btn-manual-flotante:hover { transform: scale(1.1); }
     @media (max-width: 768px) {
-      .menu-toggle {
-        display: block;
-      }
-
+      .menu-toggle { display: block; }
       nav ul {
         display: none;
         position: absolute;
@@ -484,28 +315,12 @@
         backdrop-filter: blur(10px);
         z-index: 100;
       }
-
-      nav ul.show {
-        display: flex;
-      }
-
-      .contenido-card {
-        padding: 1.5rem;
-      }
-
-      .resultados-tabla {
-        font-size: 0.7rem;
-      }
+      nav ul.show { display: flex; }
+      .contenido-card { padding: 1.5rem; }
+      .resultados-tabla { font-size: 0.7rem; }
     }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    ::selection {
-      background: rgba(37, 117, 252, 0.2);
-      color: #08304b;
-    }
+    html { scroll-behavior: smooth; }
+    ::selection { background: rgba(37, 117, 252, 0.2); color: #08304b; }
   </style>
 </head>
 <body>
@@ -527,7 +342,6 @@
   </nav>
 
   <main>
-    <!-- Pestaña principal: Práctica/Campo -->
     <div class="practica-tabs">
       <button class="practica-tab-btn activo" data-tab="contenido-practica">
         <i class="fas fa-hard-hat"></i> Práctica / Campo
@@ -535,7 +349,6 @@
     </div>
 
     <div id="contenido-practica" class="practica-tab-contenido">
-      <!-- Subpestañas: Pavimentos y Cálculo Tuberías Clase 2 -->
       <div class="sub-tabs">
         <button class="sub-tab-btn activo" data-subtab="pavimentos">
           <i class="fas fa-road"></i> Pavimentos
@@ -545,7 +358,7 @@
         </button>
       </div>
 
-      <!-- Panel de Pavimentos -->
+      <!-- Panel Pavimentos -->
       <div id="subtab-pavimentos" class="subtab-panel activo">
         <div class="contenido-card">
           <div class="contenido-title">
@@ -553,39 +366,20 @@
             <h2>📐 Cálculo de Pavimentos</h2>
           </div>
           <div class="contenido-subtitle">
-            <p><i class="fas fa-chart-line"></i> Cálculo de TPD (Tránsito Promedio Diario) y TA (Tránsito Acumulado) con crecimiento geométrico para diseño de pavimentos</p>
+            <p><i class="fas fa-chart-line"></i> Cálculo de TPD y TA con crecimiento geométrico</p>
           </div>
-
           <div class="inputs-grid">
-            <div class="input-group">
-              <label><i class="fas fa-car"></i> TD de Autos</label>
-              <input type="number" id="autos" step="1" value="1000" placeholder="Ej: 1000">
-            </div>
-            <div class="input-group">
-              <label><i class="fas fa-bus"></i> TD de Buses</label>
-              <input type="number" id="buses" step="1" value="100" placeholder="Ej: 100">
-            </div>
-            <div class="input-group">
-              <label><i class="fas fa-truck"></i> TD de C2P (Camiones)</label>
-              <input type="number" id="c2p" step="1" value="50" placeholder="Ej: 50">
-            </div>
-            <div class="input-group">
-              <label><i class="fas fa-chart-line"></i> Tasa de crecimiento anual (%)</label>
-              <input type="number" id="crecimiento" step="0.1" value="5" placeholder="Ej: 5">
-            </div>
+            <div class="input-group"><label><i class="fas fa-car"></i> TD de Autos</label><input type="number" id="autos" step="1" value="1000"></div>
+            <div class="input-group"><label><i class="fas fa-bus"></i> TD de Buses</label><input type="number" id="buses" step="1" value="100"></div>
+            <div class="input-group"><label><i class="fas fa-truck"></i> TD de C2P</label><input type="number" id="c2p" step="1" value="50"></div>
+            <div class="input-group"><label><i class="fas fa-chart-line"></i> Crecimiento anual (%)</label><input type="number" id="crecimiento" step="0.1" value="5"></div>
           </div>
-
-          <button class="btn-calcular" id="btnCalcularPavimentos">
-            <i class="fas fa-calculator"></i> Calcular TPD y TA
-          </button>
-
+          <button class="btn-calcular" id="btnCalcularPavimentos"><i class="fas fa-calculator"></i> Calcular</button>
           <div id="tablaResultados" style="display: none;">
             <div class="tabla-container">
               <table class="resultados-tabla" id="resultadosTable">
-                <thead>
-                  <tr><th>Año</th><th colspan="2">AUTOS</th><th colspan="2">BUSES</th><th colspan="2">C2P (Camiones)</th></tr>
-                  <tr><th></th><th>TPD</th><th>TA</th><th>TPD</th><th>TA</th><th>TPD</th><th>TA</th></tr>
-                </thead>
+                <thead><tr><th>Año</th><th colspan="2">AUTOS</th><th colspan="2">BUSES</th><th colspan="2">C2P</th></tr>
+                <tr><th></th><th>TPD</th><th>TA</th><th>TPD</th><th>TA</th><th>TPD</th><th>TA</th></tr></thead>
                 <tbody id="tablaBody"></tbody>
               </table>
             </div>
@@ -601,45 +395,42 @@
                 <div class="total-item"><span class="total-label"><i class="fas fa-truck"></i> C2P:</span><span class="total-value total-grande" id="totalC2P20">0</span></div>
               </div>
             </div>
-            <div class="nota-tecnica"><i class="fas fa-info-circle"></i> <strong>Nota técnica:</strong> TPD = Tránsito Promedio Diario (vehículos/día)<br>TA = Tránsito Acumulado (vehículos acumulados en el período)<br>Fórmula: TPDₙ = TD_inicial × (1 + i)ⁿ | TAₙ = TPDₙ × 365 días</div>
           </div>
         </div>
       </div>
 
-      <!-- Panel de Tuberías Clase 2 -->
+      <!-- Panel Tuberías Clase 2 - CORREGIDO -->
       <div id="subtab-tuberias" class="subtab-panel">
         <div class="contenido-card">
           <div class="contenido-title">
             <i class="fas fa-water"></i>
-            <h2>🔧 Cálculo Tuberías Clase 2</h2>
+            <h2>🔧 Tuberías Clase 2 - Método Iterativo</h2>
           </div>
           <div class="contenido-subtitle">
-            <p><i class="fas fa-chart-line"></i> Método iterativo Darcy-Weisbach + Colebrook-White. Velocidad desconocida → se itera sobre f</p>
+            <p><i class="fas fa-chart-line"></i> Darcy-Weisbach + Colebrook-White | Velocidad desconocida → Iteración sobre f</p>
           </div>
-
           <div class="inputs-grid">
             <div class="input-group"><label><i class="fas fa-ruler"></i> Diámetro D (m)</label><input type="number" id="tuberia_D" step="0.001" value="0.15"></div>
             <div class="input-group"><label><i class="fas fa-ruler-combined"></i> Longitud L (m)</label><input type="number" id="tuberia_L" step="1" value="500"></div>
             <div class="input-group"><label><i class="fas fa-tachometer-alt"></i> Pérdida hL (m)</label><input type="number" id="tuberia_hL" step="0.1" value="10"></div>
             <div class="input-group"><label><i class="fas fa-microchip"></i> Rugosidad ε (m)</label><input type="number" id="tuberia_epsilon" step="1e-6" value="0.000046"></div>
             <div class="input-group"><label><i class="fas fa-tint"></i> Viscosidad ν (m²/s)</label><input type="number" id="tuberia_nu" step="1e-7" value="0.000001004"></div>
-            <div class="input-group"><label><i class="fas fa-plus-circle"></i> ΣK (pérdidas menores)</label><input type="number" id="tuberia_sumK" step="0.1" value="0"></div>
+            <div class="input-group"><label><i class="fas fa-plus-circle"></i> ΣK (pérd. menores)</label><input type="number" id="tuberia_sumK" step="0.1" value="0"></div>
           </div>
-
-          <button class="btn-calcular" id="btnCalcularTuberias">
-            <i class="fas fa-calculator"></i> Calcular Tubería Clase 2
-          </button>
-
+          <button class="btn-calcular" id="btnCalcularTuberias"><i class="fas fa-calculator"></i> Calcular Tubería</button>
           <div id="tuberiaResultados" style="display: none;">
             <div class="tabla-container">
               <table class="resultados-tabla iteracion-tabla" id="iteracionTabla">
-                <thead><tr><th>Iter</th><th>f_prueba</th><th>v (m/s)</th><th>N_R</th><th>Régimen</th><th>f_nuevo</th><th>|Δf|</th></tr></thead>
+                <thead><tr><th>Iter</th><th>f_actual</th><th>v (m/s)</th><th>N_R</th><th>Régimen</th><th>f_nuevo</th><th>|Δf|</th></tr></thead>
                 <tbody id="iteracionBody"></tbody>
               </table>
             </div>
             <div class="resultados-tuberia" id="resultadosFinales"></div>
           </div>
-          <div class="nota-tecnica"><i class="fas fa-info-circle"></i> <strong>Método:</strong> Se itera sobre f usando Colebrook-White hasta convergencia (tol=0.0001). f inicial por Swamee-Jain.</div>
+          <div class="nota-tecnica">
+            <i class="fas fa-info-circle"></i> <strong>Método:</strong> 
+            v = √[2g·hL / (f·L/D + ΣK)] | Colebrook-White: 1/√f = -2·log₁₀(ε/(3.7D) + 2.51/(N_R·√f))
+          </div>
         </div>
       </div>
     </div>
@@ -649,7 +440,7 @@
   <a href="manual_usuario.pdf" class="btn-manual-flotante" target="_blank"><i class="fas fa-file-pdf"></i></a>
 
   <script>
-    // Toggle menú móvil
+    // Menú móvil
     document.getElementById('menu-toggle').addEventListener('click', function() {
       document.getElementById('menu').classList.toggle('show');
     });
@@ -657,7 +448,7 @@
       link.addEventListener('click', () => document.getElementById('menu').classList.remove('show'));
     });
 
-    // Cambio entre subpestañas
+    // Subpestañas
     document.querySelectorAll('.sub-tab-btn').forEach(btn => {
       btn.addEventListener('click', function() {
         const subtab = this.dataset.subtab;
@@ -665,25 +456,29 @@
         this.classList.add('activo');
         document.querySelectorAll('.subtab-panel').forEach(panel => panel.classList.remove('activo'));
         document.getElementById(`subtab-${subtab}`).classList.add('activo');
+        
+        // Re-calcular al cambiar de pestaña si es necesario
+        if (subtab === 'tuberias') {
+          // No auto-calcular, esperar click
+        }
       });
     });
 
-    // ===================== PAVIMENTOS (código original) =====================
+    // ===================== PAVIMENTOS =====================
     function calcularPavimentos() {
-      let autosInicial = parseFloat(document.getElementById('autos').value) || 0;
-      let busesInicial = parseFloat(document.getElementById('buses').value) || 0;
-      let c2pInicial = parseFloat(document.getElementById('c2p').value) || 0;
-      let crecimiento = (parseFloat(document.getElementById('crecimiento').value) || 0) / 100;
+      let autos = parseFloat(document.getElementById('autos').value) || 0;
+      let buses = parseFloat(document.getElementById('buses').value) || 0;
+      let c2p = parseFloat(document.getElementById('c2p').value) || 0;
+      let i = (parseFloat(document.getElementById('crecimiento').value) || 0) / 100;
       
-      const años = 20;
       let totalAutos10 = 0, totalBuses10 = 0, totalC2P10 = 0;
       let totalAutos20 = 0, totalBuses20 = 0, totalC2P20 = 0;
       let filas = [];
       
-      for (let año = 0; año <= años; año++) {
-        let tpdAutos = autosInicial * Math.pow(1 + crecimiento, año);
-        let tpdBuses = busesInicial * Math.pow(1 + crecimiento, año);
-        let tpdC2P = c2pInicial * Math.pow(1 + crecimiento, año);
+      for (let año = 0; año <= 20; año++) {
+        let tpdAutos = autos * Math.pow(1 + i, año);
+        let tpdBuses = buses * Math.pow(1 + i, año);
+        let tpdC2P = c2p * Math.pow(1 + i, año);
         let taAutos = tpdAutos * 365;
         let taBuses = tpdBuses * 365;
         let taC2P = tpdC2P * 365;
@@ -716,102 +511,162 @@
       document.getElementById('totalBuses20').innerHTML = Math.round(totalBuses20).toLocaleString('es-ES');
       document.getElementById('totalC2P20').innerHTML = Math.round(totalC2P20).toLocaleString('es-ES');
       document.getElementById('tablaResultados').style.display = 'block';
-      document.getElementById('tablaResultados').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
     
     document.getElementById('btnCalcularPavimentos').addEventListener('click', calcularPavimentos);
-    window.addEventListener('load', () => { calcularPavimentos(); });
+    window.addEventListener('load', () => calcularPavimentos());
 
-    // ===================== TUBERÍAS CLASE 2 =====================
-    function colebrookWhite(f_prueba, NR, D, epsilon) {
-      if (NR < 2300) return 64.0 / NR;
-      let rug_rel = epsilon / D;
-      let f = 0.25 / Math.pow(Math.log10(rug_rel/3.7 + 5.74/Math.pow(NR,0.9)), 2);
+    // ===================== TUBERÍAS CLASE 2 - VERSIÓN CORREGIDA =====================
+    const g = 9.81;
+    const TOL = 1e-6;
+    const MAX_ITER = 50;
+
+    // Resuelve Colebrook-White de forma iterativa (método de punto fijo)
+    function resolverColebrookWhite(rugRel, NR, f_guess) {
+      let f = f_guess;
       for (let i = 0; i < 100; i++) {
-        let f_ant = f;
-        let RHS = -2.0 * Math.log10(rug_rel/3.7 + 2.51/(NR * Math.sqrt(f)));
-        f = 1.0 / (RHS * RHS);
-        if (Math.abs(f - f_ant) < 1e-10) break;
+        let sqrt_f = Math.sqrt(f);
+        // Ecuación: 1/√f = -2·log₁₀(ε/(3.7D) + 2.51/(NR·√f))
+        let lado_der = -2.0 * Math.log10(rugRel / 3.7 + 2.51 / (NR * sqrt_f));
+        let f_new = 1.0 / (lado_der * lado_der);
+        if (Math.abs(f_new - f) < 1e-12) return f_new;
+        f = f_new;
       }
       return f;
     }
 
+    // Valor inicial de f usando fórmula de Swamee-Jain
+    function fInicialSwameeJain(rugRel, NR) {
+      if (NR <= 0) return 0.02;
+      let f = 0.25 / Math.pow(Math.log10(rugRel / 3.7 + 5.74 / Math.pow(NR, 0.9)), 2);
+      return Math.min(Math.max(f, 0.008), 0.08);
+    }
+
     function calcularTuberias() {
+      // Leer valores
       const D = parseFloat(document.getElementById('tuberia_D').value);
       const L = parseFloat(document.getElementById('tuberia_L').value);
       const hL = parseFloat(document.getElementById('tuberia_hL').value);
       const epsilon = parseFloat(document.getElementById('tuberia_epsilon').value);
       const nu = parseFloat(document.getElementById('tuberia_nu').value);
       const sumaK = parseFloat(document.getElementById('tuberia_sumK').value);
-      const g = 9.81;
-      const tol = 0.0001;
-      const maxIter = 30;
-
-      // f inicial aproximado
-      let ep_D = epsilon / D;
-      let f_inicial = 1.0 / Math.pow(1.74 - 2.0 * Math.log10(2 * ep_D), 2);
-      if (isNaN(f_inicial) || f_inicial < 0.01) f_inicial = 0.02;
-
-      let f_actual = f_inicial;
+      
+      // Validaciones
+      if (isNaN(D) || D <= 0) { alert("Diámetro inválido (D > 0)"); return; }
+      if (isNaN(L) || L <= 0) { alert("Longitud inválida (L > 0)"); return; }
+      if (isNaN(hL) || hL <= 0) { alert("Pérdida hL inválida (hL > 0)"); return; }
+      if (isNaN(nu) || nu <= 0) { alert("Viscosidad inválida (ν > 0)"); return; }
+      
+      const rugRel = epsilon / D;
+      
+      // Estimación inicial de f (asumimos un valor típico)
+      let f_actual = 0.02;
       let iteraciones = [];
       let convergio = false;
       let v_final = 0, NR_final = 0, f_final = 0;
-
-      for (let iter = 1; iter <= maxIter; iter++) {
-        let denom = f_actual * (L/D) + sumaK;
-        let v = Math.sqrt(2 * g * hL / denom);
+      
+      for (let iter = 1; iter <= MAX_ITER; iter++) {
+        // Calcular velocidad con Darcy-Weisbach
+        // hL = (f·L/D + ΣK) · v²/(2g)
+        // Despejando: v = √(2g·hL / (f·L/D + ΣK))
+        let denominador = f_actual * (L / D) + sumaK;
+        let v = Math.sqrt(2 * g * hL / denominador);
+        
+        // Número de Reynolds
         let NR = v * D / nu;
-        let regimen = NR < 2300 ? "LAMINAR" : (NR < 4000 ? "TRANSICIÓN" : "TURBULENTO");
-        let f_nuevo = colebrookWhite(f_actual, NR, D, epsilon);
+        
+        // Determinar régimen
+        let regimen = "";
+        if (NR < 2000) {
+          regimen = "LAMINAR";
+        } else if (NR < 4000) {
+          regimen = "TRANSICIÓN";
+        } else {
+          regimen = "TURBULENTO";
+        }
+        
+        // Calcular nuevo f usando Colebrook-White (o fórmula laminar)
+        let f_nuevo;
+        if (NR < 2000) {
+          // Flujo laminar: f = 64/NR
+          f_nuevo = 64 / NR;
+        } else {
+          f_nuevo = resolverColebrookWhite(rugRel, NR, f_actual);
+        }
+        
         let delta_f = Math.abs(f_nuevo - f_actual);
         
-        iteraciones.push({iter, f_actual, v, NR, regimen, f_nuevo, delta_f});
+        iteraciones.push({
+          iter: iter,
+          f_actual: f_actual,
+          v: v,
+          NR: NR,
+          regimen: regimen,
+          f_nuevo: f_nuevo,
+          delta_f: delta_f
+        });
         
-        if (delta_f < tol) {
+        if (delta_f < TOL) {
           convergio = true;
           f_final = f_nuevo;
           v_final = v;
           NR_final = NR;
           break;
         }
+        
         f_actual = f_nuevo;
       }
-
+      
       // Mostrar tabla de iteraciones
       const tbody = document.getElementById('iteracionBody');
       tbody.innerHTML = '';
       iteraciones.forEach(it => {
         let row = `<tr>
-          <td>${it.iter}</td>
+          <td style="font-weight:600;">${it.iter}</td>
           <td>${it.f_actual.toFixed(6)}</td>
           <td>${it.v.toFixed(4)}</td>
-          <td>${it.NR.toExponential(3)}</td>
+          <td>${it.NR.toExponential(4)}</td>
           <td>${it.regimen}</td>
           <td>${it.f_nuevo.toFixed(6)}</td>
-          <td>${it.delta_f.toExponential(2)}</td>
+          <td>${it.delta_f.toExponential(3)}</td>
         </tr>`;
         tbody.insertAdjacentHTML('beforeend', row);
       });
-
+      
+      const resultadosDiv = document.getElementById('resultadosFinales');
+      
       if (convergio) {
-        const A = Math.PI * Math.pow(D, 2) / 4;
+        const A = Math.PI * D * D / 4;
         const Q = A * v_final;
-        document.getElementById('resultadosFinales').innerHTML = `
+        const hL_calc = (f_final * L / D + sumaK) * (v_final * v_final) / (2 * g);
+        const error = Math.abs(hL_calc - hL) / hL * 100;
+        
+        resultadosDiv.innerHTML = `
           <h3><i class="fas fa-check-circle"></i> Resultados Finales</h3>
           <div class="resultado-item"><span class="resultado-label">Factor de fricción f:</span><span class="resultado-valor">${f_final.toFixed(6)}</span></div>
           <div class="resultado-item"><span class="resultado-label">Velocidad v:</span><span class="resultado-valor">${v_final.toFixed(4)} m/s</span></div>
-          <div class="resultado-item"><span class="resultado-label">Número de Reynolds N_R:</span><span class="resultado-valor">${NR_final.toExponential(4)}</span></div>
-          <div class="resultado-item"><span class="resultado-label">Caudal Q:</span><span class="resultado-valor">${Q.toFixed(5)} m³/s (${(Q*1000).toFixed(2)} L/s | ${(Q*3600).toFixed(2)} m³/h)</span></div>
+          <div class="resultado-item"><span class="resultado-label">Número de Reynolds N_R:</span><span class="resultado-valor">${Math.round(NR_final).toLocaleString('es-ES')}</span></div>
+          <div class="resultado-item"><span class="resultado-label">Caudal Q:</span><span class="resultado-valor">${Q.toFixed(5)} m³/s = ${(Q*1000).toFixed(2)} L/s = ${(Q*3600).toFixed(2)} m³/h</span></div>
+          <div class="resultado-item"><span class="resultado-label">Pérdida hL (verificación):</span><span class="resultado-valor">${hL_calc.toFixed(4)} m</span></div>
+          <div class="resultado-item"><span class="resultado-label">Error verificación:</span><span class="resultado-valor">${error.toFixed(4)}%</span></div>
           <div class="resultado-item"><span class="resultado-label">Iteraciones:</span><span class="resultado-valor">${iteraciones.length}</span></div>
-          <div class="nota-tecnica" style="margin-top:1rem;"><i class="fas fa-check-circle"></i> Convergencia alcanzada con tolerancia ${tol}</div>
+          <div class="nota-tecnica" style="margin-top:1rem;background:#e8f5e9;border-left-color:#4caf50;">
+            <i class="fas fa-check-circle"></i> Convergencia alcanzada (tolerancia = ${TOL})
+          </div>
         `;
       } else {
-        document.getElementById('resultadosFinales').innerHTML = `<div class="nota-tecnica" style="background:#ffe0e0;border-left-color:red;"><i class="fas fa-exclamation-triangle"></i> No convergió en ${maxIter} iteraciones. Revise los datos.</div>`;
+        resultadosDiv.innerHTML = `
+          <div class="nota-tecnica" style="background:#ffebee;border-left-color:#f44336;">
+            <i class="fas fa-exclamation-triangle"></i> No convergió en ${MAX_ITER} iteraciones. 
+            Revise los datos o aumente el número de iteraciones.
+          </div>
+        `;
       }
+      
       document.getElementById('tuberiaResultados').style.display = 'block';
       document.getElementById('tuberiaResultados').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-
+    
     document.getElementById('btnCalcularTuberias').addEventListener('click', calcularTuberias);
   </script>
 </body>
